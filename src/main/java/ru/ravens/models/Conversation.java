@@ -14,7 +14,7 @@ public class Conversation implements Serializable
 {
     private ArrayList<Dialog> dialogs;
     private ArrayList<Group> groups;
-    private DefaultClass defaultClass;
+    private DefaultClass defaultClass = new DefaultClass();
 
     public static Conversation getConversationByUserID(int userID) throws Exception
     {

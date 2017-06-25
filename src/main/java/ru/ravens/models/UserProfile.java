@@ -14,17 +14,10 @@ public class UserProfile implements Serializable
     private String phone;
     private String qiwi;
     private String image;
+    private float balance;
     private DefaultClass defaultClass;
 
-    public DefaultClass getDefaultClass() {
-        return defaultClass;
-    }
 
-    public void setDefaultClass(DefaultClass defaultClass) {
-        this.defaultClass = defaultClass;
-    }
-
-    private int balance;
 
     public static UserProfile getUserProfileByUser(User user)
     {
@@ -34,6 +27,18 @@ public class UserProfile implements Serializable
     public static UserProfile getUserProfileByUserID(int userID) throws Exception
     {
         return new UserProfile(User.getUserByID(userID));
+    }
+
+
+    private UserProfile(User user)
+    {
+        defaultClass = user.getDefaultClass();
+        userID = user.getUserID();
+        name = user.getName();
+        phone = user.getPhone();
+        qiwi = user.getQiwi();
+        image = user.getImage();
+        balance = user.getBalance();
     }
 
     public int getUserID() {
@@ -75,24 +80,23 @@ public class UserProfile implements Serializable
     public void setImage(String image) {
         this.image = image;
     }
+    public DefaultClass getDefaultClass() {
+        return defaultClass;
+    }
 
-    public int getBalance() {
+    public void setDefaultClass(DefaultClass defaultClass) {
+        this.defaultClass = defaultClass;
+    }
+
+
+    public float getBalance() {
         return balance;
     }
 
-    public void setBalance(int balance) {
+    public void setBalance(float balance) {
         this.balance = balance;
     }
 
-    private UserProfile(User user)
-    {
-        userID = user.getUserID();
-        name = user.getName();
-        phone = user.getPhone();
-        qiwi = user.getQiwi();
-        image = user.getImage();
-        balance = user.getBalance();
-    }
 
 
 }

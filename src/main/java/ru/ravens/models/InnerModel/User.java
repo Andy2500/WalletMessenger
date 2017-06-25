@@ -20,9 +20,9 @@ public class User implements Serializable{
     private String image;
     private String token;
 
-    private DefaultClass defaultClass;
+    private DefaultClass defaultClass = new DefaultClass();
 
-    private int balance;
+    private float balance;
 
 
     //получение пользователя по ID
@@ -114,33 +114,6 @@ public class User implements Serializable{
     }
 
 
-
-
-
-    public String getHashpsd() {
-        return hashpsd;
-    }
-
-    public void setHashpsd(String hashpsd) {
-        this.hashpsd = hashpsd;
-    }
-
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
-    }
-
-
-    public int getBalance() {
-        return balance;
-    }
-
-    public void setBalance(int balance) {
-        this.balance = balance;
-    }
     public int getUserID() {
         return userID;
     }
@@ -165,6 +138,21 @@ public class User implements Serializable{
         this.phone = phone;
     }
 
+    public String getHashpsd() {
+        return hashpsd;
+    }
+
+    public void setHashpsd(String hashpsd) {
+        this.hashpsd = hashpsd;
+    }
+
+    public String getQiwi() {
+        return qiwi;
+    }
+
+    public void setQiwi(String qiwi) {
+        this.qiwi = qiwi;
+    }
 
     public String getImage() {
         return image;
@@ -174,11 +162,27 @@ public class User implements Serializable{
         this.image = image;
     }
 
-    public String getQiwi() {
-        return qiwi;
+    public String getToken() {
+        return token;
     }
 
-    public void setQiwi(String qiwi) {
-        this.qiwi = qiwi;
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public DefaultClass getDefaultClass() {
+        return defaultClass;
+    }
+
+    public void setDefaultClass(DefaultClass defaultClass) {
+        this.defaultClass = defaultClass;
+    }
+
+    public float getBalance() {
+        return balance;
+    }
+
+    public void setBalance(float balance) {
+        this.balance = balance;
     }
 }

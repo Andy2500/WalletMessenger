@@ -17,11 +17,15 @@ public class Transaction implements Serializable
     private int userID;
     private int groupID;
     private int dialogID;
-    private int money;
+    private float money;
     private Date date;
     private int cash;
     private int proof;
     private String text;
+
+    public void setMoney(float money) {
+        this.money = money;
+    }
 
     public int getGroupID() {
         return groupID;
@@ -45,7 +49,7 @@ public class Transaction implements Serializable
 
         transaction.setTransactionID(resultSet.getInt("TransactionID"));
         transaction.setUserID(resultSet.getInt("UserID"));
-        transaction.setMoney(resultSet.getInt("Money"));
+        transaction.setMoney(resultSet.getFloat("Money"));
         transaction.setDate(resultSet.getDate("Date"));
         transaction.setCash(resultSet.getInt("Cash"));
         transaction.setProof(resultSet.getInt("Proof"));
@@ -96,14 +100,14 @@ public class Transaction implements Serializable
 
         ResultSet resultSet = DBManager.getSelectResultSet(query);
 
-        int balance;
+        float balance;
         if(resultSet.getInt("UserID_1") == userID)
         {
-            balance = resultSet.getInt("Balance_1") + money;
+            balance = resultSet.getFloat("Balance_1") + money;
         }
         else if(resultSet.getInt("UserID_2") == userID)
         {
-            balance = resultSet.getInt("Balance_1") - money;
+            balance = resultSet.getFloat("Balance_1") - money;
         }
         else
         {
@@ -144,14 +148,14 @@ public class Transaction implements Serializable
         DBManager.execCommand(command);
 
         //вычисляем баланс
-        int balance;
+        float balance;
         if(resultSet.getInt("UserID_1") == userID)
         {
-            balance = resultSet.getInt("Balance_1") +transaction.getMoney();
+            balance = resultSet.getFloat("Balance_1") +transaction.getMoney();
         }
         else
         {
-            balance = resultSet.getInt("Balance_1") - transaction.getMoney();
+            balance = resultSet.getFloat("Balance_1")  - transaction.getMoney();
         }
         //обновляем баланс в диалоге
         command = "UPDATE Dialogs set Balance_1 = " + balance + ", set Balance_2 = " + (-1)*balance + "where DialogID = "+ transaction.getDialogID();
@@ -170,6 +174,51 @@ public class Transaction implements Serializable
         DBManager.execCommand(command);
     }
 
+
+    public static void SendTransactionGroup(int userID, int groupID, float money, int cash, String text) throws Exception
+    {
+        text = "'"+text+"'";
+
+        //добавим новую запись в транзакции
+        String command = "Insert into Transactions (TransactionID, UserID, DialogID, GroupID, Money, Date, Cash, Proof, Text)" +
+                "VALUES ((SELECT MAX (TransactionID) from Transactions) + 1, " + userID + ", 0, " +groupID+ ", " + money+
+                ", " + DateWorker.getNowMomentInUTC() + ", " + cash +", 0, " + text;
+
+        //пояснения: dialogID = 0, так как это для групп! метод, proof = 0, так как даже если там кэш\не кэш то все равно идет "отправка" транзакции
+        DBManager.execCommand(command);
+
+        //Если это безналичный перевод
+        if(cash == 0)
+        {
+            //найдем счет этого пользователя в группе
+            String query = "SELECT * FROM GroupBalances where (GroupID = "+groupID +" AND UserID = "+userID +")";
+            ResultSet resultSet = DBManager.getSelectResultSet(query);
+
+            float balance = resultSet.getFloat("Balance");
+
+            //прибавим ему счет
+            balance = balance + money;
+
+            //Если там больше нуля, то надо пересчитать баланс группы и обновить всем счета
+            if(balance > 0)
+            {
+                query = "SELECT * FROM Groups where GroupID = "+ groupID;
+                resultSet = DBManager.getSelectResultSet(query);
+
+                //Не закончено!!
+
+
+                command = "UPDATE Groups set Sum = "+resultSet.getInt("Sum");
+            }
+            else
+            {
+                command = "UPDATE GroupBalances set Balance = " + balance + "where ( UserID = " +userID +" AND GroupID = "+ groupID + ")";
+                DBManager.execCommand(command);
+
+            }
+        }
+        //Если это наличные, то ничего не делаем и ждем подтверждения от администратора группы !
+    }
 
 
 
@@ -195,12 +244,8 @@ public class Transaction implements Serializable
         this.userID = userID;
     }
 
-    public int getMoney() {
+    public float getMoney() {
         return money;
-    }
-
-    public void setMoney(int money) {
-        this.money = money;
     }
 
     public Date getDate() {

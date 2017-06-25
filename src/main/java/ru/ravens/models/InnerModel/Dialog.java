@@ -10,7 +10,8 @@ import java.sql.ResultSet;
 public class Dialog implements Serializable
 {
     private int dialogID;
-    private int balance_1;
+    private float balance_1;
+
     private UserProfile userProfile;
 
     //парсинг диалога
@@ -22,7 +23,7 @@ public class Dialog implements Serializable
 
         if(resultSet.getInt("UserID_1")==myID)
         {
-            dialog.setBalance_1(resultSet.getInt("Balance_1"));
+            dialog.setBalance_1(resultSet.getFloat("Balance_1"));
             //получаем собеседника с фоткой\именем и прочим
             dialog.setUserProfile(UserProfile.getUserProfileByUserID(resultSet.getInt("UserID_2")));
 
@@ -30,7 +31,7 @@ public class Dialog implements Serializable
         }
         else if(resultSet.getInt("UserID_2")==myID)
         {
-            dialog.setBalance_1(resultSet.getInt("Balance_2"));
+            dialog.setBalance_1(resultSet.getFloat("Balance_2"));
             //получаем собеседника с фоткой\именем и прочим
             dialog.setUserProfile(UserProfile.getUserProfileByUserID(resultSet.getInt("UserID_1")));
         }
@@ -59,13 +60,13 @@ public class Dialog implements Serializable
         this.dialogID = dialogID;
     }
 
-
-    public int getBalance_1() {
+    public float getBalance_1() {
         return balance_1;
     }
 
-    public void setBalance_1(int balance_1) {
+    public void setBalance_1(float balance_1) {
         this.balance_1 = balance_1;
     }
+
 
 }

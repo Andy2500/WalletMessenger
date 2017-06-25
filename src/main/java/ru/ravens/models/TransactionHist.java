@@ -13,7 +13,7 @@ public class TransactionHist implements Serializable
 {
 
     private ArrayList<Transaction> transactions;
-    private DefaultClass defaultClass;
+    private DefaultClass defaultClass = new DefaultClass();
 
     //Возвращает историю транзакций (20) по ID диалога
     public static TransactionHist getHistByDialogIDAndTransactionID(int dialogID, int transactionID) throws Exception

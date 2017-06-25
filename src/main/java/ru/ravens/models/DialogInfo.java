@@ -10,7 +10,7 @@ import java.util.*;
 public class DialogInfo implements Serializable
 {
     private ArrayList<Transaction> transactions;
-    private DefaultClass defaultClass;
+    private DefaultClass defaultClass = new DefaultClass();
 
 
     //Получает историю последних транзакций для этого диалога

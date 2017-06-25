@@ -14,7 +14,7 @@ public class GroupInfo implements Serializable
 {
     private ArrayList<UserProfile> userProfiles;
     private ArrayList<Transaction> transactions;
-    private DefaultClass defaultClass;
+    private DefaultClass defaultClass = new DefaultClass();
 
     public ArrayList<Transaction> getTransactions() {
         return transactions;
@@ -36,12 +36,12 @@ public class GroupInfo implements Serializable
         ResultSet resultSet = DBManager.getSelectResultSet(query);
 
         //автоматически сортируется!
-        Map<Integer, Integer> userBalanceMap = new TreeMap<>();
+        Map<Integer, Float> userBalanceMap = new TreeMap<>();
 
         //собираем соответствие юзеров и их балансов
         while (resultSet.next())
         {
-            userBalanceMap.put(resultSet.getInt("UserID"), resultSet.getInt("Balance"));
+            userBalanceMap.put(resultSet.getInt("UserID"), resultSet.getFloat("Balance"));
         }
 
         //Собираем запрос на юзеров
@@ -67,7 +67,7 @@ public class GroupInfo implements Serializable
         //наверно можно проще сделать, но пока так...
         Iterator it = userBalanceMap.entrySet().iterator();
         int i = 0;
-        for(int value: userBalanceMap.values())
+        for(float value: userBalanceMap.values())
         {
             userProfiles.get(i).setBalance(value);
             i++;

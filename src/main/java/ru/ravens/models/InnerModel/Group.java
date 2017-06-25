@@ -11,7 +11,8 @@ public class Group implements Serializable
     private int groupID;
     private String name;
     private int adminID;
-    private int sum;
+
+    private float sum;
 
     public static Group parseGroup(ResultSet resultSet) throws Exception
     {
@@ -22,17 +23,20 @@ public class Group implements Serializable
 
         //нужно, чтобы отметить что я админ в той ии иной беседе
         group.setAdminID(resultSet.getInt("AdminID"));
-        group.setSum(resultSet.getInt("Sum"));
+        group.setSum(resultSet.getFloat("Sum"));
         return group;
 
     }
-    public int getSum() {
+
+    public void setSum(float sum) {
+        this.sum = sum;
+    }
+
+
+    public float getSum() {
         return sum;
     }
 
-    public void setSum(int sum) {
-        this.sum = sum;
-    }
     public int getAdminID() {
         return adminID;
     }
