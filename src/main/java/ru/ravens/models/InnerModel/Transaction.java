@@ -1,12 +1,14 @@
 package ru.ravens.models.InnerModel;
 
 import ru.ravens.service.DBManager;
+import ru.ravens.service.DateWorker;
 
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.concurrent.Exchanger;
 
 @XmlRootElement
 public class Transaction implements Serializable
@@ -64,6 +66,54 @@ public class Transaction implements Serializable
         }
         return list;
     }
+
+
+    //
+    public static void SendTransactionDialog(int userID, int dialogID, int money, int cash, String text) throws Exception
+    {
+        String query = "SELECT * FROM Dialogs where DialogID = " + dialogID;
+
+        ResultSet resultSet = DBManager.getSelectResultSet(query);
+
+        if(resultSet.getInt("UserID_1") == userID)
+        {
+            //обновим информацию в диалогах!
+            int balance = resultSet.getInt("Balance_1") + money;
+            String command = "UPDATE Dialogs set Balance_1 = " + balance + " , Balance_2 = " + (-1)*balance + " where DialogID = " +dialogID;
+            DBManager.execCommand(command);
+
+            //добавим новую запись в транзакции
+            command = "Insert into Transactions (TransactionID, UserID, DialogID, GroupID, Money, Date, Cash, Proof, Text)" +
+                    "VALUES ((SELECT MAX (TransactionID) from Transactions) + 1, " + userID + ", " + dialogID + ", 0, "+money+
+                    ", " + DateWorker.getNowMomentInUTC() + ", " + cash +", 0, " + text;
+
+            //пояснения: groupID = 0, так как
+
+
+
+
+        }
+        else if(resultSet.getInt("UserID_2") == userID)
+        {
+
+        }
+        else
+        {
+            throw new Exception("Этот пользователь не относится к диалогу!");
+        }
+
+
+    }
+
+
+
+
+
+
+
+
+
+
 
     public int getTransactionID() {
         return transactionID;

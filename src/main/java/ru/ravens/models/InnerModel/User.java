@@ -1,13 +1,11 @@
-package ru.ravens.models;
+package ru.ravens.models.InnerModel;
 
+import ru.ravens.models.DefaultClass;
 import ru.ravens.service.DBManager;
 
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.sql.ResultSet;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 
 @XmlRootElement
 public class User implements Serializable{
@@ -15,11 +13,14 @@ public class User implements Serializable{
     private int userID;
     private String name;
     private String phone;
-    private String image;
+    private String hashpsd;
     private String qiwi;
+    private String image;
+    private String token;
+
+    private DefaultClass defaultClass;
 
     private int balance;
-    private DefaultClass defaultClass;
 
 
     //получение пользователя по ID
@@ -57,9 +58,32 @@ public class User implements Serializable{
         user.setPhone(resultSet.getString("Phone"));
         user.setImage(resultSet.getString("Image"));
         user.setQiwi(resultSet.getString("Qiwi"));
+        user.setHashpsd(resultSet.getString("Hashpsd"));
+        user.setToken(resultSet.getString("Token"));
 
         return user;
     }
+
+
+
+    public String getHashpsd() {
+        return hashpsd;
+    }
+
+    public void setHashpsd(String hashpsd) {
+        this.hashpsd = hashpsd;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+
+
 
     public int getBalance() {
         return balance;
@@ -108,12 +132,4 @@ public class User implements Serializable{
     public void setQiwi(String qiwi) {
         this.qiwi = qiwi;
     }
-    public DefaultClass getDefaultClass() {
-        return defaultClass;
-    }
-
-    public void setDefaultClass(DefaultClass defaultClass) {
-        this.defaultClass = defaultClass;
-    }
-
 }

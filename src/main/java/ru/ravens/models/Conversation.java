@@ -33,6 +33,7 @@ public class Conversation implements Serializable
         }
 
 
+
         //получаем группы и парсим
         query = "Select * from Groups where UserID = " + userID;
         resultSet = DBManager.getSelectResultSet(query);

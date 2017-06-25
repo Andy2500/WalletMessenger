@@ -2,7 +2,7 @@ package ru.ravens.service;
 
 import com.microsoft.sqlserver.jdbc.SQLServerDataSource;
 import com.microsoft.sqlserver.jdbc.SQLServerException;
-import ru.ravens.models.User;
+import ru.ravens.models.InnerModel.User;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

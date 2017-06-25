@@ -1,7 +1,7 @@
 package ru.ravens.models;
 
-import ru.ravens.models.InnerModel.Group;
 import ru.ravens.models.InnerModel.Transaction;
+import ru.ravens.models.InnerModel.User;
 import ru.ravens.service.DBManager;
 
 import javax.xml.bind.annotation.XmlRootElement;

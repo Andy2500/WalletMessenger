@@ -1,7 +1,5 @@
 package ru.ravens.models.InnerModel;
 
-import ru.ravens.models.User;
-
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.sql.ResultSet;
