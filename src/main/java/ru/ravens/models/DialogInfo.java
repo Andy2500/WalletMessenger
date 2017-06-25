@@ -1,25 +1,28 @@
 package ru.ravens.models;
 
-import ru.ravens.models.InnerModel.Dialog;
 import ru.ravens.models.InnerModel.Transaction;
 
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.*;
 
 @XmlRootElement
 public class DialogInfo implements Serializable
 {
-    private Dialog dialogs;
     private ArrayList<Transaction> transactions;
+    private DefaultClass defaultClass;
 
-    public Dialog getDialogs() {
-        return dialogs;
+
+    //Получает историю транзакций и
+    public static DialogInfo getDialogInfoById (int dialogID) throws Exception
+    {
+        DialogInfo dialogInfo = new DialogInfo();
+
+        dialogInfo.setTransactions(Transaction.getTransactionsHistByDialogID(dialogID));
+
+        return dialogInfo;
     }
 
-    public void setDialogs(Dialog dialogs) {
-        this.dialogs = dialogs;
-    }
 
     public ArrayList<Transaction> getTransactions() {
         return transactions;
@@ -28,4 +31,14 @@ public class DialogInfo implements Serializable
     public void setTransactions(ArrayList<Transaction> transactions) {
         this.transactions = transactions;
     }
+
+
+    public DefaultClass getDefaultClass() {
+        return defaultClass;
+    }
+
+    public void setDefaultClass(DefaultClass defaultClass) {
+        this.defaultClass = defaultClass;
+    }
+
 }

@@ -5,6 +5,9 @@ import ru.ravens.service.DBManager;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 @XmlRootElement
 public class User implements Serializable{
@@ -16,6 +19,8 @@ public class User implements Serializable{
     private String qiwi;
 
     private int balance;
+    private DefaultClass defaultClass;
+
 
     //получение пользователя по ID
     public static User getUserByID(int ID) throws Exception
@@ -102,6 +107,13 @@ public class User implements Serializable{
 
     public void setQiwi(String qiwi) {
         this.qiwi = qiwi;
+    }
+    public DefaultClass getDefaultClass() {
+        return defaultClass;
+    }
+
+    public void setDefaultClass(DefaultClass defaultClass) {
+        this.defaultClass = defaultClass;
     }
 
 }

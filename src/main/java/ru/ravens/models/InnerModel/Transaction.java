@@ -1,8 +1,11 @@
 package ru.ravens.models.InnerModel;
 
+import ru.ravens.service.DBManager;
+
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.Date;
 
 @XmlRootElement
@@ -31,6 +34,36 @@ public class Transaction implements Serializable
         return transaction;
     }
 
+
+    //методы для получения Истории транзакций (20) по ID группы или диалога
+    public static ArrayList<Transaction> getTransactionsHistByDialogID(int id) throws Exception
+    {
+        int rows = 20;
+
+        String query = "Select top " + rows + " * from Transactions Where GroupID = " + id + "Order by GroupID DECS";
+        return getTransactionsHist(query);
+    }
+
+    public static ArrayList<Transaction> getTransactionsHistByGroupID(int id) throws Exception
+    {
+        int rows = 20;
+
+        String query = "Select top " + rows + " * from Transactions Where DialogID = " + id + "Order by GroupID DECS";
+        return getTransactionsHist(query);
+    }
+
+    //закрытый метод!
+    private static ArrayList<Transaction> getTransactionsHist(String query) throws Exception
+    {
+        ResultSet resultSet = DBManager.getSelectResultSet(query);
+
+        ArrayList<Transaction> list = new ArrayList<>();
+        while (resultSet.next())
+        {
+            list.add(parseTransaction(resultSet));
+        }
+        return list;
+    }
 
     public int getTransactionID() {
         return transactionID;

@@ -12,7 +12,8 @@ public class ConversationController {
     @GET
     @Path("/test/{a}")
     @Produces(MediaType.APPLICATION_JSON)
-    public String test(@PathParam("a") Integer a) {
+    public String test(@PathParam("a") Integer a)
+    {
         return a.toString();
     }
 }
