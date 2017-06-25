@@ -88,7 +88,7 @@ public class Transaction implements Serializable
     }
 
 
-    //Отправка транзакции в диалог
+    //Отправка транзакции в диалоге
     public static void SendTransactionDialog(int userID, int dialogID, int money, int cash, String text) throws Exception
     {
         text = "'"+text+"'";
@@ -110,55 +110,67 @@ public class Transaction implements Serializable
             throw new Exception("Этот пользователь не относится к диалогу!");
         }
 
-        //обновим информацию в диалогах!
-        String command = "UPDATE Dialogs set Balance_1 = " + balance + " , Balance_2 = " + (-1)*balance + " where DialogID = " +dialogID;
-        DBManager.execCommand(command);
-
         //добавим новую запись в транзакции
-        command = "Insert into Transactions (TransactionID, UserID, DialogID, GroupID, Money, Date, Cash, Proof, Text)" +
+        String command = "Insert into Transactions (TransactionID, UserID, DialogID, GroupID, Money, Date, Cash, Proof, Text)" +
                 "VALUES ((SELECT MAX (TransactionID) from Transactions) + 1, " + userID + ", " + dialogID + ", 0, "+money+
                 ", " + DateWorker.getNowMomentInUTC() + ", " + cash +", 0, " + text;
 
         //пояснения: groupID = 0, так как это для диалога метод, proof = 0, так как даже если там кэш\не кэш то все равно идет "отправка" транзакции
         DBManager.execCommand(command);
+
+        if(cash == 0)
+        {
+            //обновим информацию в диалогах!
+            command = "UPDATE Dialogs set Balance_1 = " + balance + " , Balance_2 = " + (-1)*balance + " where DialogID = " +dialogID;
+            DBManager.execCommand(command);
+        }
+        //Иначе! считаем, что информация неподтверждена!!
     }
 
 
     public static void AcceptTransaction(int userID, int transactionID) throws Exception
     {
+        //получаем транзакцию
         String query = "SELECT * FROM Transactions where TransactionID = "+ transactionID;
         ResultSet resultSet = DBManager.getSelectResultSet(query);
         Transaction transaction = parseTransaction(resultSet);
 
+        //получаем диалог
         query = "SELECT * FROM Dialogs where DialogID = " +transaction.getDialogID();
         resultSet = DBManager.getSelectResultSet(query);
 
+        //обновляем транзакцию
         String command  = "UPDATE Transactions set Proof = 1 where TransactionID = " +transactionID;
         DBManager.execCommand(command);
 
+        //вычисляем баланс
+        int balance;
         if(resultSet.getInt("UserID_1") == userID)
         {
-            int balance = resultSet.getInt("Balance_1") +transaction.getMoney();
-            command = "UPDATE Dialogs set Balance_1 = " + balance + ", set Balance_2 = " + (-1)*balance + "where DialogID = "+ transaction.getDialogID();
+            balance = resultSet.getInt("Balance_1") +transaction.getMoney();
         }
         else
         {
-            int balance = resultSet.getInt("Balance_1") - transaction.getMoney();
-            command = "UPDATE Dialogs set Balance_1 = " + balance + ", set Balance_2 = " + (-1)*balance + "where DialogID = "+ transaction.getDialogID();
+            balance = resultSet.getInt("Balance_1") - transaction.getMoney();
         }
+        //обновляем баланс в диалоге
+        command = "UPDATE Dialogs set Balance_1 = " + balance + ", set Balance_2 = " + (-1)*balance + "where DialogID = "+ transaction.getDialogID();
         DBManager.execCommand(command);
     }
 
     public static void DeclineTransaction(int userID, int transactionID) throws Exception
     {
+        //получаем транзакцию
         String query = "SELECT * FROM Transactions where TransactionID = "+ transactionID;
         ResultSet resultSet = DBManager.getSelectResultSet(query);
         Transaction transaction = parseTransaction(resultSet);
 
+        //обновляем док-ва, -1 значит отказано
         String command  = "UPDATE Transactions set Proof = -1 where TransactionID = " + transactionID;
         DBManager.execCommand(command);
-
     }
+
+
 
 
 

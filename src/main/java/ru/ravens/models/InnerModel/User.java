@@ -75,6 +75,10 @@ public class User implements Serializable{
 
     public static UserProfile registerUser(String name, String phone, String hashpsd, String token) throws Exception
     {
+        name = "'" + name +"'";
+        phone = "'" + phone +"'";
+        hashpsd = "'" + hashpsd +"'";
+        token = "'" + token +"'";
         //добавим новую запись в юзеров
         //надо про prepared Statement !
 
