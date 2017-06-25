@@ -29,9 +29,8 @@ public class Conversation implements Serializable
         ResultSet resultSet = DBManager.getSelectResultSet(query);
         while (resultSet.next())
         {
-            dialogList.add(Dialog.parseDialog(resultSet));
+            dialogList.add(Dialog.parseDialog(resultSet, userID));
         }
-
 
 
         //получаем группы и парсим

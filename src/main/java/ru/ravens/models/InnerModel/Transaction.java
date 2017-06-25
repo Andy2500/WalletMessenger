@@ -68,41 +68,38 @@ public class Transaction implements Serializable
     }
 
 
-    //
+    //Отправка транзакции в диалог
     public static void SendTransactionDialog(int userID, int dialogID, int money, int cash, String text) throws Exception
     {
         String query = "SELECT * FROM Dialogs where DialogID = " + dialogID;
 
         ResultSet resultSet = DBManager.getSelectResultSet(query);
 
+        int balance;
         if(resultSet.getInt("UserID_1") == userID)
         {
-            //обновим информацию в диалогах!
-            int balance = resultSet.getInt("Balance_1") + money;
-            String command = "UPDATE Dialogs set Balance_1 = " + balance + " , Balance_2 = " + (-1)*balance + " where DialogID = " +dialogID;
-            DBManager.execCommand(command);
-
-            //добавим новую запись в транзакции
-            command = "Insert into Transactions (TransactionID, UserID, DialogID, GroupID, Money, Date, Cash, Proof, Text)" +
-                    "VALUES ((SELECT MAX (TransactionID) from Transactions) + 1, " + userID + ", " + dialogID + ", 0, "+money+
-                    ", " + DateWorker.getNowMomentInUTC() + ", " + cash +", 0, " + text;
-
-            //пояснения: groupID = 0, так как
-
-
-
-
+            balance = resultSet.getInt("Balance_1") + money;
         }
         else if(resultSet.getInt("UserID_2") == userID)
         {
-
+            balance = resultSet.getInt("Balance_1") - money;
         }
         else
         {
             throw new Exception("Этот пользователь не относится к диалогу!");
         }
 
+        //обновим информацию в диалогах!
+        String command = "UPDATE Dialogs set Balance_1 = " + balance + " , Balance_2 = " + (-1)*balance + " where DialogID = " +dialogID;
+        DBManager.execCommand(command);
 
+        //добавим новую запись в транзакции
+        command = "Insert into Transactions (TransactionID, UserID, DialogID, GroupID, Money, Date, Cash, Proof, Text)" +
+                "VALUES ((SELECT MAX (TransactionID) from Transactions) + 1, " + userID + ", " + dialogID + ", 0, "+money+
+                ", " + DateWorker.getNowMomentInUTC() + ", " + cash +", 0, " + text;
+
+        //пояснения: groupID = 0, так как это для диалога метод, proof = 0, так как даже если там кэш\не кэш то все равно идет "отправка" транзакции
+        DBManager.execCommand(command);
     }
 
 

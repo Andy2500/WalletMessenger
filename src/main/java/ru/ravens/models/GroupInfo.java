@@ -12,7 +12,7 @@ import java.util.*;
 @XmlRootElement
 public class GroupInfo implements Serializable
 {
-    private ArrayList<User> users;
+    private ArrayList<UserProfile> userProfiles;
     private ArrayList<Transaction> transactions;
     private DefaultClass defaultClass;
 
@@ -30,7 +30,7 @@ public class GroupInfo implements Serializable
     public static GroupInfo getGroupInfoById(int groupID) throws Exception
     {
         GroupInfo groupInfo = new GroupInfo();
-        ArrayList<User> users = new ArrayList<>();
+        ArrayList<UserProfile> userProfiles = new ArrayList<>();
 
         String query = "Select * from GroupBalances where GroupID = " + groupID;
         ResultSet resultSet = DBManager.getSelectResultSet(query);
@@ -59,31 +59,31 @@ public class GroupInfo implements Serializable
         resultSet = DBManager.getSelectResultSet(query);
         while (resultSet.next())
         {
-            users.add(User.parseUser(resultSet));
+            userProfiles.add(UserProfile.getUserProfileByUser(User.parseUser(resultSet)));
         }
 
-        Collections.sort(users, getUserComp());
+        Collections.sort(userProfiles, getUserComp());
 
         //наверно можно проще сделать, но пока так...
         Iterator it = userBalanceMap.entrySet().iterator();
         int i = 0;
         for(int value: userBalanceMap.values())
         {
-            users.get(i).setBalance(value);
+            userProfiles.get(i).setBalance(value);
             i++;
         }
 
-        groupInfo.setUsers(users);
+        groupInfo.setUserProfiles(userProfiles);
         groupInfo.setTransactions(Transaction.getTransactionsHistByGroupID(groupID));
 
         return groupInfo;
     }
 
-    private static Comparator<User> getUserComp()
+    private static Comparator<UserProfile> getUserComp()
     {
-        Comparator comp = new Comparator<User>(){
+        Comparator comp = new Comparator<UserProfile>(){
             @Override
-            public int compare(User user1, User user2)
+            public int compare(UserProfile user1, UserProfile user2)
             {
                 return ((Integer)user1.getUserID()).compareTo(user2.getUserID());
             }
@@ -91,13 +91,15 @@ public class GroupInfo implements Serializable
         return comp;
     }
 
-    public ArrayList<User> getUsers() {
-        return users;
+
+    public ArrayList<UserProfile> getUserProfiles() {
+        return userProfiles;
     }
 
-    public void setUsers(ArrayList<User> users) {
-        this.users = users;
+    public void setUserProfiles(ArrayList<UserProfile> userProfiles) {
+        this.userProfiles = userProfiles;
     }
+
     public DefaultClass getDefaultClass() {
         return defaultClass;
     }
@@ -105,5 +107,4 @@ public class GroupInfo implements Serializable
     public void setDefaultClass(DefaultClass defaultClass) {
         this.defaultClass = defaultClass;
     }
-
 }

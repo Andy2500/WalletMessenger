@@ -1,5 +1,7 @@
 package ru.ravens.models.InnerModel;
 
+import ru.ravens.models.UserProfile;
+
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.sql.ResultSet;
@@ -9,30 +11,48 @@ public class Dialog implements Serializable
 {
     private int dialogID;
     private int balance_1;
-    private User user;
-
+    private UserProfile userProfile;
 
     //парсинг диалога
-    public static Dialog parseDialog(ResultSet resultSet) throws Exception
+    public static Dialog parseDialog(ResultSet resultSet, int myID) throws Exception
     {
         Dialog dialog = new Dialog();
 
         dialog.setDialogID(resultSet.getInt("DialogID"));
-        dialog.setBalance_1(resultSet.getInt("Balance_1"));
-        //получаем собеседника с фоткой\именем и прочим
-        dialog.setUser(User.getUserByID(resultSet.getInt("UserID_2")));
+
+        if(resultSet.getInt("UserID_1")==myID)
+        {
+            dialog.setBalance_1(resultSet.getInt("Balance_1"));
+            //получаем собеседника с фоткой\именем и прочим
+            dialog.setUserProfile(UserProfile.getUserProfileByUserID(resultSet.getInt("UserID_2")));
+
+
+        }
+        else if(resultSet.getInt("UserID_2")==myID)
+        {
+            dialog.setBalance_1(resultSet.getInt("Balance_2"));
+            //получаем собеседника с фоткой\именем и прочим
+            dialog.setUserProfile(UserProfile.getUserProfileByUserID(resultSet.getInt("UserID_1")));
+        }
+        else
+        {
+            throw new Exception("Этот пользователь не имеет отношения к диалогу.");
+        }
 
         return dialog;
     }
-    public User getUser() {
-        return user;
-    }
 
-    public void setUser(User user) {
-        this.user = user;
-    }
+
     public int getDialogID() {
         return dialogID;
+    }
+
+    public UserProfile getUserProfile() {
+        return userProfile;
+    }
+
+    public void setUserProfile(UserProfile userProfile) {
+        this.userProfile = userProfile;
     }
 
     public void setDialogID(int dialogID) {

@@ -13,7 +13,7 @@ public class DialogInfo implements Serializable
     private DefaultClass defaultClass;
 
 
-    //Получает историю транзакций и
+    //Получает историю последних транзакций для этого диалога
     public static DialogInfo getDialogInfoById (int dialogID) throws Exception
     {
         DialogInfo dialogInfo = new DialogInfo();

@@ -2,6 +2,7 @@ package ru.ravens.models.InnerModel;
 
 import ru.ravens.models.DefaultClass;
 import ru.ravens.service.DBManager;
+import ru.ravens.service.DateWorker;
 
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
@@ -64,6 +65,45 @@ public class User implements Serializable{
         return user;
     }
 
+    public static User registerUser(String name, String phone, String hashpsd, String qiwi, String Image)
+    {
+
+
+// Image       //добавим новую запись в юзеров
+//            //надо про prepared Statement !
+//      /  String command = "Insert into Users (UserID, Name, Phone, Hashpsd, Qiwi, Image, Token)" +
+//      //          "VALUES ((SELECT MAX (TransactionID) from Transactions) + 1, " + userID + ", " + dialogID + ", 0, "+money+
+//         //       ", " + DateWorker.getNowMomentInUTC() + ", " + cash +", 0, " + text;
+//
+//        //пояснения: groupID = 0, так как это для диалога метод, proof = 0, так как даже если там кэш\не кэш то все равно идет "отправка" транзакции
+//        DBManager.execCommand(command);
+
+
+
+
+
+
+
+return null;
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     public String getHashpsd() {
@@ -81,8 +121,6 @@ public class User implements Serializable{
     public void setToken(String token) {
         this.token = token;
     }
-
-
 
 
     public int getBalance() {

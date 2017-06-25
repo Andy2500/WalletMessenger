@@ -13,7 +13,6 @@ public class Group implements Serializable
     private int adminID;
     private int sum;
 
-
     public static Group parseGroup(ResultSet resultSet) throws Exception
     {
         Group group = new Group();
