@@ -10,25 +10,6 @@ import java.util.TimeZone;
 
 public class DateWorker {
 
-    public static Date dateFromString(String date) throws ParseException {
-        DateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss:SSS");
-        String[] sp = date.split(":");
-        if (sp.length == 4) {
-            int l = sp[3].length();
-            String nilstr = "";
-
-            for (int i = l; i < 3; i++) {
-                nilstr += "0";
-            }
-
-            sp[3] = sp[3] + nilstr;
-            date = sp[0] + ":" + sp[1] + ":" + sp[2] + ":" + sp[3];
-            return dateFormat.parse(date);
-        } else {
-            dateFormat = new SimpleDateFormat("yyyy.MM.dd");
-            return dateFormat.parse(date);
-        }
-    }
 
     public static String makeSqlDateString(Date date) {
         DateFormat format = new SimpleDateFormat("HH:mm:ss:SSS");

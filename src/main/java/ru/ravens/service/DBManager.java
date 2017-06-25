@@ -1,14 +1,13 @@
 package ru.ravens.service;
 
-
 import com.microsoft.sqlserver.jdbc.SQLServerDataSource;
 import com.microsoft.sqlserver.jdbc.SQLServerException;
+import ru.ravens.models.User;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
-
 
 public class DBManager {
 
@@ -55,4 +54,11 @@ public class DBManager {
 
     //Здесь будут находиться методы типа get<Class>ByQuery, которые в свою очередь будут получать getSelectResultSet,
     // а его подавать в <Class>.parse<Class>FromResultSet(ResultSet resultSet)
+    public static User getUserByQuery (String query) throws Exception
+    {
+        Connection connection = getConnection();
+        Statement statement = connection.createStatement();
+        return User.parseUser(statement.executeQuery(query));
+    }
+
 }
