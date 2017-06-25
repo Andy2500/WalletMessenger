@@ -1,6 +1,7 @@
 package ru.ravens.models.InnerModel;
 
 import ru.ravens.models.DefaultClass;
+import ru.ravens.models.UserProfile;
 import ru.ravens.service.DBManager;
 import ru.ravens.service.DateWorker;
 
@@ -65,7 +66,7 @@ public class User implements Serializable{
         return user;
     }
 
-    public static User registerUser(String name, String phone, String hashpsd, String qiwi, String Image)
+    public static UserProfile registerUser(String name, String phone, String hashpsd)
     {
 
 
