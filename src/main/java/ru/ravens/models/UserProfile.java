@@ -18,7 +18,6 @@ public class UserProfile implements Serializable
     private DefaultClass defaultClass;
 
 
-
     public static UserProfile getUserProfileByUser(User user)
     {
         return new UserProfile(user);
@@ -29,6 +28,10 @@ public class UserProfile implements Serializable
         return new UserProfile(User.getUserByID(userID));
     }
 
+    public UserProfile()
+    {
+        defaultClass = new DefaultClass();
+    }
 
     private UserProfile(User user)
     {

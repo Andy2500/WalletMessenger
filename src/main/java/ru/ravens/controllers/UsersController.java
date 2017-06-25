@@ -32,7 +32,7 @@ public class UsersController {
             return userProfile;
 
         } catch (Exception ex) {
-            UserProfile userProfile = UserProfile.getUserProfileByUser(new User());
+            UserProfile userProfile = new UserProfile();
             userProfile.setDefaultClass(new DefaultClass(false, ex.getMessage()));
             return userProfile;
         }
@@ -54,7 +54,7 @@ public class UsersController {
             return userProfile;
 
         } catch (Exception ex) {
-            UserProfile userProfile = UserProfile.getUserProfileByUser(new User());
+            UserProfile userProfile = new UserProfile();
             userProfile.setDefaultClass(new DefaultClass(false, ex.getMessage()));
             return userProfile;
         }
@@ -103,7 +103,7 @@ public class UsersController {
             userProfile.getDefaultClass().setToken(token);
             return userProfile;
         } catch (Exception ex) {
-            UserProfile userProfile = UserProfile.getUserProfileByUser(new User());
+            UserProfile userProfile = new UserProfile();
             userProfile.setDefaultClass(new DefaultClass(false, ex.getMessage()));
             return userProfile;
         }
@@ -120,7 +120,7 @@ public class UsersController {
             userProfile.getDefaultClass().setToken(token);
             return userProfile;
         } catch (Exception ex) {
-            UserProfile userProfile = UserProfile.getUserProfileByUser(new User());
+            UserProfile userProfile = new UserProfile();
             userProfile.setDefaultClass(new DefaultClass(false, ex.getMessage()));
             return userProfile;
         }
