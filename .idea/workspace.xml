@@ -3,10 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="ef7ac719-2d89-4a65-8a73-0b48f93ef51c" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ru/ravens/models/Conversation.java" afterPath="$PROJECT_DIR$/src/main/java/ru/ravens/models/Conversation.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ru/ravens/models/InnerModel/Group.java" afterPath="$PROJECT_DIR$/src/main/java/ru/ravens/models/InnerModel/Group.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ru/ravens/models/InnerModel/Transaction.java" afterPath="$PROJECT_DIR$/src/main/java/ru/ravens/models/InnerModel/Transaction.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ru/ravens/models/InnerModel/User.java" afterPath="$PROJECT_DIR$/src/main/java/ru/ravens/models/InnerModel/User.java" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <ignored path=".idea/dataSources.local.xml" />
@@ -104,8 +100,8 @@
       <file leaf-file-name="Transaction.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/ru/ravens/models/InnerModel/Transaction.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="450">
-              <caret line="156" column="8" selection-start-line="156" selection-start-column="8" selection-end-line="156" selection-end-column="8" />
+            <state relative-caret-position="416">
+              <caret line="148" column="39" selection-start-line="148" selection-start-column="39" selection-end-line="148" selection-end-column="39" />
               <folding>
                 <element signature="e#626#627#0" expanded="true" />
                 <element signature="e#656#657#0" expanded="true" />
@@ -143,6 +139,7 @@
     </leaf>
   </component>
   <component name="Git.Settings">
+    <option name="PUSH_AUTO_UPDATE" value="true" />
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="PUSH_TAGS">
       <GitPushTagMode />
@@ -176,6 +173,11 @@
       <MavenGeneralSettings>
         <option name="mavenHome" value="Bundled (Maven 3)" />
       </MavenGeneralSettings>
+    </option>
+    <option name="importingSettings">
+      <MavenImportingSettings>
+        <option name="importAutomatically" value="true" />
+      </MavenImportingSettings>
     </option>
   </component>
   <component name="ProjectFrameBounds">
@@ -761,12 +763,20 @@
       <option name="presentableId" value="Default" />
       <updated>1498413044527</updated>
       <workItem from="1498413047029" duration="7957000" />
-      <workItem from="1498421781100" duration="2337000" />
+      <workItem from="1498421781100" duration="2419000" />
     </task>
+    <task id="LOCAL-00001" summary="Models again...">
+      <created>1498424141186</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1498424141186</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="10294000" />
+    <option name="totallyTimeSpent" value="10376000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -835,6 +845,10 @@
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Models again..." />
+    <option name="LAST_COMMIT_MESSAGE" value="Models again..." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -952,10 +966,10 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <marker date="1498424115068" expanded="true" signature="59:58638" ph="..." />
-            <marker date="1498424115068" expanded="true" signature="98:192" ph="..." />
-            <marker date="1498424115068" expanded="true" signature="56248:56296" ph="..." />
-            <marker date="1498424115068" expanded="true" signature="56248:56311" ph="..." />
+            <marker date="1498424185680" expanded="true" signature="59:58593" ph="..." />
+            <marker date="1498424185680" expanded="true" signature="98:192" ph="..." />
+            <marker date="1498424185680" expanded="true" signature="56203:56251" ph="..." />
+            <marker date="1498424185680" expanded="true" signature="56203:56266" ph="..." />
           </folding>
         </state>
       </provider>
@@ -1039,8 +1053,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/ru/ravens/models/InnerModel/Transaction.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="450">
-          <caret line="156" column="8" selection-start-line="156" selection-start-column="8" selection-end-line="156" selection-end-column="8" />
+        <state relative-caret-position="416">
+          <caret line="148" column="39" selection-start-line="148" selection-start-column="39" selection-end-line="148" selection-end-column="39" />
           <folding>
             <element signature="e#626#627#0" expanded="true" />
             <element signature="e#656#657#0" expanded="true" />
