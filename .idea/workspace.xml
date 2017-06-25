@@ -1,18 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="ef7ac719-2d89-4a65-8a73-0b48f93ef51c" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ru/ravens/models/Conversation.java" afterPath="$PROJECT_DIR$/src/main/java/ru/ravens/models/Conversation.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ru/ravens/models/DialogInfo.java" afterPath="$PROJECT_DIR$/src/main/java/ru/ravens/models/DialogInfo.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ru/ravens/models/GroupInfo.java" afterPath="$PROJECT_DIR$/src/main/java/ru/ravens/models/GroupInfo.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ru/ravens/models/InnerModel/Dialog.java" afterPath="$PROJECT_DIR$/src/main/java/ru/ravens/models/InnerModel/Dialog.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ru/ravens/models/InnerModel/Group.java" afterPath="$PROJECT_DIR$/src/main/java/ru/ravens/models/InnerModel/Group.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ru/ravens/models/InnerModel/Transaction.java" afterPath="$PROJECT_DIR$/src/main/java/ru/ravens/models/InnerModel/Transaction.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ru/ravens/models/InnerModel/User.java" afterPath="$PROJECT_DIR$/src/main/java/ru/ravens/models/InnerModel/User.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ru/ravens/models/TransactionHist.java" afterPath="$PROJECT_DIR$/src/main/java/ru/ravens/models/TransactionHist.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ru/ravens/models/UserProfile.java" afterPath="$PROJECT_DIR$/src/main/java/ru/ravens/models/UserProfile.java" />
-    </list>
+    <list default="true" id="ef7ac719-2d89-4a65-8a73-0b48f93ef51c" name="Default" comment="" />
     <ignored path="$PROJECT_DIR$/target/" />
     <ignored path=".idea/dataSources.local.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -74,8 +63,8 @@
       <file leaf-file-name="UsersController.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/ru/ravens/controllers/UsersController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-272">
-              <caret line="76" column="0" selection-start-line="76" selection-start-column="0" selection-end-line="76" selection-end-column="0" />
+            <state relative-caret-position="493">
+              <caret line="121" column="32" selection-start-line="121" selection-start-column="32" selection-end-line="121" selection-end-column="32" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -847,7 +836,7 @@
       <updated>1498413044527</updated>
       <workItem from="1498413047029" duration="7957000" />
       <workItem from="1498421781100" duration="3226000" />
-      <workItem from="1498430889562" duration="520000" />
+      <workItem from="1498430889562" duration="548000" />
     </task>
     <task id="LOCAL-00001" summary="Models again...">
       <created>1498424141186</created>
@@ -877,11 +866,18 @@
       <option name="project" value="LOCAL" />
       <updated>1498424693537</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Models again and again">
+      <created>1498431435965</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1498431435965</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="11703000" />
+    <option name="totallyTimeSpent" value="11731000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -1246,8 +1242,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/ru/ravens/controllers/UsersController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-272">
-          <caret line="76" column="0" selection-start-line="76" selection-start-column="0" selection-end-line="76" selection-end-column="0" />
+        <state relative-caret-position="493">
+          <caret line="121" column="32" selection-start-line="121" selection-start-column="32" selection-end-line="121" selection-end-column="32" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
