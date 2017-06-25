@@ -8,7 +8,6 @@ import ru.ravens.service.TokenBuilder;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-import java.util.zip.DataFormatException;
 
 
 @Path("/user")
