@@ -67,7 +67,7 @@
 #### Метод для загрузки истории транзакций
 **Путь:** /conv/gettransactions/
 
-**Параметр:** conversationID – ID беседы
+**Параметр:** conversationID – ID беседы <br>
 **Параметр:** page  - номер страницы с набором транзакций <br>
 **Выходные данные:** Transaction[20] + DefaultClass
 
