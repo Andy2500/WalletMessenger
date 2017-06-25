@@ -39,6 +39,12 @@ public class User implements Serializable{
         return checkUser(query, "token error");
     }
 
+    //получение пользователя по токену
+    public static User getUserByPhone(String phone) throws Exception
+    {
+        String query = "Select * From Users Where Phone = '" + phone + "'";
+        return checkUser(query, "phone error");
+    }
 
     private static User checkUser(String query, String exMessage) throws Exception {
 
@@ -66,42 +72,46 @@ public class User implements Serializable{
         return user;
     }
 
-    public static UserProfile registerUser(String name, String phone, String hashpsd)
+
+    public static UserProfile registerUser(String name, String phone, String hashpsd, String token) throws Exception
     {
+        name = "'" + name +"'";
+        phone = "'" + phone +"'";
+        hashpsd = "'" + hashpsd +"'";
+        token = "'" + token +"'";
+        //добавим новую запись в юзеров
+        //надо про prepared Statement !
 
+        String command = "Insert into Users (UserID, Name, Phone, Hashpsd, Qiwi, Image, Token)" +
+                "VALUES ((SELECT MAX (UserID) from Users) + 1, " + name + ", " + phone + ", 0, " + hashpsd +", 0, 0," + token + ")";
 
-// Image       //добавим новую запись в юзеров
-//            //надо про prepared Statement !
-//      /  String command = "Insert into Users (UserID, Name, Phone, Hashpsd, Qiwi, Image, Token)" +
-//      //          "VALUES ((SELECT MAX (TransactionID) from Transactions) + 1, " + userID + ", " + dialogID + ", 0, "+money+
-//         //       ", " + DateWorker.getNowMomentInUTC() + ", " + cash +", 0, " + text;
-//
-//        //пояснения: groupID = 0, так как это для диалога метод, proof = 0, так как даже если там кэш\не кэш то все равно идет "отправка" транзакции
-//        DBManager.execCommand(command);
+        //пояснения: groupID = 0, так как это для диалога метод, proof = 0, так как даже если там кэш\не кэш то все равно идет "отправка" транзакции
+        DBManager.execCommand(command);
 
+        return UserProfile.getUserProfileByUser(User.getUserByToken(token));
+    }
 
+    public static void changePsd(int userID, String newPsd) throws Exception
+    {
+        newPsd = "'" + newPsd +"'";
+        String command = "UPDATE Users set Hashpsd = " + newPsd + "where UserID = " + userID;
+        DBManager.execCommand(command);
+    }
 
-
-
-
-
-return null;
-
+    public static void changeImage(int userID, String image) throws Exception
+    {
+        byte[] arr = javax.xml.bind.DatatypeConverter.parseBase64Binary(image);
+        String command = "UPDATE Users set Image = ? where UserID = " + userID;
+        DBManager.loadPhoto(command,arr);
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
+    public static void changeName(int userID, String newName) throws Exception
+    {
+        newName = "'" + newName +"'";
+        String command = "UPDATE Users set Name = " + newName + "where UserID = " + userID;
+        DBManager.execCommand(command);
+    }
 
 
 

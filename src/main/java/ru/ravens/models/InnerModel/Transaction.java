@@ -15,11 +15,29 @@ public class Transaction implements Serializable
 {
     private int transactionID;
     private int userID;
+    private int groupID;
+    private int dialogID;
     private int money;
     private Date date;
     private int cash;
     private int proof;
     private String text;
+
+    public int getGroupID() {
+        return groupID;
+    }
+
+    public void setGroupID(int groupID) {
+        this.groupID = groupID;
+    }
+
+    public int getDialogID() {
+        return dialogID;
+    }
+
+    public void setDialogID(int dialogID) {
+        this.dialogID = dialogID;
+    }
 
     public static Transaction parseTransaction(ResultSet resultSet) throws Exception
     {
@@ -32,6 +50,8 @@ public class Transaction implements Serializable
         transaction.setCash(resultSet.getInt("Cash"));
         transaction.setProof(resultSet.getInt("Proof"));
         transaction.setText(resultSet.getString("Text"));
+        transaction.setDialogID(resultSet.getInt("DialogID"));
+        transaction.setGroupID(resultSet.getInt("GroupID"));
 
         return transaction;
     }
@@ -68,9 +88,10 @@ public class Transaction implements Serializable
     }
 
 
-    //Отправка транзакции в диалог
+    //Отправка транзакции в диалоге
     public static void SendTransactionDialog(int userID, int dialogID, int money, int cash, String text) throws Exception
     {
+        text = "'"+text+"'";
         String query = "SELECT * FROM Dialogs where DialogID = " + dialogID;
 
         ResultSet resultSet = DBManager.getSelectResultSet(query);
@@ -89,19 +110,65 @@ public class Transaction implements Serializable
             throw new Exception("Этот пользователь не относится к диалогу!");
         }
 
-        //обновим информацию в диалогах!
-        String command = "UPDATE Dialogs set Balance_1 = " + balance + " , Balance_2 = " + (-1)*balance + " where DialogID = " +dialogID;
-        DBManager.execCommand(command);
-
         //добавим новую запись в транзакции
-        command = "Insert into Transactions (TransactionID, UserID, DialogID, GroupID, Money, Date, Cash, Proof, Text)" +
+        String command = "Insert into Transactions (TransactionID, UserID, DialogID, GroupID, Money, Date, Cash, Proof, Text)" +
                 "VALUES ((SELECT MAX (TransactionID) from Transactions) + 1, " + userID + ", " + dialogID + ", 0, "+money+
                 ", " + DateWorker.getNowMomentInUTC() + ", " + cash +", 0, " + text;
 
         //пояснения: groupID = 0, так как это для диалога метод, proof = 0, так как даже если там кэш\не кэш то все равно идет "отправка" транзакции
         DBManager.execCommand(command);
+
+        if(cash == 0)
+        {
+            //обновим информацию в диалогах!
+            command = "UPDATE Dialogs set Balance_1 = " + balance + " , Balance_2 = " + (-1)*balance + " where DialogID = " +dialogID;
+            DBManager.execCommand(command);
+        }
+        //Иначе! считаем, что информация неподтверждена!!
     }
 
+
+    public static void AcceptTransaction(int userID, int transactionID) throws Exception
+    {
+        //получаем транзакцию
+        String query = "SELECT * FROM Transactions where TransactionID = "+ transactionID;
+        ResultSet resultSet = DBManager.getSelectResultSet(query);
+        Transaction transaction = parseTransaction(resultSet);
+
+        //получаем диалог
+        query = "SELECT * FROM Dialogs where DialogID = " +transaction.getDialogID();
+        resultSet = DBManager.getSelectResultSet(query);
+
+        //обновляем транзакцию
+        String command  = "UPDATE Transactions set Proof = 1 where TransactionID = " +transactionID;
+        DBManager.execCommand(command);
+
+        //вычисляем баланс
+        int balance;
+        if(resultSet.getInt("UserID_1") == userID)
+        {
+            balance = resultSet.getInt("Balance_1") +transaction.getMoney();
+        }
+        else
+        {
+            balance = resultSet.getInt("Balance_1") - transaction.getMoney();
+        }
+        //обновляем баланс в диалоге
+        command = "UPDATE Dialogs set Balance_1 = " + balance + ", set Balance_2 = " + (-1)*balance + "where DialogID = "+ transaction.getDialogID();
+        DBManager.execCommand(command);
+    }
+
+    public static void DeclineTransaction(int userID, int transactionID) throws Exception
+    {
+        //получаем транзакцию
+        String query = "SELECT * FROM Transactions where TransactionID = "+ transactionID;
+        ResultSet resultSet = DBManager.getSelectResultSet(query);
+        Transaction transaction = parseTransaction(resultSet);
+
+        //обновляем док-ва, -1 значит отказано
+        String command  = "UPDATE Transactions set Proof = -1 where TransactionID = " + transactionID;
+        DBManager.execCommand(command);
+    }
 
 
 

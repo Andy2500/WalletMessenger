@@ -61,21 +61,20 @@
 **Путь:** /conv/gets/
 
 **Параметр:** token  - токен пользователя <br>
-**Параметр:** conversationID - ID диалога <br>
 **Выходные данные:** Dialog[] + Group[] + DefaultClass 
 
 #### Метод для загрузки истории транзакций
 **Путь:** /conv/gettransactions/
 
 **Параметр:** conversationID – ID беседы <br>
-**Параметр:** page  - номер страницы с набором транзакций <br>
+**Параметр:** transactionID <br>
 **Выходные данные:** Transaction[20] + DefaultClass
 
 #### Метод для получения прошлых транзакций, когда пришло новое сообщение
 **Путь:** /conv/getnewtransactions/
 
 **Параметр:** conversationID – ID беседы <br>
-**Параметр:** transactionID – все транзакции после этой <br>
+**Параметр:** transactionID – самая ранняя транзакция <br>
 **Выходные данные:** Transaction[] + DefaultClass
 
 #### Метод для подтверждения транзакции

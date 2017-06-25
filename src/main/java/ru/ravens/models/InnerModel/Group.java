@@ -19,6 +19,7 @@ public class Group implements Serializable
 
         group.setGroupID(resultSet.getInt("GroupID"));
         group.setName(resultSet.getString("Name"));
+
         //нужно, чтобы отметить что я админ в той ии иной беседе
         group.setAdminID(resultSet.getInt("AdminID"));
         group.setSum(resultSet.getInt("Sum"));
