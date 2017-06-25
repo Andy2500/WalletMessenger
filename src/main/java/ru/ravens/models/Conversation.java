@@ -32,7 +32,6 @@ public class Conversation implements Serializable
             dialogList.add(Dialog.parseDialog(resultSet, userID));
         }
 
-
         //получаем группы и парсим
         query = "Select * from Groups where UserID = " + userID;
         resultSet = DBManager.getSelectResultSet(query);
@@ -47,6 +46,8 @@ public class Conversation implements Serializable
         return conversation;
     }
 
+
+
     public DefaultClass getDefaultClass() {
         return defaultClass;
     }
@@ -54,7 +55,6 @@ public class Conversation implements Serializable
     public void setDefaultClass(DefaultClass defaultClass) {
         this.defaultClass = defaultClass;
     }
-
 
     public ArrayList<Dialog> getDialogs() {
         return dialogs;

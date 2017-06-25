@@ -15,11 +15,29 @@ public class Transaction implements Serializable
 {
     private int transactionID;
     private int userID;
+    private int groupID;
+    private int dialogID;
     private int money;
     private Date date;
     private int cash;
     private int proof;
     private String text;
+
+    public int getGroupID() {
+        return groupID;
+    }
+
+    public void setGroupID(int groupID) {
+        this.groupID = groupID;
+    }
+
+    public int getDialogID() {
+        return dialogID;
+    }
+
+    public void setDialogID(int dialogID) {
+        this.dialogID = dialogID;
+    }
 
     public static Transaction parseTransaction(ResultSet resultSet) throws Exception
     {
@@ -32,6 +50,8 @@ public class Transaction implements Serializable
         transaction.setCash(resultSet.getInt("Cash"));
         transaction.setProof(resultSet.getInt("Proof"));
         transaction.setText(resultSet.getString("Text"));
+        transaction.setDialogID(resultSet.getInt("DialogID"));
+        transaction.setGroupID(resultSet.getInt("GroupID"));
 
         return transaction;
     }
@@ -71,6 +91,7 @@ public class Transaction implements Serializable
     //Отправка транзакции в диалог
     public static void SendTransactionDialog(int userID, int dialogID, int money, int cash, String text) throws Exception
     {
+        text = "'"+text+"'";
         String query = "SELECT * FROM Dialogs where DialogID = " + dialogID;
 
         ResultSet resultSet = DBManager.getSelectResultSet(query);
@@ -103,7 +124,41 @@ public class Transaction implements Serializable
     }
 
 
+    public static void AcceptTransaction(int userID, int transactionID) throws Exception
+    {
+        String query = "SELECT * FROM Transactions where TransactionID = "+ transactionID;
+        ResultSet resultSet = DBManager.getSelectResultSet(query);
+        Transaction transaction = parseTransaction(resultSet);
 
+        query = "SELECT * FROM Dialogs where DialogID = " +transaction.getDialogID();
+        resultSet = DBManager.getSelectResultSet(query);
+
+        String command  = "UPDATE Transactions set Proof = 1 where TransactionID = " +transactionID;
+        DBManager.execCommand(command);
+
+        if(resultSet.getInt("UserID_1") == userID)
+        {
+            int balance = resultSet.getInt("Balance_1") +transaction.getMoney();
+            command = "UPDATE Dialogs set Balance_1 = " + balance + ", set Balance_2 = " + (-1)*balance + "where DialogID = "+ transaction.getDialogID();
+        }
+        else
+        {
+            int balance = resultSet.getInt("Balance_1") - transaction.getMoney();
+            command = "UPDATE Dialogs set Balance_1 = " + balance + ", set Balance_2 = " + (-1)*balance + "where DialogID = "+ transaction.getDialogID();
+        }
+        DBManager.execCommand(command);
+    }
+
+    public static void DeclineTransaction(int userID, int transactionID) throws Exception
+    {
+        String query = "SELECT * FROM Transactions where TransactionID = "+ transactionID;
+        ResultSet resultSet = DBManager.getSelectResultSet(query);
+        Transaction transaction = parseTransaction(resultSet);
+
+        String command  = "UPDATE Transactions set Proof = -1 where TransactionID = " + transactionID;
+        DBManager.execCommand(command);
+
+    }
 
 
 
