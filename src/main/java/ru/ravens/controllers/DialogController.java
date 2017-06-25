@@ -2,7 +2,7 @@ package ru.ravens.controllers;
 
 import ru.ravens.models.DefaultClass;
 import ru.ravens.models.DialogInfo;
-import ru.ravens.models.InnerModel.Dialog;
+import ru.ravens.models.InnerModel.Transaction;
 import ru.ravens.models.InnerModel.User;
 
 import javax.ws.rs.*;
@@ -23,9 +23,9 @@ public class DialogController {
     public DialogInfo getDialogs(@FormParam("token")String token, @FormParam("conversationID") String convID)
     {
         try{
-            User user = User.getUserByToken(token);
             DialogInfo dialogInfo =  DialogInfo.getDialogInfoById(Integer.valueOf(convID));
-            dialogInfo.setDefaultClass(new DefaultClass(true, token));
+            dialogInfo.getDefaultClass().setOperationOutput(true);
+            dialogInfo.getDefaultClass().setToken(token);
             return dialogInfo;
         } catch (Exception ex){
             DialogInfo dialogInfo = new DialogInfo();
@@ -40,9 +40,8 @@ public class DialogController {
     public DefaultClass sendTrans(@FormParam("token")String token, @FormParam("dialogID") String dialogID, @FormParam("money") String money,
                                 @FormParam("cash") String cash, @FormParam("text") String text) {
         try{
-            User user = User.getUserByToken(token);
-            DialogInfo dialogInfo =  DialogInfo.getDialogInfoById(Integer.valueOf(dialogID));
-            // TODO: addTransaction
+            Transaction.SendTransactionDialog(User.getUserByToken(token).getUserID(), Integer.valueOf(dialogID),
+                    Integer.valueOf(money), Integer.valueOf(cash), text);
             return new DefaultClass(true, token);
         } catch (Exception ex){
             return new DefaultClass(false, ex.getMessage());
