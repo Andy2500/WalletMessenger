@@ -18,16 +18,25 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="102">
               <caret line="7" column="0" lean-forward="true" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
-              <folding />
+              <folding>
+                <marker date="1498420757004" expanded="true" signature="267:274" ph="{...}" />
+                <marker date="1498420757004" expanded="true" signature="339:422" ph="{...}" />
+                <marker date="1498420757004" expanded="false" signature="463:474" ph=" { " />
+                <marker date="1498420757004" expanded="false" signature="497:503" ph=" }" />
+                <marker date="1498420757004" expanded="false" signature="564:575" ph=" { " />
+                <marker date="1498420757004" expanded="false" signature="614:620" ph=" }" />
+                <marker date="1498420757004" expanded="false" signature="650:661" ph=" { " />
+                <marker date="1498420757004" expanded="false" signature="674:680" ph=" }" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="UsersController.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="UsersController.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/ru/ravens/controllers/UsersController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="259">
-              <caret line="111" column="26" lean-forward="true" selection-start-line="111" selection-start-column="26" selection-end-line="111" selection-end-column="26" />
+            <state relative-caret-position="310">
+              <caret line="114" column="13" lean-forward="true" selection-start-line="114" selection-start-column="13" selection-end-line="114" selection-end-column="13" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#458#459#0" expanded="true" />
@@ -37,7 +46,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ConversationController.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="ConversationController.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/ru/ravens/controllers/ConversationController.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="204">
@@ -60,50 +69,39 @@
       <file leaf-file-name="UserProfile.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/ru/ravens/models/UserProfile.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1241">
-              <caret line="86" column="33" lean-forward="false" selection-start-line="86" selection-start-column="33" selection-end-line="86" selection-end-column="33" />
+            <state relative-caret-position="582">
+              <caret line="85" column="0" lean-forward="true" selection-start-line="85" selection-start-column="0" selection-end-line="85" selection-end-column="0" />
               <folding>
                 <element signature="e#424#425#0" expanded="true" />
                 <element signature="e#459#460#0" expanded="true" />
                 <element signature="e#521#522#0" expanded="true" />
                 <element signature="e#569#570#0" expanded="true" />
-                <element signature="e#664#665#0" expanded="true" />
-                <element signature="e#708#709#0" expanded="true" />
-                <element signature="e#891#892#0" expanded="true" />
-                <element signature="e#920#921#0" expanded="true" />
-                <element signature="e#961#962#0" expanded="true" />
-                <element signature="e#997#998#0" expanded="true" />
-                <element signature="e#1028#1029#0" expanded="true" />
-                <element signature="e#1055#1056#0" expanded="true" />
-                <element signature="e#1095#1096#0" expanded="true" />
-                <element signature="e#1127#1128#0" expanded="true" />
-                <element signature="e#1159#1160#0" expanded="true" />
-                <element signature="e#1187#1188#0" expanded="true" />
-                <element signature="e#1229#1230#0" expanded="true" />
-                <element signature="e#1263#1264#0" expanded="true" />
-                <element signature="e#1294#1295#0" expanded="true" />
-                <element signature="e#1321#1322#0" expanded="true" />
-                <element signature="e#1361#1362#0" expanded="true" />
-                <element signature="e#1393#1394#0" expanded="true" />
-                <element signature="e#1425#1426#0" expanded="true" />
-                <element signature="e#1453#1454#0" expanded="true" />
-                <element signature="e#1495#1496#0" expanded="true" />
-                <element signature="e#1529#1530#0" expanded="true" />
-                <element signature="e#1560#1561#0" expanded="true" />
-                <element signature="e#1590#1591#0" expanded="true" />
-                <element signature="e#1633#1634#0" expanded="true" />
-                <element signature="e#1671#1672#0" expanded="true" />
+                <marker date="1498421049469" expanded="true" signature="890:901" ph=" { " />
+                <marker date="1498421049469" expanded="true" signature="915:921" ph=" }" />
+                <marker date="1498421049469" expanded="true" signature="960:971" ph=" { " />
+                <marker date="1498421049469" expanded="true" signature="992:998" ph=" }" />
+                <marker date="1498421049469" expanded="true" signature="1027:1038" ph=" { " />
+                <marker date="1498421049469" expanded="true" signature="1050:1056" ph=" }" />
+                <marker date="1498421049469" expanded="true" signature="1094:1105" ph=" { " />
+                <marker date="1498421049469" expanded="true" signature="1122:1128" ph=" }" />
+                <marker date="1498421049469" expanded="true" signature="1158:1169" ph=" { " />
+                <marker date="1498421049469" expanded="true" signature="1182:1188" ph=" }" />
+                <marker date="1498421049469" expanded="true" signature="1228:1239" ph=" { " />
+                <marker date="1498421049469" expanded="true" signature="1258:1264" ph=" }" />
+                <marker date="1498421049469" expanded="true" signature="1293:1304" ph=" { " />
+                <marker date="1498421049469" expanded="true" signature="1316:1322" ph=" }" />
+                <marker date="1498421049469" expanded="true" signature="1360:1371" ph=" { " />
+                <marker date="1498421049469" expanded="true" signature="1388:1394" ph=" }" />
+                <marker date="1498421049469" expanded="true" signature="1424:1435" ph=" { " />
+                <marker date="1498421049469" expanded="true" signature="1448:1454" ph=" }" />
+                <marker date="1498421049469" expanded="true" signature="1494:1505" ph=" { " />
+                <marker date="1498421049469" expanded="true" signature="1524:1530" ph=" }" />
+                <marker date="1498421049469" expanded="true" signature="1559:1570" ph=" { " />
+                <marker date="1498421049469" expanded="true" signature="1585:1591" ph=" }" />
+                <marker date="1498421049469" expanded="true" signature="1632:1643" ph=" { " />
+                <marker date="1498421049469" expanded="true" signature="1666:1672" ph=" }" />
+                <marker date="1498421049469" expanded="true" signature="1713:1920" ph="{...}" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="User.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/ru/ravens/models/InnerModel/User.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="204">
-              <caret line="61" column="50" lean-forward="true" selection-start-line="61" selection-start-column="50" selection-end-line="61" selection-end-column="50" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -122,6 +120,9 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="PUSH_TAGS">
+      <GitPushTagMode />
+    </option>
   </component>
   <component name="GradleLocalSettings">
     <option name="externalProjectsViewState">
@@ -153,6 +154,9 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="project.structure.last.edited" value="Project" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.0" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -558,12 +562,12 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1498413044527</updated>
-      <workItem from="1498413047029" duration="7200000" />
+      <workItem from="1498413047029" duration="7957000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="7200000" />
+    <option name="totallyTimeSpent" value="7957000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1378" height="780" extended-state="0" />
@@ -611,6 +615,10 @@
     <breakpoint-manager />
     <watches-manager />
   </component>
+  <component name="antWorkspaceConfiguration">
+    <option name="IS_AUTOSCROLL_TO_SOURCE" value="false" />
+    <option name="FILTER_TARGETS" value="false" />
+  </component>
   <component name="editorHistoryManager">
     <entry file="jar://C:/Program Files/Java/jdk1.8.0_91/src.zip!/java/sql/ResultSet.java">
       <provider selected="true" editor-type-id="text-editor">
@@ -648,65 +656,15 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="102">
           <caret line="7" column="0" lean-forward="true" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ru/ravens/models/UserProfile.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1241">
-          <caret line="86" column="33" lean-forward="false" selection-start-line="86" selection-start-column="33" selection-end-line="86" selection-end-column="33" />
           <folding>
-            <element signature="e#424#425#0" expanded="true" />
-            <element signature="e#459#460#0" expanded="true" />
-            <element signature="e#521#522#0" expanded="true" />
-            <element signature="e#569#570#0" expanded="true" />
-            <element signature="e#664#665#0" expanded="true" />
-            <element signature="e#708#709#0" expanded="true" />
-            <element signature="e#891#892#0" expanded="true" />
-            <element signature="e#920#921#0" expanded="true" />
-            <element signature="e#961#962#0" expanded="true" />
-            <element signature="e#997#998#0" expanded="true" />
-            <element signature="e#1028#1029#0" expanded="true" />
-            <element signature="e#1055#1056#0" expanded="true" />
-            <element signature="e#1095#1096#0" expanded="true" />
-            <element signature="e#1127#1128#0" expanded="true" />
-            <element signature="e#1159#1160#0" expanded="true" />
-            <element signature="e#1187#1188#0" expanded="true" />
-            <element signature="e#1229#1230#0" expanded="true" />
-            <element signature="e#1263#1264#0" expanded="true" />
-            <element signature="e#1294#1295#0" expanded="true" />
-            <element signature="e#1321#1322#0" expanded="true" />
-            <element signature="e#1361#1362#0" expanded="true" />
-            <element signature="e#1393#1394#0" expanded="true" />
-            <element signature="e#1425#1426#0" expanded="true" />
-            <element signature="e#1453#1454#0" expanded="true" />
-            <element signature="e#1495#1496#0" expanded="true" />
-            <element signature="e#1529#1530#0" expanded="true" />
-            <element signature="e#1560#1561#0" expanded="true" />
-            <element signature="e#1590#1591#0" expanded="true" />
-            <element signature="e#1633#1634#0" expanded="true" />
-            <element signature="e#1671#1672#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ru/ravens/models/InnerModel/User.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="61" column="50" lean-forward="true" selection-start-line="61" selection-start-column="50" selection-end-line="61" selection-end-column="50" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ru/ravens/controllers/UsersController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="259">
-          <caret line="111" column="26" lean-forward="true" selection-start-line="111" selection-start-column="26" selection-end-line="111" selection-end-column="26" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#458#459#0" expanded="true" />
-            <element signature="e#493#494#0" expanded="true" />
+            <marker date="1498420757004" expanded="true" signature="267:274" ph="{...}" />
+            <marker date="1498420757004" expanded="true" signature="339:422" ph="{...}" />
+            <marker date="1498420757004" expanded="false" signature="463:474" ph=" { " />
+            <marker date="1498420757004" expanded="false" signature="497:503" ph=" }" />
+            <marker date="1498420757004" expanded="false" signature="564:575" ph=" { " />
+            <marker date="1498420757004" expanded="false" signature="614:620" ph=" }" />
+            <marker date="1498420757004" expanded="false" signature="650:661" ph=" { " />
+            <marker date="1498420757004" expanded="false" signature="674:680" ph=" }" />
           </folding>
         </state>
       </provider>
@@ -719,5 +677,151 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ru/ravens/models/InnerModel/User.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="425">
+          <caret line="69" column="48" lean-forward="true" selection-start-line="69" selection-start-column="48" selection-end-line="69" selection-end-column="48" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <marker date="1498421020309" expanded="false" signature="3488:3499" ph=" { " />
+            <marker date="1498421020309" expanded="false" signature="3512:3518" ph=" }" />
+            <marker date="1498421020309" expanded="false" signature="3558:3569" ph=" { " />
+            <marker date="1498421020309" expanded="false" signature="3588:3594" ph=" }" />
+            <marker date="1498421020309" expanded="false" signature="3623:3634" ph=" { " />
+            <marker date="1498421020309" expanded="false" signature="3646:3652" ph=" }" />
+            <marker date="1498421020309" expanded="false" signature="3690:3701" ph=" { " />
+            <marker date="1498421020309" expanded="false" signature="3718:3724" ph=" }" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ru/ravens/models/UserProfile.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="582">
+          <caret line="85" column="0" lean-forward="true" selection-start-line="85" selection-start-column="0" selection-end-line="85" selection-end-column="0" />
+          <folding>
+            <element signature="e#424#425#0" expanded="true" />
+            <element signature="e#459#460#0" expanded="true" />
+            <element signature="e#521#522#0" expanded="true" />
+            <element signature="e#569#570#0" expanded="true" />
+            <marker date="1498421049469" expanded="true" signature="890:901" ph=" { " />
+            <marker date="1498421049469" expanded="true" signature="915:921" ph=" }" />
+            <marker date="1498421049469" expanded="true" signature="960:971" ph=" { " />
+            <marker date="1498421049469" expanded="true" signature="992:998" ph=" }" />
+            <marker date="1498421049469" expanded="true" signature="1027:1038" ph=" { " />
+            <marker date="1498421049469" expanded="true" signature="1050:1056" ph=" }" />
+            <marker date="1498421049469" expanded="true" signature="1094:1105" ph=" { " />
+            <marker date="1498421049469" expanded="true" signature="1122:1128" ph=" }" />
+            <marker date="1498421049469" expanded="true" signature="1158:1169" ph=" { " />
+            <marker date="1498421049469" expanded="true" signature="1182:1188" ph=" }" />
+            <marker date="1498421049469" expanded="true" signature="1228:1239" ph=" { " />
+            <marker date="1498421049469" expanded="true" signature="1258:1264" ph=" }" />
+            <marker date="1498421049469" expanded="true" signature="1293:1304" ph=" { " />
+            <marker date="1498421049469" expanded="true" signature="1316:1322" ph=" }" />
+            <marker date="1498421049469" expanded="true" signature="1360:1371" ph=" { " />
+            <marker date="1498421049469" expanded="true" signature="1388:1394" ph=" }" />
+            <marker date="1498421049469" expanded="true" signature="1424:1435" ph=" { " />
+            <marker date="1498421049469" expanded="true" signature="1448:1454" ph=" }" />
+            <marker date="1498421049469" expanded="true" signature="1494:1505" ph=" { " />
+            <marker date="1498421049469" expanded="true" signature="1524:1530" ph=" }" />
+            <marker date="1498421049469" expanded="true" signature="1559:1570" ph=" { " />
+            <marker date="1498421049469" expanded="true" signature="1585:1591" ph=" }" />
+            <marker date="1498421049469" expanded="true" signature="1632:1643" ph=" { " />
+            <marker date="1498421049469" expanded="true" signature="1666:1672" ph=" }" />
+            <marker date="1498421049469" expanded="true" signature="1713:1920" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ru/ravens/controllers/UsersController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="310">
+          <caret line="114" column="13" lean-forward="true" selection-start-line="114" selection-start-column="13" selection-end-line="114" selection-end-column="13" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#458#459#0" expanded="true" />
+            <element signature="e#493#494#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+  </component>
+  <component name="masterDetails">
+    <states>
+      <state key="ArtifactsStructureConfigurable.UI">
+        <settings>
+          <artifact-editor />
+          <last-edited>WalletMessenger:war</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+                <option value="0.5" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="FacetStructureConfigurable.UI">
+        <settings>
+          <last-edited>Web</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="GlobalLibrariesConfigurable.UI">
+        <settings>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="JdkListConfigurable.UI">
+        <settings>
+          <last-edited>1.8</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ModuleStructureConfigurable.UI">
+        <settings>
+          <last-edited>WalletMessenger</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+                <option value="0.6" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ProjectLibrariesConfigurable.UI">
+        <settings>
+          <last-edited>Jersey-2.2</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+    </states>
   </component>
 </project>

@@ -22,7 +22,7 @@ public class UsersController {
     }
 
     @GET
-    @Path("/user/reg/")
+    @Path("/reg/")
     @Produces(MediaType.APPLICATION_JSON)
     public UserProfile register(@FormParam("phone") String phone, @FormParam("name") String name, @FormParam("hashpsd") String hashpsd) {
         try {
@@ -41,7 +41,7 @@ public class UsersController {
     }
 
     @GET
-    @Path("/user/log/")
+    @Path("/log/")
     @Produces(MediaType.APPLICATION_JSON)
     public UserProfile auth(@FormParam("phone") String phone, @FormParam("hashpsd") String hashpsd) {
         try {
@@ -61,7 +61,7 @@ public class UsersController {
     }
 
     @GET
-    @Path("/user/chpsd/")
+    @Path("/chpsd/")
     @Produces(MediaType.APPLICATION_JSON)
     public DefaultClass changePsd(@FormParam("token") String token, @FormParam("lastpsd") String lastpsd, @FormParam("newpsd") String newpsd) {
         try {
@@ -82,7 +82,7 @@ public class UsersController {
     }
 
     @GET
-    @Path("/user/chphoto/")
+    @Path("/chphoto/")
     @Produces(MediaType.APPLICATION_JSON)
     public DefaultClass changePhoto(@FormParam("token") String token, @FormParam("photo") String photo) {
         try {
@@ -96,7 +96,7 @@ public class UsersController {
     }
 
     @GET
-    @Path("/user/getubyphn/")
+    @Path("/getubyphn/")
     @Produces(MediaType.APPLICATION_JSON)
     public UserProfile getUserByPhone(@FormParam("token") String token, @FormParam("phone") String phone) {
         try {
@@ -109,7 +109,7 @@ public class UsersController {
     }
 
     @GET
-    @Path("/user/chname/")
+    @Path("/chname/")
     @Produces(MediaType.APPLICATION_JSON)
     public UserProfile changeName(@FormParam("token") String token, @FormParam("name") String name) {
         try {
