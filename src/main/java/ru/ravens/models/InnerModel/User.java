@@ -1,6 +1,8 @@
 package ru.ravens.models.InnerModel;
 
+import com.sun.org.apache.xml.internal.resolver.readers.ExtendedXMLCatalogReader;
 import ru.ravens.models.DefaultClass;
+import ru.ravens.models.UserProfile;
 import ru.ravens.service.DBManager;
 import ru.ravens.service.DateWorker;
 
@@ -17,12 +19,9 @@ public class User implements Serializable{
     private String hashpsd;
     private String qiwi;
     private String image;
-    private String token;
 
     private DefaultClass defaultClass;
-
     private int balance;
-
 
     //получение пользователя по ID
     public static User getUserByID(int ID) throws Exception
@@ -60,50 +59,23 @@ public class User implements Serializable{
         user.setImage(resultSet.getString("Image"));
         user.setQiwi(resultSet.getString("Qiwi"));
         user.setHashpsd(resultSet.getString("Hashpsd"));
-        user.setToken(resultSet.getString("Token"));
 
         return user;
     }
 
-    public static User registerUser(String name, String phone, String hashpsd, String qiwi, String Image)
+    public static UserProfile registerUser(String name, String phone, String hashpsd, String token) throws Exception
     {
+        //добавим новую запись в юзеров
+        //надо про prepared Statement !
 
+        String command = "Insert into Users (UserID, Name, Phone, Hashpsd, Qiwi, Image, Token)" +
+        "VALUES ((SELECT MAX (UserID) from Users) + 1, " + name + ", " + phone + ", 0, " + hashpsd +", 0, 0," + token + ")";
 
-// Image       //добавим новую запись в юзеров
-//            //надо про prepared Statement !
-//      /  String command = "Insert into Users (UserID, Name, Phone, Hashpsd, Qiwi, Image, Token)" +
-//      //          "VALUES ((SELECT MAX (TransactionID) from Transactions) + 1, " + userID + ", " + dialogID + ", 0, "+money+
-//         //       ", " + DateWorker.getNowMomentInUTC() + ", " + cash +", 0, " + text;
-//
-//        //пояснения: groupID = 0, так как это для диалога метод, proof = 0, так как даже если там кэш\не кэш то все равно идет "отправка" транзакции
-//        DBManager.execCommand(command);
+        //пояснения: groupID = 0, так как это для диалога метод, proof = 0, так как даже если там кэш\не кэш то все равно идет "отправка" транзакции
+        DBManager.execCommand(command);
 
-
-
-
-
-
-
-return null;
-
+        return UserProfile.getUserProfileByUser(User.getUserByToken(token));
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     public String getHashpsd() {
@@ -112,14 +84,6 @@ return null;
 
     public void setHashpsd(String hashpsd) {
         this.hashpsd = hashpsd;
-    }
-
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
     }
 
 
@@ -153,7 +117,6 @@ return null;
     public void setPhone(String phone) {
         this.phone = phone;
     }
-
 
     public String getImage() {
         return image;

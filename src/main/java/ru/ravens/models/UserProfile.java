@@ -26,7 +26,7 @@ public class UserProfile implements Serializable
 
     private int balance;
 
-    public static UserProfile getUserProfileByUser(User user)
+    public static UserProfile getUserProfileByUser(User user) throws Exception
     {
         return new UserProfile(user);
     }
@@ -35,6 +35,8 @@ public class UserProfile implements Serializable
     {
         return new UserProfile(User.getUserByID(userID));
     }
+
+
 
     public int getUserID() {
         return userID;

@@ -25,8 +25,6 @@ public class Dialog implements Serializable
             dialog.setBalance_1(resultSet.getInt("Balance_1"));
             //получаем собеседника с фоткой\именем и прочим
             dialog.setUserProfile(UserProfile.getUserProfileByUserID(resultSet.getInt("UserID_2")));
-
-
         }
         else if(resultSet.getInt("UserID_2")==myID)
         {
@@ -58,7 +56,6 @@ public class Dialog implements Serializable
     public void setDialogID(int dialogID) {
         this.dialogID = dialogID;
     }
-
 
     public int getBalance_1() {
         return balance_1;

@@ -9,6 +9,8 @@ public class DefaultClass implements Serializable {
     private Boolean operationOutput;
     private String token;
 
+
+
     public DefaultClass() {
     }
 
