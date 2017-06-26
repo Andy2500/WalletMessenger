@@ -53,7 +53,7 @@ public class Transaction implements Serializable
     {
         int rows = 20;
 
-        String query = "Select top " + rows + " * from Transactions Where GroupID = " + id + "Order by GroupID DECS";
+        String query = "Select top " + rows + " * from Transactions Where GroupID = " + id + "Order by GroupID DESC";
         return getTransactionsHist(query);
     }
 
@@ -61,7 +61,7 @@ public class Transaction implements Serializable
     {
         int rows = 20;
 
-        String query = "Select top " + rows + " * from Transactions Where DialogID = " + id + "Order by GroupID DECS";
+        String query = "Select top " + rows + " * from Transactions Where DialogID = " + id + "Order by GroupID DESC";
         return getTransactionsHist(query);
     }
 
@@ -73,10 +73,11 @@ public class Transaction implements Serializable
         if(resultSet.next())
         {
             ArrayList<Transaction> list = new ArrayList<>();
-            while (resultSet.next())
+            do
             {
                 list.add(parseTransaction(resultSet));
             }
+            while (resultSet.next());
             return list;
         }
         else
@@ -234,13 +235,13 @@ public class Transaction implements Serializable
         }
         HashMap<Integer, Float> userMap = new HashMap<>();
 
-        while (resultSet.next())
+        do
         {   //Да, я знаю, что "Наш" юзер тоже здесь, НО ТАК И НАДО, если он должен денег (баланс < 0), то он будет платить долги всем кто имеет баланс > 0
             //и следовательно сам себе не заплатит!
             //Если у него нет долгов, то он нужен здесь в мапе чтобы пересчитать всем балансы
             userMap.put(resultSet.getInt("UserID"), resultSet.getFloat("Balance"));
         }
-
+        while (resultSet.next());
         //возьмем баланс нашего юзера
         float balance = userMap.get(userID);
 

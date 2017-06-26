@@ -96,17 +96,22 @@ public class UsersController {
         }
     }
 
+    //Исправлено. Перепроверить и доисправить так как привычнее без потери функционала.
     @GET
-    @Path("/getp/{token}/{phone}")
-    @Produces(MediaType.APPLICATION_JSON) // получить пользователя по логину
+    @Path("/getubyphn/{token}/{phone}")
+    @Produces(MediaType.APPLICATION_JSON) // получить пользователя по теелфону
     public UserProfile getUserByPhone(@PathParam("token") String token,
                                       @PathParam("phone") String phone) {
         try {
-            UserProfile userProfile = UserProfile.getUserProfileByUser(User.getUserByToken(token));
+            //Это тот кто подал запрос (его надо получить для того, чтобы удостовериться, что он существует и токен подан верный)
+            User user = User.getUserByToken(token);
+            //А этого вернем, так как его просили вернуть по номеру телефона
+            UserProfile userProfile = UserProfile.getUserProfileByUser(User.getUserByPhone(phone));
             userProfile.getDefaultClass().setOperationOutput(true);
             userProfile.getDefaultClass().setToken(token);
             return userProfile;
-        } catch (Exception ex) {
+        }
+        catch (Exception ex) {
             UserProfile userProfile = new UserProfile();
             userProfile.setDefaultClass(new DefaultClass(false, ex.getMessage()));
             return userProfile;

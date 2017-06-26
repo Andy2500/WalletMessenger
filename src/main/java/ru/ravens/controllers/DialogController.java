@@ -15,7 +15,7 @@ public class DialogController {
 
 
     @GET
-    @Path("/get/{token}++{dialogID}")
+    @Path("/get/{token}/{dialogID}")
     @Produces(MediaType.APPLICATION_JSON) // получить инфу про диалог
     public DialogInfo getDialogs(@PathParam("token")String token,
                                  @PathParam("dialogID") int dialogID)
@@ -34,7 +34,7 @@ public class DialogController {
     }
 
     @GET
-    @Path("/sendtr/{token}/{dialogID}/{money}/{cash}+{text}")
+    @Path("/sendtr/{token}/{dialogID}/{money}/{cash}/{text}")
     @Produces(MediaType.APPLICATION_JSON) // отправить транзакцию в диалог
     public DefaultClassAndId sendTrans(@PathParam("token")String token,
                                        @PathParam("dialogID") int dialogID,

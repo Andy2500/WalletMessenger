@@ -80,19 +80,9 @@ public class GroupInfo implements Serializable
     //Проверку на админ\нет осуществляет устройство..
     public static void delUserFromGroupById(int userID, int groupID) throws Exception
     {
-        //Проверьте на существование юзера в этой группе
-        String query = "SELECT * FROM GroupBalances WHERE WHERE (GroupID = " +groupID +" AND UserID = "+userID +" )";
-        ResultSet resultSet = DBManager.getSelectResultSet(query);
-        if(!resultSet.next())
-        {
-            throw new Exception("Пользователь не состоит в этой группе.");
-        }
-        else
-        {
-            //удаление баланса пользователя из группы
-            String command = "DELETE FROM GroupBalances WHERE (GroupID = " +groupID +" AND UserID = "+userID +" )";
-            DBManager.execCommand(command);
-        }
+        //удаление баланса пользователя из группы, без проверки сойдет
+        String command = "DELETE FROM GroupBalances WHERE (GroupID = " +groupID +" AND UserID = "+userID +" )";
+        DBManager.execCommand(command);
         //А здесь что делать с балансом? общим и индивидуальными...
         //Можно пересчитывать (но как..не расплатился же или с ним не расплатились..)
         //Вариант: если баланс в минусе, перераспределяем расходы на остальных
@@ -143,11 +133,11 @@ public class GroupInfo implements Serializable
         Map<Integer, Float> userBalanceMap = new TreeMap<>();
 
         //собираем соответствие юзеров и их балансов
-        while (resultSet.next())
+        do
         {
             userBalanceMap.put(resultSet.getInt("UserID"), resultSet.getFloat("Balance"));
         }
-
+        while (resultSet.next());
         //Собираем запрос на юзеров
 
         //так должно работать!, проверено в Management Studio
@@ -164,10 +154,11 @@ public class GroupInfo implements Serializable
         {
             throw new Exception("Нет пользователей в группе.");
         }
-        while (resultSet.next())
+        do
         {
             userProfiles.add(UserProfile.getUserProfileByUser(User.parseUser(resultSet)));
         }
+        while (resultSet.next());
 
         Collections.sort(userProfiles, getUserComp());
 
