@@ -16,7 +16,6 @@ public class User implements Serializable{
     private String name;
     private String phone;
     private String hashpsd;
-    private String qiwi;
     private String image;
     private String token;
 
@@ -65,13 +64,11 @@ public class User implements Serializable{
         user.setName(resultSet.getString("Name"));
         user.setPhone(resultSet.getString("Phone"));
         user.setImage(resultSet.getString("Image"));
-        user.setQiwi(resultSet.getString("Qiwi"));
         user.setHashpsd(resultSet.getString("Hashpsd"));
         user.setToken(resultSet.getString("Token"));
 
         return user;
     }
-
 
     public static UserProfile registerUser(String name, String phone, String hashpsd, String token) throws Exception
     {
@@ -81,10 +78,8 @@ public class User implements Serializable{
         token = "'" + token +"'";
         //добавим новую запись в юзеров
         //надо про prepared Statement !
-
         String command = "Insert into Users (UserID, Name, Phone, Hashpsd, Qiwi, Image, Token)" +
                 "VALUES ((SELECT MAX (UserID) from Users) + 1, " + name + ", " + phone + ", 0, " + hashpsd +", 0, 0," + token + ")";
-
         //пояснения: groupID = 0, так как это для диалога метод, proof = 0, так как даже если там кэш\не кэш то все равно идет "отправка" транзакции
         DBManager.execCommand(command);
 
@@ -144,14 +139,6 @@ public class User implements Serializable{
 
     public void setHashpsd(String hashpsd) {
         this.hashpsd = hashpsd;
-    }
-
-    public String getQiwi() {
-        return qiwi;
-    }
-
-    public void setQiwi(String qiwi) {
-        this.qiwi = qiwi;
     }
 
     public String getImage() {

@@ -1,6 +1,7 @@
 package ru.ravens.models.InnerModel;
 
 import ru.ravens.models.UserProfile;
+import ru.ravens.service.DBManager;
 
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
@@ -26,8 +27,6 @@ public class Dialog implements Serializable
             dialog.setBalance_1(resultSet.getFloat("Balance_1"));
             //получаем собеседника с фоткой\именем и прочим
             dialog.setUserProfile(UserProfile.getUserProfileByUserID(resultSet.getInt("UserID_2")));
-
-
         }
         else if(resultSet.getInt("UserID_2")==myID)
         {
