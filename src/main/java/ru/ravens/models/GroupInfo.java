@@ -25,14 +25,14 @@ public class GroupInfo implements Serializable
         this.transactions = transactions;
     }
 
-
-
     //После выполнения в контроллере можно добавить создателя в список userProfiles, а то тут его получать нет смысла
     //Так как он уже получен там в контроллере
     public static GroupInfo createGroup(int creatorID, String name) throws Exception
     {
         name = "'" + name + "'";
-        GroupInfo groupInfo = new GroupInfo();
+
+        String query = "SELECT MAX(GroupID) FROM Groups";
+        int dialogID = DBManager.getSelectResultSet(query).getInt("GroupID") +1;
 
         //запись группы
         String command = "INSERT INTO Groups (GroupID, Name, Sum, AdminID) VALUES(" +

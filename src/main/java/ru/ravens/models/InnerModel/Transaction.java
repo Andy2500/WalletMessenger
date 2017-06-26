@@ -63,7 +63,8 @@ public class Transaction implements Serializable
     }
 
 
-    //методы для получения Истории транзакций (20) по ID группы или диалога
+    //методы для получения Истории транзакций (20) по ID группы или диалога при его открытии
+    //в других местах использоваться недолжны!
     public static ArrayList<Transaction> getTransactionsHistByDialogID(int id) throws Exception
     {
         int rows = 20;
@@ -305,9 +306,6 @@ public class Transaction implements Serializable
         return i;
     }
 
-
-
-
     //экспериментальный метод, закрытый!
     private static int PayDebt(float debtPayment, ArrayList<Map.Entry<Integer, Float>> userList)
     {
@@ -376,9 +374,6 @@ public class Transaction implements Serializable
             entry.setValue(entry.getValue() - diff);
         }
     }
-
-
-
 
 
     public int getTransactionID() {

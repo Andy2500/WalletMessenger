@@ -16,7 +16,6 @@ public class User implements Serializable{
     private String name;
     private String phone;
     private String hashpsd;
-    private String qiwi;
     private String image;
     private String token;
 
@@ -65,7 +64,6 @@ public class User implements Serializable{
         user.setName(resultSet.getString("Name"));
         user.setPhone(resultSet.getString("Phone"));
         user.setImage(resultSet.getString("Image"));
-        user.setQiwi(resultSet.getString("Qiwi"));
         user.setHashpsd(resultSet.getString("Hashpsd"));
         user.setToken(resultSet.getString("Token"));
 
@@ -144,14 +142,6 @@ public class User implements Serializable{
 
     public void setHashpsd(String hashpsd) {
         this.hashpsd = hashpsd;
-    }
-
-    public String getQiwi() {
-        return qiwi;
-    }
-
-    public void setQiwi(String qiwi) {
-        this.qiwi = qiwi;
     }
 
     public String getImage() {

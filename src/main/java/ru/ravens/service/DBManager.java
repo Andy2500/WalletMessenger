@@ -2,6 +2,7 @@ package ru.ravens.service;
 
 import com.microsoft.sqlserver.jdbc.SQLServerDataSource;
 import com.microsoft.sqlserver.jdbc.SQLServerException;
+import ru.ravens.models.InnerModel.Dialog;
 import ru.ravens.models.InnerModel.User;
 
 import java.sql.Connection;
@@ -62,5 +63,4 @@ public class DBManager {
         Statement statement = connection.createStatement();
         return User.parseUser(statement.executeQuery(query));
     }
-
 }

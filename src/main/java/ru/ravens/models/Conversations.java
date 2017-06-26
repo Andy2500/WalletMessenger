@@ -10,19 +10,18 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 
 @XmlRootElement
-public class Conversation implements Serializable
+public class Conversations implements Serializable
 {
     private ArrayList<Dialog> dialogs;
     private ArrayList<Group> groups;
     private DefaultClass defaultClass = new DefaultClass();
 
-    public static Conversation getConversationByUserID(int userID) throws Exception
+    public static Conversations getConversationByUserID(int userID) throws Exception
     {
-        Conversation conversation = new Conversation();
+        Conversations conversations = new Conversations();
 
         ArrayList<Dialog> dialogList = new ArrayList<>();
         ArrayList<Group> groupList = new ArrayList<>();
-
 
         //получаем диалоги и парсим
         String query = "Select * from Dialogs where UserID = " + userID;
@@ -40,10 +39,10 @@ public class Conversation implements Serializable
             groupList.add(Group.parseGroup(resultSet));
         }
 
-        conversation.setDialogs(dialogList);
-        conversation.setGroups(groupList);
+        conversations.setDialogs(dialogList);
+        conversations.setGroups(groupList);
 
-        return conversation;
+        return conversations;
     }
 
 

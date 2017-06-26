@@ -12,7 +12,6 @@ public class UserProfile implements Serializable
     private int userID;
     private String name;
     private String phone;
-    private String qiwi;
     private String image;
     private float balance;
     private DefaultClass defaultClass;
@@ -39,7 +38,6 @@ public class UserProfile implements Serializable
         userID = user.getUserID();
         name = user.getName();
         phone = user.getPhone();
-        qiwi = user.getQiwi();
         image = user.getImage();
         balance = user.getBalance();
     }
@@ -68,14 +66,6 @@ public class UserProfile implements Serializable
         this.phone = phone;
     }
 
-    public String getQiwi() {
-        return qiwi;
-    }
-
-    public void setQiwi(String qiwi) {
-        this.qiwi = qiwi;
-    }
-
     public String getImage() {
         return image;
     }
@@ -83,6 +73,7 @@ public class UserProfile implements Serializable
     public void setImage(String image) {
         this.image = image;
     }
+
     public DefaultClass getDefaultClass() {
         return defaultClass;
     }
@@ -90,7 +81,6 @@ public class UserProfile implements Serializable
     public void setDefaultClass(DefaultClass defaultClass) {
         this.defaultClass = defaultClass;
     }
-
 
     public float getBalance() {
         return balance;
