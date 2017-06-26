@@ -1,5 +1,6 @@
 package ru.ravens.models;
 
+import ru.ravens.models.InnerModel.Group;
 import ru.ravens.models.InnerModel.Transaction;
 import ru.ravens.models.InnerModel.User;
 import ru.ravens.service.DBManager;
@@ -25,6 +26,23 @@ public class GroupInfo implements Serializable
     }
 
 
+
+    public static GroupInfo createGroup(int creatorID, String name) throws Exception
+    {
+        name = "'"+name+"'";
+        GroupInfo groupInfo = new GroupInfo();
+
+        String command = "INSERT INTO Groups (GroupID, Name, Sum, AdminID) VALUES(" +
+                " (SELECT MAX (GroupID) from Groups) + 1, " + name + ", 0, " + creatorID;
+        //сумма 0
+        DBManager.execCommand(command);
+
+        //Если сервер в один поток работает.. то и так сойдет, а иначе даже хз как синхронизацию обеспечить...
+        command = "INSERT INTO GroupBalances (GroupID, UserID, Balance) VALUES(" +
+                " (SELECT MAX (GroupID) from Groups), " + name + ", 0, " + creatorID;
+        //сумма 0
+        DBManager.execCommand(command);
+    }
     //Получаем всех юзеров и историю транзакций для этой группы
     //Те поля, который были в объекте Group не дублируются! Запоминайте их там!
     public static GroupInfo getGroupInfoById(int groupID) throws Exception

@@ -72,7 +72,7 @@ public class UsersController {
             if (lastpsd.equals(newpsd))
                 throw new Exception("New password equals to last password");
 
-            user.setHashpsd(newpsd); // смена пароля
+            User.changePsd(user.getUserID(), newpsd);
             return new DefaultClass(true, token);
 
         } catch (Exception ex) {
@@ -86,7 +86,7 @@ public class UsersController {
     public DefaultClass changePhoto(@FormParam("token") String token, @FormParam("photo") String photo) {
         try {
             UserProfile userProfile = UserProfile.getUserProfileByUser(User.getUserByToken(token));
-            userProfile.setImage(photo);
+            User.changeImage(userProfile.getUserID(), photo);
             return new DefaultClass(true, token);
         } catch (Exception ex) {
             return new DefaultClass(false, ex.getMessage());
@@ -115,7 +115,7 @@ public class UsersController {
     public UserProfile changeName(@FormParam("token") String token, @FormParam("name") String name) {
         try {
             UserProfile userProfile = UserProfile.getUserProfileByUser(User.getUserByToken(token));
-            userProfile.setName(name);
+            User.changeName(userProfile.getUserID(), name);
             userProfile.getDefaultClass().setOperationOutput(true);
             userProfile.getDefaultClass().setToken(token);
             return userProfile;
