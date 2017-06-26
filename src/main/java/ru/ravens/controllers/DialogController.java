@@ -1,6 +1,7 @@
 package ru.ravens.controllers;
 
 import ru.ravens.models.DefaultClass;
+import ru.ravens.models.DefaultClassAndId;
 import ru.ravens.models.DialogInfo;
 import ru.ravens.models.InnerModel.Transaction;
 import ru.ravens.models.InnerModel.User;
@@ -14,14 +15,14 @@ public class DialogController {
 
 
     @GET
-    @Path("/get/{token}++{conversationID}")
+    @Path("/get/{token}++{dialogID}")
     @Produces(MediaType.APPLICATION_JSON) // получить инфу про диалог
     public DialogInfo getDialogs(@PathParam("token")String token,
-                                 @PathParam("conversationID") int convID)
+                                 @PathParam("dialogID") int dialogID)
     {
         try{
             User.getUserByToken(token);
-            DialogInfo dialogInfo =  DialogInfo.getDialogInfoById(convID);
+            DialogInfo dialogInfo =  DialogInfo.getDialogInfoById(dialogID);
             dialogInfo.getDefaultClass().setOperationOutput(true);
             dialogInfo.getDefaultClass().setToken(token);
             return dialogInfo;
@@ -35,17 +36,18 @@ public class DialogController {
     @GET
     @Path("/sendtr/{token}++{dialogID}++{money}++{cash}+{text}")
     @Produces(MediaType.APPLICATION_JSON) // отправить транзакцию в диалог
-    public DefaultClass sendTrans(@PathParam("token")String token,
-                                  @PathParam("dialogID") int dialogID,
-                                  @PathParam("money") int money,
-                                  @PathParam("cash") int cash,
-                                  @PathParam("text") String text) {
+    public DefaultClassAndId sendTrans(@PathParam("token")String token,
+                                       @PathParam("dialogID") int dialogID,
+                                       @PathParam("money") int money,
+                                       @PathParam("cash") int cash,
+                                       @PathParam("text") String text) {
         try{
-            Transaction.SendTransactionDialog(User.getUserByToken(token).getUserID(), dialogID,
+            return Transaction.SendTransactionDialog(User.getUserByToken(token).getUserID(), dialogID,
                     money, cash, text);
-            return new DefaultClass(true, token);
         } catch (Exception ex){
-            return new DefaultClass(false, ex.getMessage());
+            DefaultClassAndId defClassAndID = new DefaultClassAndId(0);
+            defClassAndID.setDefaultClass(new DefaultClass(false, ex.getMessage()));
+            return defClassAndID;
         }
     }
 
@@ -84,6 +86,21 @@ public class DialogController {
             TransactionHist transHist = new TransactionHist();
             transHist.setDefaultClass(new DefaultClass(false, ex.getMessage()));
             return transHist;
+        }
+    }
+
+    @GET
+    @Path("/create/{token}++{phone}")
+    @Produces(MediaType.APPLICATION_JSON) // создание диалога
+    public DefaultClass createDialog(@PathParam("token") String token,
+                                              @PathParam("phone") String phone) {
+        try {
+            User user = User.getUserByToken(token);
+            DefaultClassAndId defClassAndID = DialogInfo.createNewDialog(user.getUserID(), User.getUserByPhone(phone).getUserID());
+            defClassAndID.setDefaultClass(new DefaultClass(true, token));
+            return defClassAndID.getDefaultClass();
+        } catch (Exception ex) {
+            return new DefaultClass(false, ex.getMessage());
         }
     }
 }

@@ -116,18 +116,16 @@ public class UsersController {
     @GET
     @Path("/chname/{token}++{name}")
     @Produces(MediaType.APPLICATION_JSON) // изменить имя
-    public UserProfile changeName(@PathParam("token") String token,
+    public DefaultClass changeName(@PathParam("token") String token,
                                   @PathParam("name") String name) {
         try {
             UserProfile userProfile = UserProfile.getUserProfileByUser(User.getUserByToken(token));
             User.changeName(userProfile.getUserID(), name);
             userProfile.getDefaultClass().setOperationOutput(true);
             userProfile.getDefaultClass().setToken(token);
-            return userProfile;
+            return userProfile.getDefaultClass();
         } catch (Exception ex) {
-            UserProfile userProfile = new UserProfile();
-            userProfile.setDefaultClass(new DefaultClass(false, ex.getMessage()));
-            return userProfile;
+            return new DefaultClass(false, ex.getMessage());
         }
     }
 
