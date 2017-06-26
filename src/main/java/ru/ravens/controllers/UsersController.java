@@ -18,7 +18,7 @@ public class UsersController {
 
 
     @GET
-    @Path("/reg/{phone}++{name}++{hashpsd}")
+    @Path("/reg/{phone}/{name}/{hashpsd}")
     @Produces(MediaType.APPLICATION_JSON)
     public UserProfile register(@PathParam("phone") String phone,
                                 @PathParam("name") String name,
@@ -38,7 +38,7 @@ public class UsersController {
     }
 
     @GET
-    @Path("/log/{phone}++{hashpsd}")
+    @Path("/log/{phone}/{hashpsd}")
     @Produces(MediaType.APPLICATION_JSON) // авторизация
     public UserProfile auth(@PathParam("phone") String phone,
                             @PathParam("hashpsd") String hashpsd) {
@@ -61,7 +61,7 @@ public class UsersController {
     }
 
     @GET
-    @Path("/chpsd/{token}++{lastpsd}++{newpsd}")
+    @Path("/chpsd/{token}/{lastpsd}/{newpsd}")
     @Produces(MediaType.APPLICATION_JSON) // изменить пароль
     public DefaultClass changePsd(@PathParam("token") String token,
                                   @PathParam("lastpsd") String lastpsd,
@@ -83,7 +83,7 @@ public class UsersController {
     }
 
     @GET
-    @Path("/chphoto/{token}++{photo}")
+    @Path("/chphoto/{token}/{photo}")
     @Produces(MediaType.APPLICATION_JSON) // изменить фотку
     public DefaultClass changePhoto(@PathParam("token") String token,
                                     @PathParam("photo") String photo) {
@@ -97,7 +97,7 @@ public class UsersController {
     }
 
     @GET
-    @Path("/getp/{token}++{phone}")
+    @Path("/getp/{token}/{phone}")
     @Produces(MediaType.APPLICATION_JSON) // получить пользователя по логину
     public UserProfile getUserByPhone(@PathParam("token") String token,
                                       @PathParam("phone") String phone) {
@@ -114,7 +114,7 @@ public class UsersController {
     }
 
     @GET
-    @Path("/chname/{token}++{name}")
+    @Path("/chname/{token}/{name}")
     @Produces(MediaType.APPLICATION_JSON) // изменить имя
     public DefaultClass changeName(@PathParam("token") String token,
                                   @PathParam("name") String name) {

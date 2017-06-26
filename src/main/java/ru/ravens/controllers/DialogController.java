@@ -34,7 +34,7 @@ public class DialogController {
     }
 
     @GET
-    @Path("/sendtr/{token}++{dialogID}++{money}++{cash}+{text}")
+    @Path("/sendtr/{token}/{dialogID}/{money}/{cash}+{text}")
     @Produces(MediaType.APPLICATION_JSON) // отправить транзакцию в диалог
     public DefaultClassAndId sendTrans(@PathParam("token")String token,
                                        @PathParam("dialogID") int dialogID,
@@ -52,7 +52,7 @@ public class DialogController {
     }
 
     @GET
-    @Path("/gettransactions/{token}++{groupID}++{transactionID}")
+    @Path("/gettransactions/{token}/{groupID}/{transactionID}")
     @Produces(MediaType.APPLICATION_JSON) // получение истории транзакций
     public TransactionHist getLastTransactions(@PathParam("token") String token,
                                                @PathParam("groupID") int groupID,
@@ -70,7 +70,7 @@ public class DialogController {
     }
 
     @GET
-    @Path("/getnewtransactions/{token}++{conversationID}++{transactionID}")
+    @Path("/getnewtransactions/{token}/{conversationID}/{transactionID}")
     @Produces(MediaType.APPLICATION_JSON) // получение прошлых транзакций, когда пришло новое сообщение
     public TransactionHist getNewTransactions(@PathParam("token") String token,
                                               @PathParam("conversationID") int convID,
@@ -90,7 +90,7 @@ public class DialogController {
     }
 
     @GET
-    @Path("/create/{token}++{phone}")
+    @Path("/create/{token}/{phone}")
     @Produces(MediaType.APPLICATION_JSON) // создание диалога
     public DefaultClass createDialog(@PathParam("token") String token,
                                               @PathParam("phone") String phone) {

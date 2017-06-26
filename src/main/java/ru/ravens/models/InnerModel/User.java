@@ -27,7 +27,7 @@ public class User implements Serializable{
     //получение пользователя по ID
     public static User getUserByID(int ID) throws Exception
     {
-        String query = "Select * From Users Where PersonID = " + ID;
+        String query = "Select * From Users Where UserID = " + ID;
         return checkUser(query, "Такого пользователя не существует");
     }
 

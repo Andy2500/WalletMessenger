@@ -34,7 +34,7 @@ public class ConversationController {
 
 
     @GET
-    @Path("/accepttr/{token}++{transactionID}")
+    @Path("/accepttr/{token}/{transactionID}")
     @Produces(MediaType.APPLICATION_JSON) // подтвердить транзакцию
     public DefaultClass acceptTrans(@PathParam("token") String token,
                                     @PathParam("transactionID") int transID) {
@@ -47,7 +47,7 @@ public class ConversationController {
     }
 
     @GET
-    @Path("/declinetr/{token}++{transactionID}")
+    @Path("/declinetr/{token}/{transactionID}")
     @Produces(MediaType.APPLICATION_JSON) // отклонить транзакцию
     public DefaultClass declineTrans(@PathParam("token") String token,
                                      @PathParam("transactionID") int transID) {

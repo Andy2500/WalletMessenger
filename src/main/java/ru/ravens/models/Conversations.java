@@ -8,6 +8,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 @XmlRootElement
 public class Conversations implements Serializable
@@ -24,7 +26,7 @@ public class Conversations implements Serializable
         ArrayList<Group> groupList = new ArrayList<>();
 
         //получаем диалоги и парсим
-        String query = "Select * from Dialogs where UserID = " + userID;
+        String query = "Select * from Dialogs where (UserID_1 = " + userID +" OR UserID_2 = " + userID +" )";
         ResultSet resultSet = DBManager.getSelectResultSet(query);
         while (resultSet.next())
         {
@@ -32,13 +34,36 @@ public class Conversations implements Serializable
         }
 
         //получаем группы и парсим
-        query = "Select * from Groups where UserID = " + userID;
+        query = "Select * from GroupBalances where UserID = " + userID;
         resultSet = DBManager.getSelectResultSet(query);
-        while (resultSet.next())
-        {
-            groupList.add(Group.parseGroup(resultSet));
-        }
 
+        //Если мы состоим в группах, то получим их (а если нет, то не надо получать)
+        if(resultSet.next())
+        {
+            HashMap<Integer,Integer> mapGroupBalances = new HashMap<>();
+            query = "SELECT * FROM Groups WHERE GroupID in (";
+            do
+            {
+                int groupID = resultSet.getInt("GroupID");
+                mapGroupBalances.put(groupID, resultSet.getInt("Balance"));
+                query += groupID + ",";
+            }while (resultSet.next());
+            //Без последнего символа!
+            query = query.substring(0, query.length()-1) +")";
+
+            //Получаем все группы
+            resultSet = DBManager.getSelectResultSet(query);
+            while (resultSet.next())
+            {   //парсим группы
+                groupList.add(Group.parseGroup(resultSet));
+            }
+            for(int i=0; i < groupList.size(); i++)
+            {
+                //Ставим баланс нашего пользователя в каждой группе из мапы по ID группы
+                groupList.get(i).setMyBalance(mapGroupBalances.get(groupList.get(i).getGroupID()));
+            }
+        }
+        //Если нет диалогов или групп, то лист будет пустой
         conversations.setDialogs(dialogList);
         conversations.setGroups(groupList);
 

@@ -12,6 +12,7 @@ public class Group implements Serializable
     private String name;
     private int adminID;
     private float sum;
+    private float myBalance;
 
     public static Group parseGroup(ResultSet resultSet) throws Exception
     {
@@ -57,4 +58,14 @@ public class Group implements Serializable
     public void setName(String name) {
         this.name = name;
     }
+
+    public float getMyBalance() {
+        return myBalance;
+    }
+
+    public void setMyBalance(float myBalance) {
+        this.myBalance = myBalance;
+    }
+
+
 }

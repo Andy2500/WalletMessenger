@@ -18,7 +18,7 @@ public class GroupController {
     //После полного тестирования метода изменяйте заголовки на такие:
 
     @GET
-    @Path("/get/{token}++{groupID}")
+    @Path("/get/{token}/{groupID}")
     @Produces(MediaType.APPLICATION_JSON) // получить инфу про групповой диалог
     public GroupInfo getGroupDialog(@PathParam("token")String token,
                                     @PathParam("groupID") int groupID)
@@ -37,7 +37,7 @@ public class GroupController {
     }
 
     @GET
-    @Path("/sendtr/{token}++{groupID}++{money}++{cash}+{text}")
+    @Path("/sendtr/{token}/{groupID}/{money}/{cash}+{text}")
     @Produces(MediaType.APPLICATION_JSON) // отправить транзакцию в групп чат
     public DefaultClassAndId sendTransToGroupDialog(@PathParam("token")String token,
                                                     @PathParam("groupID") int groupID,
@@ -60,7 +60,7 @@ public class GroupController {
     }
 
     @GET
-    @Path("/gettransactions/{groupID}++{transactionID}")
+    @Path("/gettransactions/{groupID}/{transactionID}")
     @Produces(MediaType.APPLICATION_JSON) // получение истории транзакций
     public TransactionHist getLastTransactions(@PathParam("groupID") int groupID,
                                                @PathParam("transactionID") int lastTransID) {
@@ -76,7 +76,7 @@ public class GroupController {
     }
 
     @GET
-    @Path("/create/{token}++{name}")
+    @Path("/create/{token}/{name}")
     @Produces(MediaType.APPLICATION_JSON) // создание группового диалога
     public DefaultClassAndId createGroup(@PathParam("token") String token,
                                      @PathParam("name") String name) {
@@ -91,7 +91,7 @@ public class GroupController {
     }
 
     @GET
-    @Path("/add/{token}++{groupID}++{phone}")
+    @Path("/add/{token}/{groupID}/{phone}")
     @Produces(MediaType.APPLICATION_JSON) // добавить пользователя в диалог
     public DefaultClass addToGroup(@PathParam("token") String token,
                                         @PathParam("groupID") int groupID,
@@ -106,7 +106,7 @@ public class GroupController {
     }
 
     @GET
-    @Path("/deluser/{token}++{groupID}++{phone}")
+    @Path("/deluser/{token}/{groupID}/{phone}")
     @Produces(MediaType.APPLICATION_JSON) // удалить пользователя из диалога
     public DefaultClass deleteFromGroup(@PathParam("token") String token,
                                    @PathParam("groupID") int groupID,
@@ -121,7 +121,7 @@ public class GroupController {
     }
 
     @GET
-    @Path("/quit/{token}++{groupID}")
+    @Path("/quit/{token}/{groupID}")
     @Produces(MediaType.APPLICATION_JSON) // покинуть диалог
     public DefaultClass leaveGroup(@PathParam("token") String token,
                                    @PathParam("groupID") int groupID) {
@@ -135,7 +135,7 @@ public class GroupController {
     }
 
     @GET
-    @Path("/leave/{token}++{groupID}")
+    @Path("/leave/{token}/{groupID}")
     @Produces(MediaType.APPLICATION_JSON) // удаление групповой беседф
     public DefaultClass deleteGroup(@PathParam("token") String token,
                                    @PathParam("groupID") int groupID) {
@@ -149,7 +149,7 @@ public class GroupController {
     }
 
     @GET
-    @Path("/getnewtransactions/{token}++{conversationID}++{transactionID}")
+    @Path("/getnewtransactions/{token}/{conversationID}/{transactionID}")
     @Produces(MediaType.APPLICATION_JSON) // получение прошлых транзакций, когда пришло новое сообщение
     public TransactionHist getNewTransactions(@PathParam("token") String token,
                                               @PathParam("conversationID") int convID,
