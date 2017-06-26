@@ -27,34 +27,34 @@ public class GroupInfo implements Serializable
 
     //После выполнения в контроллере можно добавить создателя в список userProfiles, а то тут его получать нет смысла
     //Так как он уже получен там в контроллере
-    public static GroupInfo createGroup(int creatorID, String name) throws Exception
+    //ВОзвращает ID группы
+    public static DefaultClassAndId createGroup(int creatorID, String name) throws Exception
     {
         name = "'" + name + "'";
 
         String query = "SELECT MAX(GroupID) FROM Groups";
-        int dialogID = DBManager.getSelectResultSet(query).getInt("GroupID") +1;
+        int groupID = DBManager.getSelectResultSet(query).getInt("GroupID") +1;
 
         //запись группы
         String command = "INSERT INTO Groups (GroupID, Name, Sum, AdminID) VALUES(" +
-                " (SELECT MAX (GroupID) from Groups) + 1, " + name + ", 0, " + creatorID;
+                + groupID + "," + name + ", 0, " + creatorID;
         //сумма 0
         DBManager.execCommand(command);
 
         //запись баланса этого пользователя в этой группе
         //Если сервер или база данных в один поток работает.. то и так сойдет, а иначе даже неясно как синхронизацию обеспечить...
         command = "INSERT INTO GroupBalances (GroupID, UserID, Balance) VALUES(" +
-                " (SELECT MAX (GroupID) from Groups), " + creatorID + ", 0 )";
+                + groupID + "," + creatorID + ", 0 )";
         //Да, здесь берется MAX(GroupID) из таблицы Groups ! (а вставляется в таблицу GroupBalances
 
         DBManager.execCommand(command);
 
-        //пустой класс
-        return groupInfo;
+        return new DefaultClassAndId(groupID);
     }
 
     //После выполнения в контроллере можно добавить юзера в список userProfiles, а то тут его получать нет смысла
     //Так как он уже получен там в контроллере
-    public static GroupInfo addUserToGroupById(int userID, int groupID) throws Exception
+    public static void addUserToGroupById(int userID, int groupID) throws Exception
     {
         //запись баланса этого пользователя в этой группе
         String command = "INSERT INTO GroupBalances (GroupID, UserID, Balance) VALUES(" +
@@ -66,11 +66,6 @@ public class GroupInfo implements Serializable
         //А иначе ты ток вошел, а хоп на тебе уже 10 тыс долга висит...
         //А другие наоборот в "плюс" вышли, из-за перераспределения расходов
 
-        //Можно опционально сделать... это
-        GroupInfo groupInfo = new GroupInfo();
-        //И здесь могу пустой возвращать, а могу вот так:
-        //  return getGroupInfoById(groupID);
-        return groupInfo;
     }
 
 
@@ -80,7 +75,7 @@ public class GroupInfo implements Serializable
     //Этим же методом можно выходить из группы самостоятельно(!) - просто проверяешь, что юзер по токену и по телефону это одинаковые UserID, и сюда подаешь его..
     //Админу нельзя так делать! Будет ОТДЕЛЬНЫЙ метод для закрытия групповой беседы для админа
     //Проверку на админ\нет осуществляет устройство..
-    public static GroupInfo delUserFromGroupById(int userID, int groupID) throws Exception
+    public static void delUserFromGroupById(int userID, int groupID) throws Exception
     {
         //Проверьте на существование юзера в этой группе
         String query = "SELECT * FROM GroupBalances WHERE WHERE (GroupID = " +groupID +" AND UserID = "+userID +" )";
@@ -102,10 +97,6 @@ public class GroupInfo implements Serializable
         //Можно пересчитывать (но как..не расплатился же или с ним не расплатились..)
         //Вариант: если баланс в минусе, перераспределяем расходы на остальных
         //          если в плюсе, то считаем, что он "подарил" эти деньги группе и "начисляем" всем из этой суммы поровну
-        GroupInfo groupInfo = new GroupInfo();
-        //И здесь могу пустой возвращать, а могу вот так:
-        // return getGroupInfoById(groupID);
-        return groupInfo;
     }
 
 

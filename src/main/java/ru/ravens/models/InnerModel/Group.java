@@ -25,13 +25,11 @@ public class Group implements Serializable
         group.setAdminID(resultSet.getInt("AdminID"));
         group.setSum(resultSet.getFloat("Sum"));
         return group;
-
     }
 
     public void setSum(float sum) {
         this.sum = sum;
     }
-
 
     public float getSum() {
         return sum;
@@ -42,9 +40,9 @@ public class Group implements Serializable
     }
 
     public void setAdminID(int adminID) {
-
         this.adminID = adminID;
     }
+
     public int getGroupID() {
         return groupID;
     }

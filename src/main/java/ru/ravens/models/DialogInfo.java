@@ -26,11 +26,8 @@ public class DialogInfo implements Serializable
     //Создает новый диалог,
     // проверка на наличие пользователя по токену и по телефону в контроллере, там же и отправка соответствующих ошибок
     //Возвращает ID диалога
-    public static int createNewDialog(int creatorID, int otherUserID) throws Exception
+    public static DefaultClassAndId createNewDialog(int creatorID, int otherUserID) throws Exception
     {
-        //пустой класс в принципе... (сообщений ещё нет)
-        DialogInfo dialogInfo = new DialogInfo();
-
         String query = "SELECT MAX(DialogID) FROM Dialogs";
         int dialogID = DBManager.getSelectResultSet(query).getInt("DialogID") +1;
 
@@ -39,8 +36,12 @@ public class DialogInfo implements Serializable
         //Балансы по нулям пока что
 
         DBManager.execCommand(command);
-        return dialogID;
+        return new DefaultClassAndId(dialogID);
     }
+
+
+
+
 
     public ArrayList<Transaction> getTransactions() {
         return transactions;

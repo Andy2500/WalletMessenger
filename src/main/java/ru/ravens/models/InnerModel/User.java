@@ -70,7 +70,6 @@ public class User implements Serializable{
         return user;
     }
 
-
     public static UserProfile registerUser(String name, String phone, String hashpsd, String token) throws Exception
     {
         name = "'" + name +"'";
@@ -79,10 +78,8 @@ public class User implements Serializable{
         token = "'" + token +"'";
         //добавим новую запись в юзеров
         //надо про prepared Statement !
-
         String command = "Insert into Users (UserID, Name, Phone, Hashpsd, Qiwi, Image, Token)" +
                 "VALUES ((SELECT MAX (UserID) from Users) + 1, " + name + ", " + phone + ", 0, " + hashpsd +", 0, 0," + token + ")";
-
         //пояснения: groupID = 0, так как это для диалога метод, proof = 0, так как даже если там кэш\не кэш то все равно идет "отправка" транзакции
         DBManager.execCommand(command);
 

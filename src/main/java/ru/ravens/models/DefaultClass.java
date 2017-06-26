@@ -10,8 +10,7 @@ public class DefaultClass implements Serializable {
     private String token;
 
     public DefaultClass()
-    {
-    }
+    {    }
 
     public DefaultClass(Boolean operationOutput, String token) {
         this.operationOutput = operationOutput;

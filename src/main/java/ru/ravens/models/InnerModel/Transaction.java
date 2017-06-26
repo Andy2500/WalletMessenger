@@ -1,5 +1,7 @@
 package ru.ravens.models.InnerModel;
 
+import ru.ravens.models.DefaultClass;
+import ru.ravens.models.DefaultClassAndId;
 import ru.ravens.service.DBManager;
 import ru.ravens.service.DateWorker;
 import sun.text.resources.cldr.ki.FormatData_ki;
@@ -25,25 +27,7 @@ public class Transaction implements Serializable
     private int proof;
     private String text;
 
-    public void setMoney(float money) {
-        this.money = money;
-    }
 
-    public int getGroupID() {
-        return groupID;
-    }
-
-    public void setGroupID(int groupID) {
-        this.groupID = groupID;
-    }
-
-    public int getDialogID() {
-        return dialogID;
-    }
-
-    public void setDialogID(int dialogID) {
-        this.dialogID = dialogID;
-    }
 
     public static Transaction parseTransaction(ResultSet resultSet) throws Exception
     {
@@ -96,7 +80,7 @@ public class Transaction implements Serializable
 
 
     //Отправка транзакции в диалоге
-    public static void SendTransactionDialog(int userID, int dialogID, int money, int cash, String text) throws Exception
+    public static DefaultClassAndId SendTransactionDialog(int userID, int dialogID, int money, int cash, String text) throws Exception
     {
         text = "'"+text+"'";
         String query = "SELECT * FROM Dialogs where DialogID = " + dialogID;
@@ -117,9 +101,11 @@ public class Transaction implements Serializable
             throw new Exception("Этот пользователь не относится к диалогу!");
         }
 
+        query = "SELECT MAX (TransactionID) from Transactions";
+        int transactionID = DBManager.getSelectResultSet(query).getInt("TransactionID") + 1;
         //добавим новую запись в транзакции
         String command = "Insert into Transactions (TransactionID, UserID, DialogID, GroupID, Money, Date, Cash, Proof, Text)" +
-                "VALUES ((SELECT MAX (TransactionID) from Transactions) + 1, " + userID + ", " + dialogID + ", 0, "+money+
+                "VALUES (" + transactionID + ", " + userID + ", " + dialogID + ", 0, "+money+
                 ", " + DateWorker.getNowMomentInUTC() + ", " + cash +", 0, " + text;
 
         //пояснения: groupID = 0, так как это для диалога метод, proof = 0, так как даже если там кэш\не кэш то все равно идет "отправка" транзакции
@@ -130,8 +116,9 @@ public class Transaction implements Serializable
             //обновим информацию в диалогах!
             command = "UPDATE Dialogs set Balance_1 = " + balance + " , Balance_2 = " + (-1)*balance + " where DialogID = " +dialogID;
             DBManager.execCommand(command);
-        }
-        //Иначе! считаем, что информация неподтверждена!!
+        } //Иначе! считаем, что информация неподтверждена!!
+
+        return new DefaultClassAndId(transactionID);
     }
 
 
@@ -178,13 +165,15 @@ public class Transaction implements Serializable
     }
 
 
-    public static void SendTransactionGroup(int userID, int groupID, float money, int cash, String text) throws Exception
+    public static DefaultClassAndId SendTransactionGroup(int userID, int groupID, float money, int cash, String text) throws Exception
     {
         text = "'"+text+"'";
+        String query = "SELECT MAX(TransactionID) from Transactions";
+        int transactionID = DBManager.getSelectResultSet(query).getInt("TransactionID");
 
         //добавим новую запись в транзакции
         String command = "Insert into Transactions (TransactionID, UserID, DialogID, GroupID, Money, Date, Cash, Proof, Text)" +
-                "VALUES ((SELECT MAX (TransactionID) from Transactions) + 1, " + userID + ", 0, " +groupID+ ", " + money+
+                "VALUES (" + transactionID + ", " + userID + ", 0, " +groupID+ ", " + money+
                 ", " + DateWorker.getNowMomentInUTC() + ", " + cash +", 0, " + text;
 
         //пояснения: dialogID = 0, так как это для групп! метод, proof = 0, так как даже если там кэш\не кэш то все равно идет "отправка" транзакции
@@ -197,6 +186,7 @@ public class Transaction implements Serializable
             CalculateGroupBalances(groupID, userID, money);
         }
         //Иначе если это наличные, то ничего не делаем и ждем подтверждения от администратора группы !
+        return new DefaultClassAndId(transactionID);
     }
 
 
@@ -376,6 +366,25 @@ public class Transaction implements Serializable
     }
 
 
+    public void setMoney(float money) {
+        this.money = money;
+    }
+
+    public int getGroupID() {
+        return groupID;
+    }
+
+    public void setGroupID(int groupID) {
+        this.groupID = groupID;
+    }
+
+    public int getDialogID() {
+        return dialogID;
+    }
+
+    public void setDialogID(int dialogID) {
+        this.dialogID = dialogID;
+    }
     public int getTransactionID() {
         return transactionID;
     }
