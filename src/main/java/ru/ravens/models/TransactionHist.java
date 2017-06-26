@@ -55,6 +55,7 @@ public class TransactionHist implements Serializable
         return transactionHist;
     }
 
+
     public ArrayList<Transaction> getTransactions() {
         return transactions;
     }
