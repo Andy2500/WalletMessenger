@@ -8,14 +8,15 @@
 **Параметр:** phone - телефон пользователя, используется как логин <br>
 **Параметр:** name - имя пользователя <br>
 **Параметр:** hashpsd - MD5-хеш пароля пользователя <br>
-**Выходные данные:** userID + name + phone + image + balance + DefaultClass
+**Выходные данные:** userID + name + phone + image + DefaultClass 
+//убран баланс(он нужен только для участников группы, когда мы входим в неё) (ниже также убрано)
 
 #### Метод для авторизации пользователя
 **Путь:** /user/log/
 
 **Параметр:** phone - телефон пользователя, используется как логин <br>
 **Параметр:** hashpsd - MD5-хеш пароля пользователя <br>
-**Выходные данные:** userID + name + phone + image + balance + DefaultClass
+**Выходные данные:** userID + name + phone + image + DefaultClass
 
 #### Метод для смены пароля
 **Путь:** /user/chpsd/
@@ -45,7 +46,7 @@
 
 **Параметр:** token - токен пользователя <br>
 **Параметр:** phone - телефон пользователя <br>
-**Выходные данные:** userID + name + phone + image + balance + DefaultClass
+**Выходные данные:** userID + name + phone + image + DefaultClass
 
 ### ConversationController("/conv"):
 
