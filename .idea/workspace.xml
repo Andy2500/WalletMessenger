@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="ef7ac719-2d89-4a65-8a73-0b48f93ef51c" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/WalletMessenger.iml" afterPath="$PROJECT_DIR$/WalletMessenger.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ru/ravens/models/InnerModel/Transaction.java" afterPath="$PROJECT_DIR$/src/main/java/ru/ravens/models/InnerModel/Transaction.java" />
-    </list>
+    <list default="true" id="ef7ac719-2d89-4a65-8a73-0b48f93ef51c" name="Default" comment="" />
     <ignored path="$PROJECT_DIR$/target/" />
     <ignored path=".idea/dataSources.local.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -1033,7 +1028,7 @@
       <workItem from="1498421781100" duration="3226000" />
       <workItem from="1498430889562" duration="9738000" />
       <workItem from="1498440760812" duration="41000" />
-      <workItem from="1498440839600" duration="81000" />
+      <workItem from="1498440839600" duration="94000" />
     </task>
     <task id="LOCAL-00001" summary="Models again...">
       <created>1498424141186</created>
@@ -1084,11 +1079,18 @@
       <option name="project" value="LOCAL" />
       <updated>1498431813046</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Models again and again">
+      <created>1498440930928</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1498440930928</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="21043000" />
+    <option name="totallyTimeSpent" value="21056000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
