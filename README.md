@@ -8,14 +8,14 @@
 **Параметр:** phone - телефон пользователя, используется как логин <br>
 **Параметр:** name - имя пользователя <br>
 **Параметр:** hashpsd - MD5-хеш пароля пользователя <br>
-**Выходные данные:** UserProfile
+**Выходные данные:** userID + name + phone + image + balance + DefaultClass
 
 #### Метод для авторизации пользователя
 **Путь:** /user/log/
 
 **Параметр:** phone - телефон пользователя, используется как логин <br>
 **Параметр:** hashpsd - MD5-хеш пароля пользователя <br>
-**Выходные данные:** UserProfile
+**Выходные данные:** userID + name + phone + image + balance + DefaultClass
 
 #### Метод для смены пароля
 **Путь:** /user/chpsd/
@@ -45,7 +45,7 @@
 
 **Параметр:** token - токен пользователя <br>
 **Параметр:** phone - телефон пользователя <br>
-**Выходные данные:** userID + name + phone + image + balance + DefaultClass;
+**Выходные данные:** userID + name + phone + image + balance + DefaultClass
 
 ### ConversationController("/conv"):
 
@@ -53,7 +53,7 @@
 **Путь:** /conv/gets/
 
 **Параметр:** token  - токен пользователя <br>
-**Выходные данные:** Dialog[] + Group[] + DefaultClass 
+**Выходные данные:** Dialog()[] + Group()[] + DefaultClass 
 
 #### Метод для подтверждения транзакции
 **Путь:** /conv/accepttr/

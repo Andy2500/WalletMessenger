@@ -4,6 +4,7 @@ import ru.ravens.models.DefaultClass;
 import ru.ravens.models.DialogInfo;
 import ru.ravens.models.InnerModel.Transaction;
 import ru.ravens.models.InnerModel.User;
+import ru.ravens.models.TransactionHist;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -48,4 +49,41 @@ public class DialogController {
         }
     }
 
+    @GET
+    @Path("/gettransactions/{token}++{groupID}++{transactionID}")
+    @Produces(MediaType.APPLICATION_JSON) // получение истории транзакций
+    public TransactionHist getLastTransactions(@PathParam("token") String token,
+                                               @PathParam("groupID") int groupID,
+                                               @PathParam("transactionID") int lastTransID) {
+        try {
+            User.getUserByToken(token);
+            TransactionHist hist = TransactionHist.getHistByGroupIDAndTransactionID(groupID, lastTransID);
+            hist.getDefaultClass().setOperationOutput(true);
+            return hist;
+        } catch (Exception ex) {
+            TransactionHist transHist = new TransactionHist();
+            transHist.setDefaultClass(new DefaultClass(false, ex.getMessage()));
+            return transHist;
+        }
+    }
+
+    @GET
+    @Path("/getnewtransactions/{token}++{conversationID}++{transactionID}")
+    @Produces(MediaType.APPLICATION_JSON) // получение прошлых транзакций, когда пришло новое сообщение
+    public TransactionHist getNewTransactions(@PathParam("token") String token,
+                                              @PathParam("conversationID") int convID,
+                                              @PathParam("transactionID") int lastTransID) {
+        try {
+            User.getUserByToken(token);
+
+//            TransactionHist hist = TransactionHist.getHistByGroupIDAndTransactionID(convID, lastTransID);
+//            hist.getDefaultClass().setOperationOutput(true);
+//            return hist;
+            return null;
+        } catch (Exception ex) {
+            TransactionHist transHist = new TransactionHist();
+            transHist.setDefaultClass(new DefaultClass(false, ex.getMessage()));
+            return transHist;
+        }
+    }
 }
