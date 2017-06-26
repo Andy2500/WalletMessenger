@@ -2,28 +2,27 @@ package ru.ravens.controllers;
 
 
 import ru.ravens.models.DefaultClass;
-import ru.ravens.models.InnerModel.*;
+import ru.ravens.models.InnerModel.User;
 import ru.ravens.models.UserProfile;
 import ru.ravens.service.TokenBuilder;
 
-import javax.ws.rs.*;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 
 @Path("/user")
 public class UsersController {
 
-    @GET
-    @Path("/test/{a}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public String test(@PathParam("a") Integer a) {
-        return a.toString();
-    }
 
     @GET
-    @Path("/reg/")
+    @Path("/reg/{phone}++{name}++{hashpsd}")
     @Produces(MediaType.APPLICATION_JSON)
-    public UserProfile register(@FormParam("phone") String phone, @FormParam("name") String name, @FormParam("hashpsd") String hashpsd) {
+    public UserProfile register(@PathParam("phone") String phone,
+                                @PathParam("name") String name,
+                                @PathParam("hashpsd") String hashpsd) {
         try {
             String token = TokenBuilder.makeToken(phone);
             UserProfile userProfile = User.registerUser(name, phone, hashpsd, token);
@@ -39,9 +38,10 @@ public class UsersController {
     }
 
     @GET
-    @Path("/log/")
+    @Path("/log/{phone}++{hashpsd}")
     @Produces(MediaType.APPLICATION_JSON) // авторизация
-    public UserProfile auth(@FormParam("phone") String phone, @FormParam("hashpsd") String hashpsd) {
+    public UserProfile auth(@PathParam("phone") String phone,
+                            @PathParam("hashpsd") String hashpsd) {
         try {
             User user = User.getUserByPhone(phone);
             if (!user.getHashpsd().equals(hashpsd)) // если пароли не совпадают
@@ -61,9 +61,11 @@ public class UsersController {
     }
 
     @GET
-    @Path("/chpsd/")
+    @Path("/chpsd/{token}++{lastpsd}++{newpsd}")
     @Produces(MediaType.APPLICATION_JSON) // изменить пароль
-    public DefaultClass changePsd(@FormParam("token") String token, @FormParam("lastpsd") String lastpsd, @FormParam("newpsd") String newpsd) {
+    public DefaultClass changePsd(@PathParam("token") String token,
+                                  @PathParam("lastpsd") String lastpsd,
+                                  @PathParam("newpsd") String newpsd) {
         try {
             User user = User.getUserByToken(token);
 
@@ -81,9 +83,10 @@ public class UsersController {
     }
 
     @GET
-    @Path("/chphoto/")
+    @Path("/chphoto/{token}++{photo}")
     @Produces(MediaType.APPLICATION_JSON) // изменить фотку
-    public DefaultClass changePhoto(@FormParam("token") String token, @FormParam("photo") String photo) {
+    public DefaultClass changePhoto(@PathParam("token") String token,
+                                    @PathParam("photo") String photo) {
         try {
             UserProfile userProfile = UserProfile.getUserProfileByUser(User.getUserByToken(token));
             User.changeImage(userProfile.getUserID(), photo);
@@ -94,9 +97,10 @@ public class UsersController {
     }
 
     @GET
-    @Path("/getubyphn/")
+    @Path("/getp/{token}++{phone}")
     @Produces(MediaType.APPLICATION_JSON) // получить пользователя по логину
-    public UserProfile getUserByPhone(@FormParam("token") String token, @FormParam("phone") String phone) {
+    public UserProfile getUserByPhone(@PathParam("token") String token,
+                                      @PathParam("phone") String phone) {
         try {
             UserProfile userProfile = UserProfile.getUserProfileByUser(User.getUserByToken(token));
             userProfile.getDefaultClass().setOperationOutput(true);
@@ -110,9 +114,10 @@ public class UsersController {
     }
 
     @GET
-    @Path("/chname/")
+    @Path("/chname/{token}++{name}")
     @Produces(MediaType.APPLICATION_JSON) // изменить имя
-    public UserProfile changeName(@FormParam("token") String token, @FormParam("name") String name) {
+    public UserProfile changeName(@PathParam("token") String token,
+                                  @PathParam("name") String name) {
         try {
             UserProfile userProfile = UserProfile.getUserProfileByUser(User.getUserByToken(token));
             User.changeName(userProfile.getUserID(), name);
