@@ -113,6 +113,7 @@ public class UsersController {
         }
     }
 
+
     @GET
     @Path("/chname/{token}/{name}")
     @Produces(MediaType.APPLICATION_JSON) // изменить имя
