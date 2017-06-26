@@ -1,6 +1,6 @@
 package ru.ravens.controllers;
 
-import ru.ravens.models.Conversation;
+import ru.ravens.models.Conversations;
 import ru.ravens.models.DefaultClass;
 import ru.ravens.models.InnerModel.Transaction;
 import ru.ravens.models.InnerModel.User;
@@ -18,14 +18,14 @@ public class ConversationController {
     @GET
     @Path("/gets/{token}")
     @Produces(MediaType.APPLICATION_JSON) // получить список бесед
-    public Conversation getConversations(@PathParam("token") String token) {
+    public Conversations getConversations(@PathParam("token") String token) {
         try {
-            Conversation conv = Conversation.getConversationByUserID(User.getUserByToken(token).getUserID());
+            Conversations conv = Conversations.getConversationByUserID(User.getUserByToken(token).getUserID());
             conv.getDefaultClass().setOperationOutput(true);
             conv.getDefaultClass().setToken(token);
             return conv;
         } catch (Exception ex) {
-            Conversation conv = new Conversation();
+            Conversations conv = new Conversations();
             conv.setDefaultClass(new DefaultClass(false, ex.getMessage()));
             return conv;
         }
