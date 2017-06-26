@@ -45,7 +45,7 @@
 
 **Параметр:** token - токен пользователя <br>
 **Параметр:** phone - телефон пользователя <br>
-**Выходные данные:** UserProfile
+**Выходные данные:** userID + name + phone + image + balance + DefaultClass;
 
 ### ConversationController("/conv"):
 
@@ -78,7 +78,7 @@
 
 **Параметр:** token  - токен пользователя <br>
 **Параметр:** dialogID - ID диалога <br>
-**Выходные данные:** UserProfile + Transaction[20] + DefaultClass
+**Выходные данные:** Transaction[20] + DefaultClass
 
 #### Метод для отправки транзакции
 **Путь:** /dialog/sendtr/
@@ -88,7 +88,7 @@
 **Параметр:** money - сумма денег, которую отправили <br>
 **Параметр:** cash - наличные это или нет <br>
 **Параметр:** text - комментарий к транзакции <br>
-**Выходные данные:** DefaultClass
+**Выходные данные:** DefaultClass + TransactionID
 
 #### Метод для загрузки истории транзакций диалога
 **Путь:** /dialog/gettransactions/
@@ -102,7 +102,7 @@
 
 **Параметр:** token  - токен пользователя <br>
 **Параметр:** phone - телефон того, с кем хотим создать диалог <br>
-**Выходные данные:** UserProfile + DefaultClass
+**Выходные данные:** DefaultClass
 
 #### Метод для получения новых транзакций
 **Путь:** /dialog/getnewtransactions/
@@ -129,7 +129,7 @@
 **Параметр:** cash - наличные это или нет <br>
 **Параметр:** text - комментарий к транзакции <br>
 
-**Выходные данные:** DefaultClass
+**Выходные данные:** DefaultClass + TransactionID
 
 #### Метод для загрузки истории транзакций групповой беседы
 **Путь:** /conv/gettransactions/
