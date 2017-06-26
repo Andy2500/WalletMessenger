@@ -1,44 +1,48 @@
 package ru.ravens.controllers;
 
-import ru.ravens.models.Conversations;
+import ru.ravens.models.Conversation;
 import ru.ravens.models.DefaultClass;
 import ru.ravens.models.InnerModel.Transaction;
 import ru.ravens.models.InnerModel.User;
 import ru.ravens.models.TransactionHist;
 
-import javax.ws.rs.*;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 @Path("/conv")
 public class ConversationController {
 
     @GET
-    @Path("/gets/")
+    @Path("/gets/{token}")
     @Produces(MediaType.APPLICATION_JSON) // получить список бесед
-    public Conversations getConversations(@FormParam("token") String token)
-    {
-        try{
-            Conversations conv = Conversations.getConversationByUserID(User.getUserByToken(token).getUserID());
+    public Conversation getConversations(@PathParam("token") String token) {
+        try {
+            Conversation conv = Conversation.getConversationByUserID(User.getUserByToken(token).getUserID());
             conv.getDefaultClass().setOperationOutput(true);
             conv.getDefaultClass().setToken(token);
             return conv;
-        } catch (Exception ex){
-            Conversations conv = new Conversations();
+        } catch (Exception ex) {
+            Conversation conv = new Conversation();
             conv.setDefaultClass(new DefaultClass(false, ex.getMessage()));
             return conv;
         }
     }
 
     @GET
-    @Path("/gettransactions/")
+    @Path("/gettransactions/{token}++{conversationID}++{transactionID}")
     @Produces(MediaType.APPLICATION_JSON) // получение истории транзакций
-    public TransactionHist getTransactions(@FormParam("conversationID")String convID, @FormParam("transactionID") String lastTransID)
-    {
-        try{
-            TransactionHist hist = TransactionHist.getHistByDialogIDAndTransactionID(Integer.valueOf(convID), Integer.valueOf(lastTransID));
+    public TransactionHist getTransactions(@PathParam("token") String token,
+                                           @PathParam("conversationID") int convID,
+                                           @PathParam("transactionID") int lastTransID) {
+        try {
+            User.getUserByToken(token);
+            TransactionHist hist = TransactionHist.getHistByDialogIDAndTransactionID(convID, lastTransID);
             hist.getDefaultClass().setOperationOutput(true);
             return hist;
-        } catch (Exception ex){
+        } catch (Exception ex) {
             TransactionHist transHist = new TransactionHist();
             transHist.setDefaultClass(new DefaultClass(false, ex.getMessage()));
             return transHist;
@@ -46,15 +50,19 @@ public class ConversationController {
     }
 
     @GET
-    @Path("/getnewtransactions/")
-    @Produces(MediaType.APPLICATION_JSON) // получение прошлых транзакций, когда пришло новое сообщение (до меня так и не дошло, чем отличается от предыдущего метода:D )
-    public TransactionHist getNewTransactions(@FormParam("conversationID")String convID, @FormParam("transactionID") String lastTransID)
-    {
-        try{
-            TransactionHist hist = TransactionHist.getHistByDialogIDAndTransactionID(Integer.valueOf(convID), Integer.valueOf(lastTransID));
-            hist.getDefaultClass().setOperationOutput(true);
-            return hist;
-        } catch (Exception ex){
+    @Path("/getnewtransactions/{token}++{conversationID}++{transactionID}")
+    @Produces(MediaType.APPLICATION_JSON) // получение прошлых транзакций, когда пришло новое сообщение
+    public TransactionHist getNewTransactions(@PathParam("token") String token,
+                                              @PathParam("conversationID") int convID,
+                                              @PathParam("transactionID") int lastTransID) {
+        try {
+            User.getUserByToken(token);
+            //Саше надо дописать
+//            TransactionHist hist = TransactionHist.getHistByDialogIDAndTransactionID(convID, lastTransID);
+//            hist.getDefaultClass().setOperationOutput(true);
+//            return hist;
+            return null;
+        } catch (Exception ex) {
             TransactionHist transHist = new TransactionHist();
             transHist.setDefaultClass(new DefaultClass(false, ex.getMessage()));
             return transHist;
@@ -62,27 +70,27 @@ public class ConversationController {
     }
 
     @GET
-    @Path("/accepttr/")
+    @Path("/accepttr/{token}++{transactionID}")
     @Produces(MediaType.APPLICATION_JSON) // подтвердить транзакцию
-    public DefaultClass acceptTrans(@FormParam("token")String token, @FormParam("transactionID") String transID)
-    {
-        try{
-            Transaction.AcceptTransaction(User.getUserByToken(token).getUserID(), Integer.valueOf(transID));
+    public DefaultClass acceptTrans(@PathParam("token") String token,
+                                    @PathParam("transactionID") int transID) {
+        try {
+            Transaction.AcceptTransaction(User.getUserByToken(token).getUserID(), transID);
             return new DefaultClass(true, token);
-        } catch (Exception ex){
+        } catch (Exception ex) {
             return new DefaultClass(false, ex.getMessage());
         }
     }
 
     @GET
-    @Path("/declinetr/")
+    @Path("/declinetr/{token}++{transactionID}")
     @Produces(MediaType.APPLICATION_JSON) // отклонить транзакцию
-    public DefaultClass declineTrans(@FormParam("token")String token, @FormParam("transactionID") String transID)
-    {
-        try{
-            Transaction.DeclineTransaction(User.getUserByToken(token).getUserID(), Integer.valueOf(transID));
+    public DefaultClass declineTrans(@PathParam("token") String token,
+                                     @PathParam("transactionID") int transID) {
+        try {
+            Transaction.DeclineTransaction(User.getUserByToken(token).getUserID(), transID);
             return new DefaultClass(true, token);
-        } catch (Exception ex){
+        } catch (Exception ex) {
             return new DefaultClass(false, ex.getMessage());
         }
     }
