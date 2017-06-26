@@ -53,7 +53,7 @@ public class Transaction implements Serializable
     {
         int rows = 20;
 
-        String query = "Select top " + rows + " * from Transactions Where GroupID = " + id + "Order by GroupID DESC";
+        String query = "Select top " + rows + " * from Transactions Where DialogID = " + id + " Order by DialogID DESC";
         return getTransactionsHist(query);
     }
 
@@ -61,7 +61,7 @@ public class Transaction implements Serializable
     {
         int rows = 20;
 
-        String query = "Select top " + rows + " * from Transactions Where DialogID = " + id + "Order by GroupID DESC";
+        String query = "Select top " + rows + " * from Transactions Where GroupID = " + id + " Order by GroupID DESC";
         return getTransactionsHist(query);
     }
 
@@ -117,12 +117,12 @@ public class Transaction implements Serializable
         {
             throw new Exception("Транзакций нет.");
         }
-        int transactionID = resultSet.getInt("TransactionID") + 1;
+        int transactionID = resultSet.getInt(1) + 1;
 
         //добавим новую запись в транзакции
-        String command = "Insert into Transactions (TransactionID, UserID, DialogID, GroupID, Money, Date, Cash, Proof, Text)" +
-                "VALUES (" + transactionID + ", " + userID + ", " + dialogID + ", 0, "+money+
-                ", " + DateWorker.getNowMomentInUTC() + ", " + cash +", 0, '" + text + "'";
+        String command = "Insert into Transactions (TransactionID, UserID, DialogID, GroupID, Money, Date, Cash, Proof, Text) " +
+                "VALUES (" + transactionID + ", " + userID + ", " + dialogID + ", 0, " + money +
+                ", '" + DateWorker.getNowMomentInUTC() + "', " + cash +", 0, N'" + text + "')";
 
         //пояснения: groupID = 0, так как это для диалога метод, proof = 0, так как даже если там кэш\не кэш то все равно идет "отправка" транзакции
         DBManager.execCommand(command);
@@ -141,7 +141,7 @@ public class Transaction implements Serializable
     public static void AcceptTransaction(int userID, int transactionID) throws Exception
     {
         //получаем транзакцию
-        String query = "SELECT * FROM Transactions where TransactionID = "+ transactionID;
+        String query = "SELECT * FROM Transactions where TransactionID = " + transactionID;
         ResultSet resultSet = DBManager.getSelectResultSet(query);
         if(!resultSet.next())
         {
@@ -200,12 +200,12 @@ public class Transaction implements Serializable
         {
             throw new Exception("Транзакций нет.");
         }
-        int transactionID = resultSet.getInt("TransactionID") + 1;
+        int transactionID = resultSet.getInt(1) + 1;
 
         //добавим новую запись в транзакции
         String command = "Insert into Transactions (TransactionID, UserID, DialogID, GroupID, Money, Date, Cash, Proof, Text)" +
                 "VALUES (" + transactionID + ", " + userID + ", 0, " +groupID+ ", " + money+
-                ", " + DateWorker.getNowMomentInUTC() + ", " + cash +", 0, '" + text + "'";
+                ", " + DateWorker.getNowMomentInUTC() + ", " + cash +", 0, N'" + text + "')";
 
         //пояснения: dialogID = 0, так как это для групп! метод, proof = 0, так как даже если там кэш\не кэш то все равно идет "отправка" транзакции
         DBManager.execCommand(command);

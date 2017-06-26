@@ -36,7 +36,7 @@ public class DialogInfo implements Serializable
         {
             throw new Exception("Диалог не найден.");
         }
-        int dialogID = resultSet.getInt("DialogID") +1;
+        int dialogID = resultSet.getInt(1) + 1;
 
         String command = "INSERT INTO Dialogs (DialogID, UserID_1, Balance_1, UserID_2, Balance_2) VALUES("+
                 + dialogID +", "+ creatorID + ", 0, " + otherUserID +" , 0 )";

@@ -36,11 +36,11 @@ public class GroupInfo implements Serializable
         {
             throw new Exception("Ни одной группы не существует.");
         }
-        int groupID = resultSet.getInt("GroupID") +1;
+        int groupID = resultSet.getInt(1) +1;
 
         //запись группы
         String command = "INSERT INTO Groups (GroupID, Name, Sum, AdminID) VALUES(" +
-                + groupID + ", '" + name + "' , 0, " + creatorID;
+                + groupID + ", N'" + name + "' , 0, " + creatorID;
         //сумма 0
         DBManager.execCommand(command);
 

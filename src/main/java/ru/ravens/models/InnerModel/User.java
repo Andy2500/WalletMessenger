@@ -82,7 +82,7 @@ public class User implements Serializable{
         //добавим новую запись в юзеров
         //надо про prepared Statement !
         String command = "Insert into Users (UserID, Name, Phone, Hashpsd, Qiwi, Image, Token)" +
-                "VALUES ((SELECT MAX (UserID) from Users) + 1, '" + name + "', '" + phone +"', '"+ hashpsd +"', NULL, NULL,'" + token + "')";
+                "VALUES ((SELECT MAX (UserID) from Users) + 1, N'" + name + "', '" + phone +"', '"+ hashpsd +"', NULL, NULL,'" + token + "')";
         //пояснения: groupID = 0, так как это для диалога метод, proof = 0, так как даже если там кэш\не кэш то все равно идет "отправка" транзакции
         DBManager.execCommand(command);
 
@@ -105,7 +105,7 @@ public class User implements Serializable{
 
     public static void changeName(int userID, String newName) throws Exception
     {
-        String command = "UPDATE Users set Name = '" + newName + "' where UserID = " + userID;
+        String command = "UPDATE Users set Name = N'" + newName + "' where UserID = " + userID;
         DBManager.execCommand(command);
     }
 
