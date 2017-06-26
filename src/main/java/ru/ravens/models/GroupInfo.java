@@ -30,8 +30,6 @@ public class GroupInfo implements Serializable
     //ВОзвращает ID группы
     public static DefaultClassAndId createGroup(int creatorID, String name) throws Exception
     {
-        name = "'" + name + "'";
-
         String query = "SELECT MAX(GroupID) FROM Groups";
         ResultSet resultSet = DBManager.getSelectResultSet(query);
         if(!resultSet.next())
@@ -42,7 +40,7 @@ public class GroupInfo implements Serializable
 
         //запись группы
         String command = "INSERT INTO Groups (GroupID, Name, Sum, AdminID) VALUES(" +
-                + groupID + "," + name + ", 0, " + creatorID;
+                + groupID + ", '" + name + "' , 0, " + creatorID;
         //сумма 0
         DBManager.execCommand(command);
 

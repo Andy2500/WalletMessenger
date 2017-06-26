@@ -38,10 +38,10 @@ public class User implements Serializable{
         return checkUser(query, "token error");
     }
 
-    //получение пользователя по токену
+    //получение пользователя по телефону
     public static User getUserByPhone(String phone) throws Exception
     {
-        String query = "Select * From Users Where Phone = '" + phone + "'";
+        String query = "Select * From Users Where Phone = '" +phone +"'";
         return checkUser(query, "phone error");
     }
 
@@ -79,24 +79,19 @@ public class User implements Serializable{
 
     public static UserProfile registerUser(String name, String phone, String hashpsd, String token) throws Exception
     {
-        name = "'" + name +"'";
-        phone = "'" + phone +"'";
-        hashpsd = "'" + hashpsd +"'";
-        token = "'" + token +"'";
         //добавим новую запись в юзеров
         //надо про prepared Statement !
         String command = "Insert into Users (UserID, Name, Phone, Hashpsd, Qiwi, Image, Token)" +
-                "VALUES ((SELECT MAX (UserID) from Users) + 1, " + name + ", " + phone + ", 0, " + hashpsd +", 0, 0," + token + ")";
+                "VALUES ((SELECT MAX (UserID) from Users) + 1, '" + name + "', '" + phone +"', '"+ hashpsd +"', NULL, NULL,'" + token + "')";
         //пояснения: groupID = 0, так как это для диалога метод, proof = 0, так как даже если там кэш\не кэш то все равно идет "отправка" транзакции
         DBManager.execCommand(command);
 
-        return UserProfile.getUserProfileByUser(User.getUserByToken(token));
+        return UserProfile.getUserProfileByUser(User.getUserByPhone(phone));
     }
 
     public static void changePsd(int userID, String newPsd) throws Exception
     {
-        newPsd = "'" + newPsd +"'";
-        String command = "UPDATE Users set Hashpsd = " + newPsd + "where UserID = " + userID;
+        String command = "UPDATE Users set Hashpsd = '" + newPsd + "' where UserID = " + userID;
         DBManager.execCommand(command);
     }
 
@@ -110,8 +105,7 @@ public class User implements Serializable{
 
     public static void changeName(int userID, String newName) throws Exception
     {
-        newName = "'" + newName +"'";
-        String command = "UPDATE Users set Name = " + newName + "where UserID = " + userID;
+        String command = "UPDATE Users set Name = '" + newName + "' where UserID = " + userID;
         DBManager.execCommand(command);
     }
 

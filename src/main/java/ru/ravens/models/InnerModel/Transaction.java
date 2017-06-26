@@ -88,7 +88,6 @@ public class Transaction implements Serializable
     //Отправка транзакции в диалоге
     public static DefaultClassAndId SendTransactionDialog(int userID, int dialogID, int money, int cash, String text) throws Exception
     {
-        text = "'"+text+"'";
         String query = "SELECT * FROM Dialogs where DialogID = " + dialogID;
 
         ResultSet resultSet = DBManager.getSelectResultSet(query);
@@ -122,7 +121,7 @@ public class Transaction implements Serializable
         //добавим новую запись в транзакции
         String command = "Insert into Transactions (TransactionID, UserID, DialogID, GroupID, Money, Date, Cash, Proof, Text)" +
                 "VALUES (" + transactionID + ", " + userID + ", " + dialogID + ", 0, "+money+
-                ", " + DateWorker.getNowMomentInUTC() + ", " + cash +", 0, " + text;
+                ", " + DateWorker.getNowMomentInUTC() + ", " + cash +", 0, '" + text + "'";
 
         //пояснения: groupID = 0, так как это для диалога метод, proof = 0, так как даже если там кэш\не кэш то все равно идет "отправка" транзакции
         DBManager.execCommand(command);
@@ -171,7 +170,7 @@ public class Transaction implements Serializable
             balance = resultSet.getFloat("Balance_1")  - transaction.getMoney();
         }
         //обновляем баланс в диалоге
-        command = "UPDATE Dialogs set Balance_1 = " + balance + ", set Balance_2 = " + (-1)*balance + "where DialogID = "+ transaction.getDialogID();
+        command = "UPDATE Dialogs set Balance_1 = " + balance + ", Balance_2 = " + (-1)*balance + " where DialogID = "+ transaction.getDialogID();
         DBManager.execCommand(command);
     }
 
@@ -194,7 +193,6 @@ public class Transaction implements Serializable
 
     public static DefaultClassAndId SendTransactionGroup(int userID, int groupID, float money, int cash, String text) throws Exception
     {
-        text = "'"+text+"'";
         String query = "SELECT MAX(TransactionID) from Transactions";
         ResultSet resultSet =  DBManager.getSelectResultSet(query);
         if(!resultSet.next())
@@ -206,7 +204,7 @@ public class Transaction implements Serializable
         //добавим новую запись в транзакции
         String command = "Insert into Transactions (TransactionID, UserID, DialogID, GroupID, Money, Date, Cash, Proof, Text)" +
                 "VALUES (" + transactionID + ", " + userID + ", 0, " +groupID+ ", " + money+
-                ", " + DateWorker.getNowMomentInUTC() + ", " + cash +", 0, " + text;
+                ", " + DateWorker.getNowMomentInUTC() + ", " + cash +", 0, '" + text + "'";
 
         //пояснения: dialogID = 0, так как это для групп! метод, proof = 0, так как даже если там кэш\не кэш то все равно идет "отправка" транзакции
         DBManager.execCommand(command);
