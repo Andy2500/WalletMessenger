@@ -47,12 +47,19 @@ public class User implements Serializable{
 
     private static User checkUser(String query, String exMessage) throws Exception {
 
-        User user = DBManager.getUserByQuery(query);
+        ResultSet resultSet = DBManager.getSelectResultSet(query);
 
-        if (user.getUserID() == 0)
-            throw new Exception(exMessage);
+        if(resultSet.next())
+        {
+            User user = User.parseUser(resultSet);
+            if (user.getUserID() == 0)
+                throw new Exception(exMessage);
 
-        return user;
+            return user;
+        }
+        else
+            throw new Exception("Пользователя не существует");
+
     }
 
     //парсинг юзера из result set

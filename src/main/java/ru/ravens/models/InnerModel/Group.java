@@ -11,7 +11,6 @@ public class Group implements Serializable
     private int groupID;
     private String name;
     private int adminID;
-
     private float sum;
 
     public static Group parseGroup(ResultSet resultSet) throws Exception

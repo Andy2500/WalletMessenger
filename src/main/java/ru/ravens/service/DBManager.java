@@ -29,7 +29,6 @@ public class DBManager {
 
             connection = ds.getConnection();
         }
-
         return connection;
     }
 
@@ -56,11 +55,4 @@ public class DBManager {
     //Здесь будут находиться методы типа get<Class>ByQuery, которые в свою очередь будут получать getSelectResultSet,
     // а его подавать в <Class>.parse<Class>FromResultSet(ResultSet resultSet)
 
-    //Все остальное кроме класса User не имеет смысла так делать.., так как там массовые запросы и более удобен getSelectResultSet
-    public static User getUserByQuery (String query) throws Exception
-    {
-        Connection connection = getConnection();
-        Statement statement = connection.createStatement();
-        return User.parseUser(statement.executeQuery(query));
-    }
 }

@@ -33,7 +33,12 @@ public class GroupInfo implements Serializable
         name = "'" + name + "'";
 
         String query = "SELECT MAX(GroupID) FROM Groups";
-        int groupID = DBManager.getSelectResultSet(query).getInt("GroupID") +1;
+        ResultSet resultSet = DBManager.getSelectResultSet(query);
+        if(!resultSet.next())
+        {
+            throw new Exception("Ни одной группы не существует.");
+        }
+        int groupID = resultSet.getInt("GroupID") +1;
 
         //запись группы
         String command = "INSERT INTO Groups (GroupID, Name, Sum, AdminID) VALUES(" +
@@ -80,18 +85,15 @@ public class GroupInfo implements Serializable
         //Проверьте на существование юзера в этой группе
         String query = "SELECT * FROM GroupBalances WHERE WHERE (GroupID = " +groupID +" AND UserID = "+userID +" )";
         ResultSet resultSet = DBManager.getSelectResultSet(query);
-
-        if(resultSet.next())
+        if(!resultSet.next())
+        {
+            throw new Exception("Пользователь не состоит в этой группе.");
+        }
+        else
         {
             //удаление баланса пользователя из группы
             String command = "DELETE FROM GroupBalances WHERE (GroupID = " +groupID +" AND UserID = "+userID +" )";
             DBManager.execCommand(command);
-        }
-        else
-        {
-            //Сюда не должны попасть при нормальной работе (это для отладки)
-            //Сообщение и эксепшен можно редактировть(!), Включая сам факт наличия эксепшена здесь
-            throw new Exception("Пользователя нет в этой группе, нельзя удалить.");
         }
         //А здесь что делать с балансом? общим и индивидуальными...
         //Можно пересчитывать (но как..не расплатился же или с ним не расплатились..)
@@ -109,7 +111,7 @@ public class GroupInfo implements Serializable
         //Вариант 1: по минимуму
         //Удаляем запись о группе и все -> не найдут GroupID такой, значит и не будет отображаться в списках диалогов
         //а следовательно ни записи транзакций ни балансов никто не будет искать
-        String command = "DELETE * FROM Groups where GroupID = "+groupID;
+        String command = "DELETE FROM Groups where GroupID = " + groupID;
         DBManager.execCommand(command);
 
         //Вариант 2: по максимуму
@@ -118,9 +120,9 @@ public class GroupInfo implements Serializable
         //Минусы - потеря информации о передаче денежных средств и факте участия в группах
 
         //Коды есть, закомментить можно
-        command = "DELETE * FROM GroupBalances WHERE GroupID = " + groupID;
+        command = "DELETE FROM GroupBalances WHERE GroupID = " + groupID;
         DBManager.execCommand(command);
-        command = "DELETE * FROM Transactions WHERE GroupID = " + groupID;
+        command = "DELETE FROM Transactions WHERE GroupID = " + groupID;
         DBManager.execCommand(command);
     }
 
@@ -135,7 +137,10 @@ public class GroupInfo implements Serializable
 
         String query = "Select * from GroupBalances where GroupID = " + groupID;
         ResultSet resultSet = DBManager.getSelectResultSet(query);
-
+        if(!resultSet.next())
+        {
+            throw new Exception("Группа не найлена.");
+        }
         //автоматически сортируется!
         Map<Integer, Float> userBalanceMap = new TreeMap<>();
 
@@ -155,9 +160,12 @@ public class GroupInfo implements Serializable
             query += key + " ";
         }
         query += ")";
-
         //получаем и парсим юзеров в этой группе
         resultSet = DBManager.getSelectResultSet(query);
+        if(!resultSet.next())
+        {
+            throw new Exception("Нет пользователей в группе.");
+        }
         while (resultSet.next())
         {
             userProfiles.add(UserProfile.getUserProfileByUser(User.parseUser(resultSet)));

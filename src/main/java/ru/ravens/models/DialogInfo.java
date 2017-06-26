@@ -6,6 +6,7 @@ import ru.ravens.service.DBManager;
 
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
+import java.sql.ResultSet;
 import java.util.*;
 
 @XmlRootElement
@@ -13,6 +14,7 @@ public class DialogInfo implements Serializable
 {
     private ArrayList<Transaction> transactions;
     private DefaultClass defaultClass = new DefaultClass();
+
 
     //Получает историю последних транзакций для этого диалога
     public static DialogInfo getDialogInfoById (int dialogID) throws Exception
@@ -29,7 +31,12 @@ public class DialogInfo implements Serializable
     public static DefaultClassAndId createNewDialog(int creatorID, int otherUserID) throws Exception
     {
         String query = "SELECT MAX(DialogID) FROM Dialogs";
-        int dialogID = DBManager.getSelectResultSet(query).getInt("DialogID") +1;
+        ResultSet resultSet = DBManager.getSelectResultSet(query);
+        if(!resultSet.next())
+        {
+            throw new Exception("Диалог не найден.");
+        }
+        int dialogID = resultSet.getInt("DialogID") +1;
 
         String command = "INSERT INTO Dialogs (DialogID, UserID_1, Balance_1, UserID_2, Balance_2) VALUES("+
                 + dialogID +", "+ creatorID + ", 0, " + otherUserID +" , 0 )";
@@ -38,8 +45,6 @@ public class DialogInfo implements Serializable
         DBManager.execCommand(command);
         return new DefaultClassAndId(dialogID);
     }
-
-
 
 
 

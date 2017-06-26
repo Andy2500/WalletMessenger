@@ -70,12 +70,18 @@ public class Transaction implements Serializable
     {
         ResultSet resultSet = DBManager.getSelectResultSet(query);
 
-        ArrayList<Transaction> list = new ArrayList<>();
-        while (resultSet.next())
+        if(resultSet.next())
         {
-            list.add(parseTransaction(resultSet));
+            ArrayList<Transaction> list = new ArrayList<>();
+            while (resultSet.next())
+            {
+                list.add(parseTransaction(resultSet));
+            }
+            return list;
         }
-        return list;
+        else
+            throw new Exception("Транзакций нет");
+
     }
 
 
@@ -86,6 +92,10 @@ public class Transaction implements Serializable
         String query = "SELECT * FROM Dialogs where DialogID = " + dialogID;
 
         ResultSet resultSet = DBManager.getSelectResultSet(query);
+        if(!resultSet.next())
+        {
+            throw new Exception("Диалог не найден.");
+        }
 
         float balance;
         if(resultSet.getInt("UserID_1") == userID)
@@ -102,7 +112,13 @@ public class Transaction implements Serializable
         }
 
         query = "SELECT MAX (TransactionID) from Transactions";
-        int transactionID = DBManager.getSelectResultSet(query).getInt("TransactionID") + 1;
+        resultSet =  DBManager.getSelectResultSet(query);
+        if(!resultSet.next())
+        {
+            throw new Exception("Транзакций нет.");
+        }
+        int transactionID = resultSet.getInt("TransactionID") + 1;
+
         //добавим новую запись в транзакции
         String command = "Insert into Transactions (TransactionID, UserID, DialogID, GroupID, Money, Date, Cash, Proof, Text)" +
                 "VALUES (" + transactionID + ", " + userID + ", " + dialogID + ", 0, "+money+
@@ -127,12 +143,19 @@ public class Transaction implements Serializable
         //получаем транзакцию
         String query = "SELECT * FROM Transactions where TransactionID = "+ transactionID;
         ResultSet resultSet = DBManager.getSelectResultSet(query);
+        if(!resultSet.next())
+        {
+            throw new Exception("Транзакция не найдена.");
+        }
         Transaction transaction = parseTransaction(resultSet);
 
         //получаем диалог
         query = "SELECT * FROM Dialogs where DialogID = " +transaction.getDialogID();
         resultSet = DBManager.getSelectResultSet(query);
-
+        if(!resultSet.next())
+        {
+            throw new Exception("Диалог не найден.");
+        }
         //обновляем транзакцию
         String command  = "UPDATE Transactions set Proof = 1 where TransactionID = " +transactionID;
         DBManager.execCommand(command);
@@ -157,6 +180,10 @@ public class Transaction implements Serializable
         //получаем транзакцию
         String query = "SELECT * FROM Transactions where TransactionID = "+ transactionID;
         ResultSet resultSet = DBManager.getSelectResultSet(query);
+        if(!resultSet.next())
+        {
+            throw new Exception("Транзакция не найдена.");
+        }
         Transaction transaction = parseTransaction(resultSet);
 
         //обновляем док-ва, -1 значит отказано
@@ -169,7 +196,12 @@ public class Transaction implements Serializable
     {
         text = "'"+text+"'";
         String query = "SELECT MAX(TransactionID) from Transactions";
-        int transactionID = DBManager.getSelectResultSet(query).getInt("TransactionID");
+        ResultSet resultSet =  DBManager.getSelectResultSet(query);
+        if(!resultSet.next())
+        {
+            throw new Exception("Транзакций нет.");
+        }
+        int transactionID = resultSet.getInt("TransactionID") + 1;
 
         //добавим новую запись в транзакции
         String command = "Insert into Transactions (TransactionID, UserID, DialogID, GroupID, Money, Date, Cash, Proof, Text)" +
@@ -198,6 +230,10 @@ public class Transaction implements Serializable
         //Найдем счета всех участников группы
         String query = "SELECT * FROM GroupBalances where GroupID = " + groupID;
         ResultSet resultSet = DBManager.getSelectResultSet(query);
+        if(!resultSet.next())
+        {
+            throw new Exception("Ни одного баланса для этой группы не найдено.");
+        }
         HashMap<Integer, Float> userMap = new HashMap<>();
 
         while (resultSet.next())
@@ -349,7 +385,10 @@ public class Transaction implements Serializable
         //Получим сумму в группе
         String query = "SELECT * FROM Groups where GroupID = " + groupID;
         ResultSet resultSet = DBManager.getSelectResultSet(query);
-
+        if(!resultSet.next())
+        {
+            throw new Exception("Группа не найдена.");
+        }
         //обновим сумму в группе
         float sum = resultSet.getFloat("Sum") + balance;
         String command = "UPDATE Groups set Sum = " + sum + " where GroupID = " + groupID;
