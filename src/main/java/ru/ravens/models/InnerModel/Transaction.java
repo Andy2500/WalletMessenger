@@ -2,13 +2,15 @@ package ru.ravens.models.InnerModel;
 
 import ru.ravens.service.DBManager;
 import ru.ravens.service.DateWorker;
+import sun.text.resources.cldr.ki.FormatData_ki;
 
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
+import java.sql.Array;
 import java.sql.ResultSet;
-import java.util.ArrayList;
-import java.util.Date;
+import java.util.*;
 import java.util.concurrent.Exchanger;
+import java.util.stream.Collectors;
 
 @XmlRootElement
 public class Transaction implements Serializable
@@ -190,39 +192,140 @@ public class Transaction implements Serializable
         //Если это безналичный перевод
         if(cash == 0)
         {
-            //найдем счет этого пользователя в группе
-            String query = "SELECT * FROM GroupBalances where (GroupID = "+groupID +" AND UserID = "+userID +")";
-            ResultSet resultSet = DBManager.getSelectResultSet(query);
-
-            float balance = resultSet.getFloat("Balance");
-
-            //прибавим ему счет
-            balance = balance + money;
-
-            //Если там больше нуля, то надо пересчитать баланс группы и обновить всем счета
-            if(balance > 0)
-            {
-                query = "SELECT * FROM Groups where GroupID = "+ groupID;
-                resultSet = DBManager.getSelectResultSet(query);
-
-                //Не закончено!!
-
-
-                command = "UPDATE Groups set Sum = "+resultSet.getInt("Sum");
-            }
-            else
-            {
-                command = "UPDATE GroupBalances set Balance = " + balance + "where ( UserID = " +userID +" AND GroupID = "+ groupID + ")";
-                DBManager.execCommand(command);
-
-            }
+            //Считаем, что он подтвержден и пересчитываем балансы
+            CalculateGroupBalances(groupID, userID, money);
         }
-        //Если это наличные, то ничего не делаем и ждем подтверждения от администратора группы !
+        //Иначе если это наличные, то ничего не делаем и ждем подтверждения от администратора группы !
     }
 
 
 
+    //Вынесено в отдельный метод, так как понадобится при подтверждении транзакции админом группы
+    private static void CalculateGroupBalances(int groupID, int userID, float money) throws Exception
+    {
+        String command = "";
+        //Найдем счета всех участников группы
+        String query = "SELECT * FROM GroupBalances where GroupID = " + groupID;
+        ResultSet resultSet = DBManager.getSelectResultSet(query);
+        HashMap<Integer, Float> userMap = new HashMap<>();
 
+        while (resultSet.next())
+        {   //Да, я знаю, что "Наш" юзер тоже здесь, НО ТАК И НАДО, если он должен денег (баланс < 0), то он будет платить долги всем кто имеет баланс > 0
+            //и следовательно сам себе не заплатит!
+            //Если у него нет долгов, то он нужен здесь в мапе чтобы пересчитать всем балансы
+            userMap.put(resultSet.getInt("UserID"), resultSet.getFloat("Balance"));
+        }
+
+        //возьмем баланс нашего юзера
+        float balance = userMap.get(userID);
+
+        ArrayList<Map.Entry<Integer,Float>> userList = new ArrayList<>();
+        int listIndex = 0;
+
+        //Проверяем был ли вообще долг у этого юзера...
+        if (balance < 0)
+        {
+            //Конкретно - при изменении данных в userList будут изменяться значения и в userMap, которая находится в этом методе.
+            //Проверено в отдельном проекте. Можете сделать тоже самое и убедиться в этом.
+            //именно ArrayList использован, так как он сортируется элементарным кодом.
+            userList.addAll(userMap.entrySet());
+            listIndex = CheckAndPayDebt(balance, money, userList);
+        }
+        //пересчитали баланс нашему юзеру
+        balance = balance + money;
+        userMap.replace(userID, balance);
+        //Теперь посмотрим стал ли баланс положительным, если да, значит надо пересчитать сумму в группе и баланс всех участников!
+        if(balance > 0)
+        {
+            //Уменьшим все балансы на дополнительное вложение средств в сумму группы
+            ChangeBalances(groupID, balance, userMap);
+            //Сохраним изменения в базе данных
+
+            for (Map.Entry<Integer, Float> entry : userMap.entrySet())
+            {
+                //Да, много запросов подряд пойдет.
+                //Да, я знаю что неэффективно, пока решение такое -  я гуглил другие варианты, там тоже не сахар ...
+//                Решение такого типа я видел, у него тоже имеются недостатки (оно каждое к каждому проверяет, и при N юзерах, будет N*N проверок..)
+//                UPDATE table SET Name = CASE
+//                WHEN (LASTNAME = 'AAA') THEN 'BBB'
+//                WHEN (LASTNAME = 'CCC') THEN 'DDD'
+//                WHEN (LASTNAME = 'EEE') THEN 'FFF'   ELSE  (LASTNAME)
+//                END )
+                command = "UPDATE GroupBalances set Balance = " + entry.getValue() + "where ( UserID = " +entry.getKey() +" AND GroupID = "+ groupID + ")";
+                DBManager.execCommand(command);
+            }
+        }
+        else //Если баланс все ещё отрицательный, то пересчета не будет и следовательно надо обновить только текущего и тех, кому он "отдал долг"
+        {
+            //Апдейт нашего юзера !
+            command = "UPDATE GroupBalances set Balance = " + userID + "where ( UserID = " + balance +" AND GroupID = "+ groupID + ")";
+            DBManager.execCommand(command);
+
+            //и ВСЕХ кому он изменил счет, но не абсолютно всех их списка!
+            for(int i = 0; i < listIndex; i++)
+            {
+                //Да, я знаю что неэффективно, пока решение такое -  я гуглил другие варианты, там тоже не сахар ...
+                command = "UPDATE GroupBalances set Balance = " + userList.get(i).getValue() + "where ( UserID = " + userList.get(i).getKey() +" AND GroupID = "+ groupID + ")";
+                DBManager.execCommand(command);
+            }
+        }
+    }
+
+    //Конкретно - при изменении данных в userList будут изменяться значения и в userMap, которая находится в методе выше.
+    //Проверено.
+    private static int CheckAndPayDebt(float balance, float money, ArrayList<Map.Entry<Integer, Float>> userList)
+    {
+        Collections.sort(userList, Map.Entry.comparingByValue());
+        //по убыванию баланса теперь!
+        Collections.reverse(userList);
+
+        //проверяем хватило ли ему внесенной суммы, чтобы расчитаться с долгами...
+        float debtPayment = (money + balance > 0) ? (0 - balance) : money;
+
+        //оплачиваем долг
+        int i = 0;
+        for (; i < userList.size(); i++)
+        {
+            float value = userList.get(i).getValue();
+            if (value > debtPayment)
+            {
+                //деньги кончились
+                userList.get(i).setValue(value - debtPayment);
+                break; //выход из цикла
+            }
+            else
+            {
+                //денег хватает оплатить ещё нескольким пользователям
+                //ниже нуля не ставим!
+                userList.get(i).setValue(0f);
+                debtPayment -= value;
+            }
+        }
+        i++; //чтобы итерировать потом до < index;
+        return i;
+    }
+
+
+    private static void ChangeBalances(int groupID, float balance, HashMap<Integer, Float> map) throws Exception
+    {
+        //Получим сумму в группе
+        String query = "SELECT * FROM Groups where GroupID = " + groupID;
+        ResultSet resultSet = DBManager.getSelectResultSet(query);
+
+        //обновим сумму в группе
+        float sum = resultSet.getFloat("Sum") + balance;
+        String command = "UPDATE Groups set Sum = " + sum + " where GroupID = " + groupID;
+        DBManager.execCommand(command);
+
+        //делим сумму на всех включая себя!
+        float diff = balance/map.size();
+
+        //Уменьшим все балансы на дополнительное вложение средств
+        for (Map.Entry<Integer, Float> entry : map.entrySet())
+        {
+            entry.setValue(entry.getValue() - diff);
+        }
+    }
 
 
 
