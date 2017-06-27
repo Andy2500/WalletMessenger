@@ -36,7 +36,7 @@ public class GroupController {
     }
 
     @GET
-    @Path("/sendtr/{token}/{groupID}/{money}/{cash}+{text}")
+    @Path("/sendtr/{token}/{groupID}/{money}/{cash}/{text}")
     @Produces(MediaType.APPLICATION_JSON) // отправить транзакцию в групп чат
     public DefaultClassAndId sendTransToGroupDialog(@PathParam("token")String token,
                                                     @PathParam("groupID") int groupID,
@@ -46,7 +46,7 @@ public class GroupController {
     {
         try{
             //GroupInfo groupInfo = GroupInfo.getGroupInfoById(groupID);
-            DefaultClassAndId defaultClassAndId = Transaction.SendTransactionDialog(User.getUserByToken(token).getUserID(), groupID,
+            DefaultClassAndId defaultClassAndId = Transaction.SendTransactionGroup(User.getUserByToken(token).getUserID(), groupID,
                     money, cash, text);
             defaultClassAndId.setDefaultClass(new DefaultClass(true,token));
             return defaultClassAndId;

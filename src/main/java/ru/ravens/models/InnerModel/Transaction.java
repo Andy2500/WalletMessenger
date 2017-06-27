@@ -69,20 +69,14 @@ public class Transaction implements Serializable
     private static ArrayList<Transaction> getTransactionsHist(String query) throws Exception
     {
         ResultSet resultSet = DBManager.getSelectResultSet(query);
+        ArrayList<Transaction> list = new ArrayList<>();
 
-        if(resultSet.next())
+        //Здесь не надо проверять на if(resultset.next()), так как если нету, то вернем пустой лист - > ибо нет ещё транзакций.. это норма!
+        while (resultSet.next())
         {
-            ArrayList<Transaction> list = new ArrayList<>();
-            do
-            {
-                list.add(parseTransaction(resultSet));
-            }
-            while (resultSet.next());
-            return list;
+            list.add(parseTransaction(resultSet));
         }
-        else
-            throw new Exception("Транзакций нет");
-
+        return list;
     }
 
 
@@ -205,7 +199,7 @@ public class Transaction implements Serializable
         //добавим новую запись в транзакции
         String command = "Insert into Transactions (TransactionID, UserID, DialogID, GroupID, Money, Date, Cash, Proof, Text)" +
                 "VALUES (" + transactionID + ", " + userID + ", 0, " +groupID+ ", " + money+
-                ", " + DateWorker.getNowMomentInUTC() + ", " + cash +", 0, N'" + text + "')";
+                ", '" + DateWorker.getNowMomentInUTC() + "', " + cash +", 0, N'" + text + "')";
 
         //пояснения: dialogID = 0, так как это для групп! метод, proof = 0, так как даже если там кэш\не кэш то все равно идет "отправка" транзакции
         DBManager.execCommand(command);

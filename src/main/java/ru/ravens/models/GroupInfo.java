@@ -40,7 +40,7 @@ public class GroupInfo implements Serializable
 
         //запись группы
         String command = "INSERT INTO Groups (GroupID, Name, Sum, AdminID) VALUES(" +
-                + groupID + ", N'" + name + "' , 0, " + creatorID;
+                + groupID + ", N'" + name + "' , 0, " + creatorID +" )";
         //сумма 0
         DBManager.execCommand(command);
 
@@ -61,7 +61,7 @@ public class GroupInfo implements Serializable
     {
         //запись баланса этого пользователя в этой группе
         String command = "INSERT INTO GroupBalances (GroupID, UserID, Balance) VALUES(" +
-                groupID + userID + ", 0 )";
+                groupID +" , "+ userID + ", 0 )";
 
         DBManager.execCommand(command);
         //В принципе я могу пересчитать все балансы.. Но правильно ли это?
@@ -139,15 +139,15 @@ public class GroupInfo implements Serializable
         }
         while (resultSet.next());
         //Собираем запрос на юзеров
-
         //так должно работать!, проверено в Management Studio
         query = "Select * from Users where UserID in (";
         //итерация по ключам
         for(int key: userBalanceMap.keySet())
         {
-            query += key + " ";
+            query += key + ",";
         }
-        query += ")";
+        query = query.substring(0, query.length()-1) +")";
+
         //получаем и парсим юзеров в этой группе
         resultSet = DBManager.getSelectResultSet(query);
         if(!resultSet.next())

@@ -20,7 +20,7 @@ public class TransactionHist implements Serializable
     {
         int rows = 1;
 
-        String query = "SELECT * FROM Transactions WHERE (DialogID = "+ dialogID +" AND TransactionID <" + transactionID;
+        String query = "SELECT * FROM Transactions WHERE (DialogID = "+ dialogID +" AND TransactionID <" + transactionID +" )";
         query += " ORDER BY TransactionID DESC OFFSET 0 ROWS FETCH NEXT " + rows + " ROWS ONLY";
 
         return getTransactionsHist(query);
@@ -31,7 +31,7 @@ public class TransactionHist implements Serializable
     {
         int rows = 1;
 
-        String query = "SELECT * FROM Transactions WHERE (GroupID = "+ groupID +" AND TransactionID <" + transactionID;
+        String query = "SELECT * FROM Transactions WHERE (GroupID = "+ groupID +" AND TransactionID < " + transactionID+" )";
         query += " ORDER BY TransactionID DESC OFFSET 0 ROWS FETCH NEXT " + rows + " ROWS ONLY";
 
         return getTransactionsHist(query);
@@ -43,7 +43,7 @@ public class TransactionHist implements Serializable
     {
         int rows = 1;
 
-        String query = "SELECT * FROM Transactions WHERE (DialogID = "+ dialogID +" AND TransactionID >" + transactionID +
+        String query = "SELECT * FROM Transactions WHERE (DialogID = "+ dialogID +" AND TransactionID > " + transactionID +" )"+
                         " ORDER BY TransactionID OFFSET 0 ROWS FETCH NEXT " + rows + " ROWS ONLY";
         return getTransactionsHist(query);
     }
@@ -53,7 +53,7 @@ public class TransactionHist implements Serializable
     {
         int rows = 1;
 
-        String query = "SELECT * FROM Transactions WHERE (GroupID = "+ groupID +" AND TransactionID >" + transactionID +
+        String query = "SELECT * FROM Transactions WHERE (GroupID = "+ groupID +" AND TransactionID >" + transactionID +" )"+
                 " ORDER BY TransactionID OFFSET 0 ROWS FETCH NEXT " + rows + " ROWS ONLY";
         return getTransactionsHist(query);
     }
