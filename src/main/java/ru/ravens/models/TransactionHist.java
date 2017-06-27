@@ -18,7 +18,7 @@ public class TransactionHist implements Serializable
     //Возвращает историю транзакций (20) по ID диалога
     public static TransactionHist getHistByDialogIDAndTransactionID(int dialogID, int transactionID) throws Exception
     {
-        int rows = 20;
+        int rows = 1;
 
         String query = "SELECT * FROM Transactions WHERE (DialogID = "+ dialogID +" AND TransactionID <" + transactionID;
         query += " ORDER BY TransactionID DESC OFFSET 0 ROWS FETCH NEXT " + rows + " ROWS ONLY";
@@ -29,7 +29,7 @@ public class TransactionHist implements Serializable
     //Возвращает историю транзакций (20) по ID группы и самому раннему transactionID (самый маленький!)
     public static TransactionHist getHistByGroupIDAndTransactionID(int groupID, int transactionID) throws Exception
     {
-        int rows = 20;
+        int rows = 1;
 
         String query = "SELECT * FROM Transactions WHERE (GroupID = "+ groupID +" AND TransactionID <" + transactionID;
         query += " ORDER BY TransactionID DESC OFFSET 0 ROWS FETCH NEXT " + rows + " ROWS ONLY";
@@ -41,7 +41,7 @@ public class TransactionHist implements Serializable
     //Возвращает новые транзакции (20) по ID диалога и самому позднему сообщению (самый большой TransactionID )
     public static TransactionHist getNewTransactionsByDialogIDAndTransactionID(int dialogID, int transactionID) throws Exception
     {
-        int rows = 20;
+        int rows = 1;
 
         String query = "SELECT * FROM Transactions WHERE (DialogID = "+ dialogID +" AND TransactionID >" + transactionID +
                         " ORDER BY TransactionID OFFSET 0 ROWS FETCH NEXT " + rows + " ROWS ONLY";
@@ -51,7 +51,7 @@ public class TransactionHist implements Serializable
     //Возвращает новые транзакции (20) по ID группы и самому позднему сообщению (самый большой TransactionID )
     public static TransactionHist getNewTransactionsByGroupIDAndTransactionID(int groupID, int transactionID) throws Exception
     {
-        int rows = 20;
+        int rows = 1;
 
         String query = "SELECT * FROM Transactions WHERE (GroupID = "+ groupID +" AND TransactionID >" + transactionID +
                 " ORDER BY TransactionID OFFSET 0 ROWS FETCH NEXT " + rows + " ROWS ONLY";

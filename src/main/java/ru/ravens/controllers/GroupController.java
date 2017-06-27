@@ -26,8 +26,7 @@ public class GroupController {
         try{
             User.getUserByToken(token);
             GroupInfo groupInfo = GroupInfo.getGroupInfoById(groupID);
-            groupInfo.getDefaultClass().setOperationOutput(true);
-            groupInfo.getDefaultClass().setToken(token);
+            groupInfo.setDefaultClass(new DefaultClass(true,token));
             return groupInfo;
         } catch (Exception ex){
             GroupInfo groupInfo = new GroupInfo();
@@ -49,24 +48,44 @@ public class GroupController {
             //GroupInfo groupInfo = GroupInfo.getGroupInfoById(groupID);
             DefaultClassAndId defaultClassAndId = Transaction.SendTransactionDialog(User.getUserByToken(token).getUserID(), groupID,
                     money, cash, text);
-            defaultClassAndId.getDefaultClass().setOperationOutput(true);
-            defaultClassAndId.getDefaultClass().setToken(token);
+            defaultClassAndId.setDefaultClass(new DefaultClass(true,token));
             return defaultClassAndId;
         } catch (Exception ex){
-            DefaultClassAndId defaultClassAndId = new DefaultClassAndId(0);
+            DefaultClassAndId defaultClassAndId = new DefaultClassAndId();
             defaultClassAndId.setDefaultClass(new DefaultClass(false, ex.getMessage()));
             return defaultClassAndId;
         }
     }
 
     @GET
-    @Path("/gettransactions/{groupID}/{transactionID}")
-    @Produces(MediaType.APPLICATION_JSON) // получение истории транзакций
-    public TransactionHist getLastTransactions(@PathParam("groupID") int groupID,
-                                               @PathParam("transactionID") int lastTransID) {
+    @Path("/gettransactions/{token}/{groupID}/{transactionID}")
+    @Produces(MediaType.APPLICATION_JSON) // получение истории транзакций, приходит самая ранняя что есть на устройстве
+    public TransactionHist getLastTransactions(@PathParam("token") String token,
+                                               @PathParam("groupID") int groupID,
+                                               @PathParam("transactionID") int earliestTransID) {
         try {
-            TransactionHist hist = TransactionHist.getHistByDialogIDAndTransactionID(groupID, lastTransID);
-            hist.getDefaultClass().setOperationOutput(true);
+            User.getUserByToken(token); //Токен для проверки того, что это не "левый" запрос а от нашего клиента
+            TransactionHist hist = TransactionHist.getHistByGroupIDAndTransactionID(groupID, earliestTransID);
+            hist.setDefaultClass(new DefaultClass(true, token));
+            return hist;
+        } catch (Exception ex) {
+            TransactionHist transHist = new TransactionHist();
+            transHist.setDefaultClass(new DefaultClass(false, ex.getMessage()));
+            return transHist;
+        }
+    }
+
+    @GET
+    @Path("/getnewtransactions/{token}/{groupID}/{transactionID}")
+    @Produces(MediaType.APPLICATION_JSON) // получение новых транзакций, нам приходит самая поздняя что есть на устройстве
+    public TransactionHist getNewTransactions(@PathParam("token") String token,
+                                              @PathParam("groupID") int groupID,
+                                              @PathParam("transactionID") int lastTransID) {
+        try {
+            User.getUserByToken(token);
+            //Саше надо дописать -> Саша дописал
+            TransactionHist hist = TransactionHist.getNewTransactionsByGroupIDAndTransactionID(groupID,lastTransID);
+            hist.setDefaultClass(new DefaultClass(true, token));
             return hist;
         } catch (Exception ex) {
             TransactionHist transHist = new TransactionHist();
@@ -82,9 +101,11 @@ public class GroupController {
                                      @PathParam("name") String name) {
         try {
             User user = User.getUserByToken(token);
-            return GroupInfo.createGroup(user.getUserID(), name);
+            DefaultClassAndId defaultClassAndId = GroupInfo.createGroup(user.getUserID(), name);
+            defaultClassAndId.setDefaultClass(new DefaultClass(true, token));
+            return defaultClassAndId;
         } catch (Exception ex) {
-            DefaultClassAndId defaultClassAndId = new DefaultClassAndId(0);
+            DefaultClassAndId defaultClassAndId = new DefaultClassAndId();
             defaultClassAndId.setDefaultClass(new DefaultClass(false, ex.getMessage()));
             return defaultClassAndId;
         }
@@ -97,7 +118,7 @@ public class GroupController {
                                         @PathParam("groupID") int groupID,
                                          @PathParam("phone") String phone) {
         try {
-            User user = User.getUserByToken(token);
+            User.getUserByToken(token);
             GroupInfo.addUserToGroupById(User.getUserByPhone(phone).getUserID(), groupID);
             return new DefaultClass(true, token);
         } catch (Exception ex) {
@@ -112,7 +133,7 @@ public class GroupController {
                                    @PathParam("groupID") int groupID,
                                    @PathParam("phone") String phone) {
         try {
-            User user = User.getUserByToken(token);
+            User.getUserByToken(token);
             GroupInfo.delUserFromGroupById(User.getUserByPhone(phone).getUserID(), groupID);
             return new DefaultClass(true, token);
         } catch (Exception ex) {
@@ -140,7 +161,7 @@ public class GroupController {
     public DefaultClass deleteGroup(@PathParam("token") String token,
                                    @PathParam("groupID") int groupID) {
         try {
-            //User user = User.getUserByToken(token);
+            User.getUserByToken(token); //(было закомменчено) надо пытаться получать юзера по токену, вдруг токен неверный послали, тогда эксепшен будет
             GroupInfo.deleteGroupById(groupID);
             return new DefaultClass(true, token);
         } catch (Exception ex) {
@@ -148,23 +169,5 @@ public class GroupController {
         }
     }
 
-    @GET
-    @Path("/getnewtransactions/{token}/{conversationID}/{transactionID}")
-    @Produces(MediaType.APPLICATION_JSON) // получение прошлых транзакций, когда пришло новое сообщение
-    public TransactionHist getNewTransactions(@PathParam("token") String token,
-                                              @PathParam("conversationID") int convID,
-                                              @PathParam("transactionID") int lastTransID) {
-        try {
-            User.getUserByToken(token);
-            //Саше надо дописать
-//            TransactionHist hist = TransactionHist.getHistByDialogIDAndTransactionID(convID, lastTransID);
-//            hist.getDefaultClass().setOperationOutput(true);
-//            return hist;
-            return null;
-        } catch (Exception ex) {
-            TransactionHist transHist = new TransactionHist();
-            transHist.setDefaultClass(new DefaultClass(false, ex.getMessage()));
-            return transHist;
-        }
-    }
+
 }

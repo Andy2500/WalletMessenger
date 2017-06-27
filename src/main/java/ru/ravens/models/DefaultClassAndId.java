@@ -13,9 +13,12 @@ public class DefaultClassAndId implements Serializable
     {
         this.id = newID;
     }
+    public DefaultClassAndId() {}
+
     public DefaultClass getDefaultClass() {
         return defaultClass;
     }
+
 
     public void setDefaultClass(DefaultClass defaultClass) {
         this.defaultClass = defaultClass;

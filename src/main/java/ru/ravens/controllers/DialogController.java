@@ -23,8 +23,7 @@ public class DialogController {
         try{
             User.getUserByToken(token);
             DialogInfo dialogInfo =  DialogInfo.getDialogInfoById(dialogID);
-            dialogInfo.getDefaultClass().setOperationOutput(true);
-            dialogInfo.getDefaultClass().setToken(token);
+            dialogInfo.setDefaultClass(new DefaultClass(true,token));
             return dialogInfo;
         } catch (Exception ex){
             DialogInfo dialogInfo = new DialogInfo();
@@ -42,25 +41,28 @@ public class DialogController {
                                        @PathParam("cash") int cash,
                                        @PathParam("text") String text) {
         try{
-            return Transaction.SendTransactionDialog(User.getUserByToken(token).getUserID(), dialogID,
-                    money, cash, text);
+            DefaultClassAndId defaultClassAndId = Transaction.SendTransactionDialog(User.getUserByToken(token).getUserID(),
+                    dialogID, money, cash, text);
+            defaultClassAndId.setDefaultClass(new DefaultClass(true, token));
+            return defaultClassAndId;
+
         } catch (Exception ex){
-            DefaultClassAndId defClassAndID = new DefaultClassAndId(0);
+            DefaultClassAndId defClassAndID = new DefaultClassAndId();
             defClassAndID.setDefaultClass(new DefaultClass(false, ex.getMessage()));
             return defClassAndID;
         }
     }
 
     @GET
-    @Path("/gettransactions/{token}/{groupID}/{transactionID}")
-    @Produces(MediaType.APPLICATION_JSON) // получение истории транзакций
+    @Path("/gettransactions/{token}/{dialogID}/{transactionID}")
+    @Produces(MediaType.APPLICATION_JSON) // получение истории транзакций, приходит самая ранняя что есть на устройстве
     public TransactionHist getLastTransactions(@PathParam("token") String token,
-                                               @PathParam("groupID") int groupID,
-                                               @PathParam("transactionID") int lastTransID) {
+                                               @PathParam("dialogID") int dialogID,
+                                               @PathParam("transactionID") int earliestTransID) {
         try {
             User.getUserByToken(token);
-            TransactionHist hist = TransactionHist.getHistByGroupIDAndTransactionID(groupID, lastTransID);
-            hist.getDefaultClass().setOperationOutput(true);
+            TransactionHist hist = TransactionHist.getHistByDialogIDAndTransactionID(dialogID, earliestTransID);
+            hist.setDefaultClass(new DefaultClass(true, token));
             return hist;
         } catch (Exception ex) {
             TransactionHist transHist = new TransactionHist();
@@ -70,18 +72,16 @@ public class DialogController {
     }
 
     @GET
-    @Path("/getnewtransactions/{token}/{conversationID}/{transactionID}")
-    @Produces(MediaType.APPLICATION_JSON) // получение прошлых транзакций, когда пришло новое сообщение
+    @Path("/getnewtransactions/{token}/{dialogID}/{transactionID}")
+    @Produces(MediaType.APPLICATION_JSON) // получение новых транзакций, нам приходит самая поздняя что есть на устройстве
     public TransactionHist getNewTransactions(@PathParam("token") String token,
-                                              @PathParam("conversationID") int convID,
+                                              @PathParam("dialogID") int dialogID,
                                               @PathParam("transactionID") int lastTransID) {
         try {
             User.getUserByToken(token);
-
-//            TransactionHist hist = TransactionHist.getHistByGroupIDAndTransactionID(convID, lastTransID);
-//            hist.getDefaultClass().setOperationOutput(true);
-//            return hist;
-            return null;
+            TransactionHist hist = TransactionHist.getNewTransactionsByDialogIDAndTransactionID(dialogID, lastTransID);
+            hist.setDefaultClass(new DefaultClass(true, token));
+            return hist;
         } catch (Exception ex) {
             TransactionHist transHist = new TransactionHist();
             transHist.setDefaultClass(new DefaultClass(false, ex.getMessage()));
@@ -92,15 +92,17 @@ public class DialogController {
     @GET
     @Path("/create/{token}/{phone}")
     @Produces(MediaType.APPLICATION_JSON) // создание диалога
-    public DefaultClass createDialog(@PathParam("token") String token,
+    public DefaultClassAndId createDialog(@PathParam("token") String token,
                                               @PathParam("phone") String phone) {
         try {
             User user = User.getUserByToken(token);
             DefaultClassAndId defClassAndID = DialogInfo.createNewDialog(user.getUserID(), User.getUserByPhone(phone).getUserID());
             defClassAndID.setDefaultClass(new DefaultClass(true, token));
-            return defClassAndID.getDefaultClass();
+            return defClassAndID;
         } catch (Exception ex) {
-            return new DefaultClass(false, ex.getMessage());
+            DefaultClassAndId defClassAndID = new DefaultClassAndId();
+            defClassAndID.setDefaultClass(new DefaultClass(false, ex.getMessage()));
+            return defClassAndID;
         }
     }
 }

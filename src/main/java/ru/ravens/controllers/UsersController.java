@@ -16,7 +16,7 @@ import javax.ws.rs.core.MediaType;
 @Path("/user")
 public class UsersController {
 
-
+    
     @GET
     @Path("/reg/{phone}/{name}/{hashpsd}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -88,8 +88,12 @@ public class UsersController {
     public DefaultClass changePhoto(@PathParam("token") String token,
                                     @PathParam("photo") String photo) {
         try {
+            User user = User.getUserByToken(token);
+            User.changeImage(user.getUserID(),photo);
+            /*  Было, а предлагается то что выше
             UserProfile userProfile = UserProfile.getUserProfileByUser(User.getUserByToken(token));
             User.changeImage(userProfile.getUserID(), photo);
+            */
             return new DefaultClass(true, token);
         } catch (Exception ex) {
             return new DefaultClass(false, ex.getMessage());
@@ -104,7 +108,7 @@ public class UsersController {
                                       @PathParam("phone") String phone) {
         try {
             //Это тот кто подал запрос (его надо получить для того, чтобы удостовериться, что он существует и токен подан верный)
-            User user = User.getUserByToken(token);
+            User.getUserByToken(token);
             //А этого вернем, так как его просили вернуть по номеру телефона
             UserProfile userProfile = UserProfile.getUserProfileByUser(User.getUserByPhone(phone));
             userProfile.getDefaultClass().setOperationOutput(true);
@@ -125,11 +129,17 @@ public class UsersController {
     public DefaultClass changeName(@PathParam("token") String token,
                                   @PathParam("name") String name) {
         try {
+            User user =User.getUserByToken(token);
+            User.changeName(user.getUserID(),name);
+            return new DefaultClass(true, token);
+
+            /* Это было а наверху, то что я предлагаю для упрощения взаимодействия и прозрачности кода @Alex
             UserProfile userProfile = UserProfile.getUserProfileByUser(User.getUserByToken(token));
             User.changeName(userProfile.getUserID(), name);
             userProfile.getDefaultClass().setOperationOutput(true);
             userProfile.getDefaultClass().setToken(token);
             return userProfile.getDefaultClass();
+            */
         } catch (Exception ex) {
             return new DefaultClass(false, ex.getMessage());
         }
