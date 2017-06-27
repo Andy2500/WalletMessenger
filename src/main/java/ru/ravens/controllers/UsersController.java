@@ -30,7 +30,6 @@ public class UsersController {
             userProfile.getDefaultClass().setToken(token);
             userProfile.getDefaultClass().setOperationOutput(true);
             return userProfile;
-
         } catch (Exception ex) {
             UserProfile userProfile = new UserProfile();
             userProfile.setDefaultClass(new DefaultClass(false, ex.getMessage()));

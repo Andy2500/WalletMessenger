@@ -79,14 +79,20 @@ public class User implements Serializable{
 
     public static UserProfile registerUser(String name, String phone, String hashpsd, String token) throws Exception
     {
-        //добавим новую запись в юзеров
-        //надо про prepared Statement !
-        String command = "Insert into Users (UserID, Name, Phone, Hashpsd, Qiwi, Image, Token)" +
-                "VALUES ((SELECT MAX (UserID) from Users) + 1, N'" + name + "', '" + phone +"', '"+ hashpsd +"', NULL, NULL,'" + token + "')";
-        //пояснения: groupID = 0, так как это для диалога метод, proof = 0, так как даже если там кэш\не кэш то все равно идет "отправка" транзакции
-        DBManager.execCommand(command);
-
-        return UserProfile.getUserProfileByUser(User.getUserByPhone(phone));
+        String query = "SELECT * FROM Users where Phone = '" + phone + "'";
+        ResultSet resultSet = DBManager.getSelectResultSet(query);
+        if(resultSet.next())
+        {
+            throw new Exception("Аккаунт с таким телефоном уже существует.");
+        }
+        else
+        {
+            String command = "Insert into Users (UserID, Name, Phone, Hashpsd, Qiwi, Image, Token)" +
+                    "VALUES ((SELECT MAX (UserID) from Users) + 1, N'" + name + "', '" + phone +"', '"+ hashpsd +"', NULL, NULL,'" + token + "')";
+            //пояснения: groupID = 0, так как это для диалога метод, proof = 0, так как даже если там кэш\не кэш то все равно идет "отправка" транзакции
+            DBManager.execCommand(command);
+            return UserProfile.getUserProfileByUser(User.getUserByPhone(phone));
+        }
     }
 
     public static void changePsd(int userID, String newPsd) throws Exception
