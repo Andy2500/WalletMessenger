@@ -261,6 +261,10 @@ public class Transaction implements Serializable
         query = "SELECT * FROM Groups where GroupID = " + groupID;
         resultSet = DBManager.getSelectResultSet(query); //группа имеется, иначе выше бы выпал эксепшен
         //обновим сумму в группе
+        if(!resultSet.next())
+        {
+            throw new Exception();
+        }
         float sum = resultSet.getFloat("Sum") + money;
         command = "UPDATE Groups set Sum = " + sum + " where GroupID = " + groupID;
         DBManager.execCommand(command);

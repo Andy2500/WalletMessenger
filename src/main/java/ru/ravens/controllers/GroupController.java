@@ -38,6 +38,7 @@ public class GroupController {
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON) // отправить транзакцию в групп чат
     public DefaultClassAndId sendTransToGroupDialog(@FormParam("token")String token,
+                                                    @FormParam("receiverID") int receiverID,
                                                     @FormParam("groupID") int groupID,
                                                     @FormParam("money") int money,
                                                     @FormParam("cash")  int cash,
@@ -45,7 +46,7 @@ public class GroupController {
     {
         try{
             //GroupInfo groupInfo = GroupInfo.getGroupInfoById(groupID);
-            DefaultClassAndId defaultClassAndId = Transaction.SendTransactionGroup(User.getUserByToken(token).getUserID(), groupID,
+            DefaultClassAndId defaultClassAndId = Transaction.SendTransactionGroup(User.getUserByToken(token).getUserID(),receiverID, groupID,
                     money, cash, text);
             defaultClassAndId.setDefaultClass(new DefaultClass(true,token));
             return defaultClassAndId;
