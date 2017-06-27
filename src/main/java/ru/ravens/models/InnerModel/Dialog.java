@@ -3,9 +3,11 @@ package ru.ravens.models.InnerModel;
 import ru.ravens.models.UserProfile;
 import ru.ravens.service.DBManager;
 
+import javax.transaction.TransactionRequiredException;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.sql.ResultSet;
+import java.util.Date;
 
 @XmlRootElement
 public class Dialog implements Serializable
@@ -13,8 +15,8 @@ public class Dialog implements Serializable
     private int dialogID;
     private float balance;
 
-
     private UserProfile userProfile;
+    private Date date;
 
     //парсинг диалога
     public static Dialog parseDialog(ResultSet resultSet, int myID) throws Exception
@@ -22,7 +24,7 @@ public class Dialog implements Serializable
         Dialog dialog = new Dialog();
 
         dialog.setDialogID(resultSet.getInt("DialogID"));
-
+        dialog.setDate(resultSet.getDate("Date"));
         if(resultSet.getInt("UserID_1")==myID)
         {
             dialog.setBalance(resultSet.getFloat("Balance_1"));
@@ -39,10 +41,17 @@ public class Dialog implements Serializable
         {
             throw new Exception("Этот пользователь не имеет отношения к диалогу.");
         }
-
         return dialog;
     }
 
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
 
     public int getDialogID() {
         return dialogID;

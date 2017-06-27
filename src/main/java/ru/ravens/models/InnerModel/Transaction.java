@@ -113,13 +113,18 @@ public class Transaction implements Serializable
         }
         int transactionID = resultSet.getInt(1) + 1;
 
+        String date = DateWorker.getNowMomentInUTC();
         //добавим новую запись в транзакции
         String command = "Insert into Transactions (TransactionID, UserID, DialogID, GroupID, Money, Date, Cash, Proof, Text) " +
                 "VALUES (" + transactionID + ", " + userID + ", " + dialogID + ", 0, " + money +
-                ", '" + DateWorker.getNowMomentInUTC() + "', " + cash +", 0, N'" + text + "')";
-
+                ", '" + date + "', " + cash +", 0, N'" + text + "')";
         //пояснения: groupID = 0, так как это для диалога метод, proof = 0, так как даже если там кэш\не кэш то все равно идет "отправка" транзакции
         DBManager.execCommand(command);
+
+        //обновим дату последней транзакции в диалоге
+        command = "UPDATE Dialogs set Date = '" + date + "' WHERE DialogID = "+dialogID;
+        DBManager.execCommand(command);
+
 
         if(cash == 0)
         {
@@ -196,12 +201,17 @@ public class Transaction implements Serializable
         }
         int transactionID = resultSet.getInt(1) + 1;
 
+        String date = DateWorker.getNowMomentInUTC();
         //добавим новую запись в транзакции
         String command = "Insert into Transactions (TransactionID, UserID, DialogID, GroupID, Money, Date, Cash, Proof, Text)" +
                 "VALUES (" + transactionID + ", " + userID + ", 0, " +groupID+ ", " + money+
-                ", '" + DateWorker.getNowMomentInUTC() + "', " + cash +", 0, N'" + text + "')";
+                ", '" + date + "', " + cash +", 0, N'" + text + "')";
 
         //пояснения: dialogID = 0, так как это для групп! метод, proof = 0, так как даже если там кэш\не кэш то все равно идет "отправка" транзакции
+        DBManager.execCommand(command);
+
+        //обновим дату последней транзакции в группе
+        command = "UPDATE Groups set Date = '" + date + "' WHERE GroupID = " + groupID;
         DBManager.execCommand(command);
 
         //Если это безналичный перевод
@@ -213,7 +223,6 @@ public class Transaction implements Serializable
         //Иначе если это наличные, то ничего не делаем и ждем подтверждения от администратора группы !
         return new DefaultClassAndId(transactionID);
     }
-
 
 
     //Вынесено в отдельный метод, так как понадобится при подтверждении транзакции админом группы
@@ -396,6 +405,7 @@ public class Transaction implements Serializable
             entry.setValue(entry.getValue() - diff);
         }
     }
+
 
 
     public void setMoney(float money) {
