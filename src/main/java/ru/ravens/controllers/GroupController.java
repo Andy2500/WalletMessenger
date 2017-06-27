@@ -14,14 +14,12 @@ import javax.ws.rs.core.MediaType;
 @Path("/group")
 public class GroupController {
 
-    //После полного тестирования GET запросов, надо будет поменять на POST, для более удобного тестирования в браузере
-    //После полного тестирования метода изменяйте заголовки на такие:
-
-    @GET
-    @Path("/get/{token}/{groupID}")
+    @POST
+    @Path("/get")
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON) // получить инфу про групповой диалог
-    public GroupInfo getGroupDialog(@PathParam("token")String token,
-                                    @PathParam("groupID") int groupID)
+    public GroupInfo getGroupDialog(@FormParam("token")String token,
+                                    @FormParam("groupID") int groupID)
     {
         try{
             User.getUserByToken(token);
@@ -35,14 +33,15 @@ public class GroupController {
         }
     }
 
-    @GET
-    @Path("/sendtr/{token}/{groupID}/{money}/{cash}/{text}")
+    @POST
+    @Path("/sendtr")
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON) // отправить транзакцию в групп чат
-    public DefaultClassAndId sendTransToGroupDialog(@PathParam("token")String token,
-                                                    @PathParam("groupID") int groupID,
-                                                    @PathParam("money") int money,
-                                                    @PathParam("cash")  int cash,
-                                                    @PathParam("text") String text)
+    public DefaultClassAndId sendTransToGroupDialog(@FormParam("token")String token,
+                                                    @FormParam("groupID") int groupID,
+                                                    @FormParam("money") int money,
+                                                    @FormParam("cash")  int cash,
+                                                    @FormParam("text") String text)
     {
         try{
             //GroupInfo groupInfo = GroupInfo.getGroupInfoById(groupID);
@@ -57,12 +56,13 @@ public class GroupController {
         }
     }
 
-    @GET
-    @Path("/gettransactions/{token}/{groupID}/{transactionID}")
+    @POST
+    @Path("/gettransactions")
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON) // получение истории транзакций, приходит самая ранняя что есть на устройстве
-    public TransactionHist getLastTransactions(@PathParam("token") String token,
-                                               @PathParam("groupID") int groupID,
-                                               @PathParam("transactionID") int earliestTransID) {
+    public TransactionHist getLastTransactions(@FormParam("token") String token,
+                                               @FormParam("groupID") int groupID,
+                                               @FormParam("transactionID") int earliestTransID) {
         try {
             User.getUserByToken(token); //Токен для проверки того, что это не "левый" запрос а от нашего клиента
             TransactionHist hist = TransactionHist.getHistByGroupIDAndTransactionID(groupID, earliestTransID);
@@ -75,12 +75,13 @@ public class GroupController {
         }
     }
 
-    @GET
-    @Path("/getnewtransactions/{token}/{groupID}/{transactionID}")
+    @POST
+    @Path("/getnewtransactions")
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON) // получение новых транзакций, нам приходит самая поздняя что есть на устройстве
-    public TransactionHist getNewTransactions(@PathParam("token") String token,
-                                              @PathParam("groupID") int groupID,
-                                              @PathParam("transactionID") int lastTransID) {
+    public TransactionHist getNewTransactions(@FormParam("token") String token,
+                                              @FormParam("groupID") int groupID,
+                                              @FormParam("transactionID") int lastTransID) {
         try {
             User.getUserByToken(token);
             //Саше надо дописать -> Саша дописал
@@ -94,11 +95,12 @@ public class GroupController {
         }
     }
 
-    @GET
-    @Path("/create/{token}/{name}")
+    @POST
+    @Path("/create")
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON) // создание группового диалога
-    public DefaultClassAndId createGroup(@PathParam("token") String token,
-                                     @PathParam("name") String name) {
+    public DefaultClassAndId createGroup(@FormParam("token") String token,
+                                     @FormParam("name") String name) {
         try {
             User user = User.getUserByToken(token);
             DefaultClassAndId defaultClassAndId = GroupInfo.createGroup(user.getUserID(), name);
@@ -111,12 +113,13 @@ public class GroupController {
         }
     }
 
-    @GET
-    @Path("/add/{token}/{groupID}/{phone}")
+    @POST
+    @Path("/add")
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON) // добавить пользователя в диалог
-    public DefaultClass addToGroup(@PathParam("token") String token,
-                                        @PathParam("groupID") int groupID,
-                                         @PathParam("phone") String phone) {
+    public DefaultClass addToGroup(@FormParam("token") String token,
+                                        @FormParam("groupID") int groupID,
+                                         @FormParam("phone") String phone) {
         try {
             User.getUserByToken(token);
             GroupInfo.addUserToGroupById(User.getUserByPhone(phone).getUserID(), groupID);
@@ -126,12 +129,13 @@ public class GroupController {
         }
     }
 
-    @GET
-    @Path("/deluser/{token}/{groupID}/{phone}")
+    @POST
+    @Path("/deluser")
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON) // удалить пользователя из диалога
-    public DefaultClass deleteFromGroup(@PathParam("token") String token,
-                                   @PathParam("groupID") int groupID,
-                                   @PathParam("phone") String phone) {
+    public DefaultClass deleteFromGroup(@FormParam("token") String token,
+                                   @FormParam("groupID") int groupID,
+                                   @FormParam("phone") String phone) {
         try {
             User.getUserByToken(token);
             GroupInfo.delUserFromGroupById(User.getUserByPhone(phone).getUserID(), groupID);
@@ -141,11 +145,11 @@ public class GroupController {
         }
     }
 
-    @GET
-    @Path("/quit/{token}/{groupID}")
+    @POST
+    @Path("/quit")
     @Produces(MediaType.APPLICATION_JSON) // покинуть диалог
-    public DefaultClass leaveGroup(@PathParam("token") String token,
-                                   @PathParam("groupID") int groupID) {
+    public DefaultClass leaveGroup(@FormParam("token") String token,
+                                   @FormParam("groupID") int groupID) {
         try {
             User user = User.getUserByToken(token);
             GroupInfo.delUserFromGroupById(user.getUserID(), groupID);
@@ -155,11 +159,12 @@ public class GroupController {
         }
     }
 
-    @GET
-    @Path("/leave/{token}/{groupID}")
+    @POST
+    @Path("/leave")
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON) // удаление групповой беседф
-    public DefaultClass deleteGroup(@PathParam("token") String token,
-                                   @PathParam("groupID") int groupID) {
+    public DefaultClass deleteGroup(@FormParam("token") String token,
+                                   @FormParam("groupID") int groupID) {
         try {
             User.getUserByToken(token); //(было закомменчено) надо пытаться получать юзера по токену, вдруг токен неверный послали, тогда эксепшен будет
             GroupInfo.deleteGroupById(groupID);

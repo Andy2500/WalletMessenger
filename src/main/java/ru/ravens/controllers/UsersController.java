@@ -6,10 +6,7 @@ import ru.ravens.models.InnerModel.User;
 import ru.ravens.models.UserProfile;
 import ru.ravens.service.TokenBuilder;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 
 
@@ -17,12 +14,13 @@ import javax.ws.rs.core.MediaType;
 public class UsersController {
 
     
-    @GET
-    @Path("/reg/{phone}/{name}/{hashpsd}")
+    @POST
+    @Path("/reg")
     @Produces(MediaType.APPLICATION_JSON)
-    public UserProfile register(@PathParam("phone") String phone,
-                                @PathParam("name") String name,
-                                @PathParam("hashpsd") String hashpsd) {
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    public UserProfile register(@FormParam("phone") String phone,
+                                @FormParam("name") String name,
+                                @FormParam("hashpsd") String hashpsd) {
         try {
             String token = TokenBuilder.makeToken(phone);
             //Нужна проверка на отсутствие пользователя с таким номером телефона в базе
@@ -37,11 +35,12 @@ public class UsersController {
         }
     }
 
-    @GET
-    @Path("/log/{phone}/{hashpsd}")
-    @Produces(MediaType.APPLICATION_JSON) // авторизация
-    public UserProfile auth(@PathParam("phone") String phone,
-                            @PathParam("hashpsd") String hashpsd) {
+    @POST
+    @Path("/log")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    public UserProfile auth(@FormParam("phone") String phone,
+                            @FormParam("hashpsd") String hashpsd) {
         try {
             User user = User.getUserByPhone(phone);
             if (!user.getHashpsd().equals(hashpsd)) // если пароли не совпадают
@@ -60,12 +59,13 @@ public class UsersController {
         }
     }
 
-    @GET
-    @Path("/chpsd/{token}/{lastpsd}/{newpsd}")
-    @Produces(MediaType.APPLICATION_JSON) // изменить пароль
-    public DefaultClass changePsd(@PathParam("token") String token,
-                                  @PathParam("lastpsd") String lastpsd,
-                                  @PathParam("newpsd") String newpsd) {
+    @POST
+    @Path("/chpsd")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    public DefaultClass changePsd(@FormParam("token") String token,
+                                  @FormParam("lastpsd") String lastpsd,
+                                  @FormParam("newpsd") String newpsd) {
         try {
             User user = User.getUserByToken(token);
 
@@ -82,18 +82,15 @@ public class UsersController {
         }
     }
 
-    @GET
-    @Path("/chphoto/{token}/{photo}")
-    @Produces(MediaType.APPLICATION_JSON) // изменить фотку
-    public DefaultClass changePhoto(@PathParam("token") String token,
-                                    @PathParam("photo") String photo) {
+    @POST
+    @Path("/chphoto")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    public DefaultClass changePhoto(@FormParam("token") String token,
+                                    @FormParam("photo") String photo) {
         try {
             User user = User.getUserByToken(token);
             User.changeImage(user.getUserID(),photo);
-            /*  Было, а предлагается то что выше
-            UserProfile userProfile = UserProfile.getUserProfileByUser(User.getUserByToken(token));
-            User.changeImage(userProfile.getUserID(), photo);
-            */
             return new DefaultClass(true, token);
         } catch (Exception ex) {
             return new DefaultClass(false, ex.getMessage());
@@ -101,11 +98,12 @@ public class UsersController {
     }
 
     //Исправлено. Перепроверить и доисправить так как привычнее без потери функционала.
-    @GET
-    @Path("/getubyphn/{token}/{phone}")
-    @Produces(MediaType.APPLICATION_JSON) // получить пользователя по теелфону
-    public UserProfile getUserByPhone(@PathParam("token") String token,
-                                      @PathParam("phone") String phone) {
+    @POST
+    @Path("/getubyphn")
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Produces(MediaType.APPLICATION_JSON)
+    public UserProfile getUserByPhone(@FormParam("token") String token,
+                                      @FormParam("phone") String phone) {
         try {
             //Это тот кто подал запрос (его надо получить для того, чтобы удостовериться, что он существует и токен подан верный)
             User.getUserByToken(token);
@@ -123,23 +121,16 @@ public class UsersController {
     }
 
 
-    @GET
-    @Path("/chname/{token}/{name}")
-    @Produces(MediaType.APPLICATION_JSON) // изменить имя
-    public DefaultClass changeName(@PathParam("token") String token,
-                                  @PathParam("name") String name) {
+    @POST
+    @Path("/chname")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    public DefaultClass changeName(@FormParam("token") String token,
+                                  @FormParam("name") String name) {
         try {
             User user =User.getUserByToken(token);
             User.changeName(user.getUserID(),name);
             return new DefaultClass(true, token);
-
-            /* Это было а наверху, то что я предлагаю для упрощения взаимодействия и прозрачности кода @Alex
-            UserProfile userProfile = UserProfile.getUserProfileByUser(User.getUserByToken(token));
-            User.changeName(userProfile.getUserID(), name);
-            userProfile.getDefaultClass().setOperationOutput(true);
-            userProfile.getDefaultClass().setToken(token);
-            return userProfile.getDefaultClass();
-            */
         } catch (Exception ex) {
             return new DefaultClass(false, ex.getMessage());
         }
