@@ -29,6 +29,7 @@ public class DBManager {
 
             connection = ds.getConnection();
         }
+
         return connection;
     }
 
@@ -39,9 +40,17 @@ public class DBManager {
     }
 
     public static ResultSet getSelectResultSet(String query) throws Exception {
-        Connection connection = getConnection();
-        Statement statement = connection.createStatement();
-        return statement.executeQuery(query);
+        Connection connect = getConnection();
+        try{
+            Statement statement = connect.createStatement();
+            return statement.executeQuery(query);
+        } catch (Exception ex) {
+            DBManager.connection = null;
+            connect = getConnection();
+            Statement statement = connect.createStatement();
+            return statement.executeQuery(query);
+        }
+
     }
 
     public static void loadPhoto(String command, byte[] array) throws Exception {
@@ -55,4 +64,11 @@ public class DBManager {
     //Здесь будут находиться методы типа get<Class>ByQuery, которые в свою очередь будут получать getSelectResultSet,
     // а его подавать в <Class>.parse<Class>FromResultSet(ResultSet resultSet)
 
+    //Все остальное кроме класса User не имеет смысла так делать.., так как там массовые запросы и более удобен getSelectResultSet
+    public static User getUserByQuery (String query) throws Exception
+    {
+        Connection connection = getConnection();
+        Statement statement = connection.createStatement();
+        return User.parseUser(statement.executeQuery(query));
+    }
 }

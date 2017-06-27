@@ -25,6 +25,7 @@ public class UsersController {
                                 @PathParam("hashpsd") String hashpsd) {
         try {
             String token = TokenBuilder.makeToken(phone);
+            //Нужна проверка на отсутствие пользователя с таким номером телефона в базе
             UserProfile userProfile = User.registerUser(name, phone, hashpsd, token);
             userProfile.getDefaultClass().setToken(token);
             userProfile.getDefaultClass().setOperationOutput(true);
@@ -75,7 +76,7 @@ public class UsersController {
                 throw new Exception("New password equals to last password");
 
             User.changePsd(user.getUserID(), newpsd);
-            return new DefaultClass(true, token);
+            return new DefaultClass(true,  null);
 
         } catch (Exception ex) {
             return new DefaultClass(false, ex.getMessage());
