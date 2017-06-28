@@ -1,6 +1,6 @@
 package ru.ravens.models.InnerModel;
 
-import ru.ravens.models.DefaultClassAndId;
+import ru.ravens.models.DefaultClasssAndDateAndID;
 import ru.ravens.service.DBManager;
 import ru.ravens.service.DateWorker;
 
@@ -77,7 +77,7 @@ public class Transaction implements Serializable
 
 
     //Отправка транзакции в диалоге
-    public static DefaultClassAndId SendTransactionDialog(int userID,  int dialogID, int money, int cash, String text) throws Exception
+    public static DefaultClasssAndDateAndID SendTransactionDialog(int userID, int dialogID, int money, int cash, String text) throws Exception
     {
         String query = "SELECT * FROM Dialogs where DialogID = " + dialogID;
 
@@ -128,8 +128,10 @@ public class Transaction implements Serializable
             command = "UPDATE Dialogs set Balance_1 = " + balance + " , Balance_2 = " + (-1)*balance + " where DialogID = " +dialogID;
             DBManager.execCommand(command);
         } //Иначе! считаем, что информация неподтверждена!!
-
-        return new DefaultClassAndId(transactionID);
+        // id  и дату вернули
+        DefaultClasssAndDateAndID defaultClasssAndDateAndID = new DefaultClasssAndDateAndID(transactionID);
+        defaultClasssAndDateAndID.setDate(date);
+        return defaultClasssAndDateAndID;
     }
 
 
@@ -201,7 +203,7 @@ public class Transaction implements Serializable
     }
 
 
-    public static DefaultClassAndId SendTransactionGroup(int userID, int receiverID, int groupID, float money, int cash, String text) throws Exception
+    public static DefaultClasssAndDateAndID SendTransactionGroup(int userID, int receiverID, int groupID, float money, int cash, String text) throws Exception
     {
         String query = "SELECT MAX(TransactionID) from Transactions";
         ResultSet resultSet =  DBManager.getSelectResultSet(query);
@@ -234,7 +236,10 @@ public class Transaction implements Serializable
                 AddToGroupBalance(groupID, userID, money);
         }
         //Иначе если это наличные, то ничего не делаем и ждем подтверждения от администратора группы !
-        return new DefaultClassAndId(transactionID);
+        // id  и дату вернули
+        DefaultClasssAndDateAndID defaultClasssAndDateAndID = new DefaultClasssAndDateAndID(transactionID);
+        defaultClasssAndDateAndID.setDate(date);
+        return defaultClasssAndDateAndID;
     }
 
     // добавить деньги в конфу

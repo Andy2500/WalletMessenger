@@ -1,9 +1,8 @@
 package ru.ravens.controllers;
 
 import ru.ravens.models.DefaultClass;
-import ru.ravens.models.DefaultClassAndId;
+import ru.ravens.models.DefaultClasssAndDateAndID;
 import ru.ravens.models.GroupInfo;
-import ru.ravens.models.InnerModel.Group;
 import ru.ravens.models.InnerModel.Transaction;
 import ru.ravens.models.InnerModel.User;
 import ru.ravens.models.TransactionHist;
@@ -37,23 +36,23 @@ public class GroupController {
     @Path("/sendtr")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON) // отправить транзакцию в групп чат
-    public DefaultClassAndId sendTransToGroupDialog(@FormParam("token")String token,
-                                                    @FormParam("receiverID") int receiverID,
-                                                    @FormParam("groupID") int groupID,
-                                                    @FormParam("money") int money,
-                                                    @FormParam("cash")  int cash,
-                                                    @FormParam("text") String text)
+    public DefaultClasssAndDateAndID sendTransToGroupDialog(@FormParam("token")String token,
+                                                            @FormParam("receiverID") int receiverID,
+                                                            @FormParam("groupID") int groupID,
+                                                            @FormParam("money") int money,
+                                                            @FormParam("cash")  int cash,
+                                                            @FormParam("text") String text)
     {
         try{
             //GroupInfo groupInfo = GroupInfo.getGroupInfoById(groupID);
-            DefaultClassAndId defaultClassAndId = Transaction.SendTransactionGroup(User.getUserByToken(token).getUserID(),receiverID, groupID,
+            DefaultClasssAndDateAndID defaultClasssAndDateAndID = Transaction.SendTransactionGroup(User.getUserByToken(token).getUserID(),receiverID, groupID,
                     money, cash, text);
-            defaultClassAndId.setDefaultClass(new DefaultClass(true,token));
-            return defaultClassAndId;
+            defaultClasssAndDateAndID.setDefaultClass(new DefaultClass(true,token));
+            return defaultClasssAndDateAndID;
         } catch (Exception ex){
-            DefaultClassAndId defaultClassAndId = new DefaultClassAndId();
-            defaultClassAndId.setDefaultClass(new DefaultClass(false, ex.getMessage()));
-            return defaultClassAndId;
+            DefaultClasssAndDateAndID defaultClasssAndDateAndID = new DefaultClasssAndDateAndID();
+            defaultClasssAndDateAndID.setDefaultClass(new DefaultClass(false, ex.getMessage()));
+            return defaultClasssAndDateAndID;
         }
     }
 
@@ -100,17 +99,17 @@ public class GroupController {
     @Path("/create")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON) // создание группового диалога
-    public DefaultClassAndId createGroup(@FormParam("token") String token,
-                                     @FormParam("name") String name) {
+    public DefaultClasssAndDateAndID createGroup(@FormParam("token") String token,
+                                                 @FormParam("name") String name) {
         try {
             User user = User.getUserByToken(token);
-            DefaultClassAndId defaultClassAndId = GroupInfo.createGroup(user.getUserID(), name);
-            defaultClassAndId.setDefaultClass(new DefaultClass(true, token));
-            return defaultClassAndId;
+            DefaultClasssAndDateAndID defaultClasssAndDateAndID = GroupInfo.createGroup(user.getUserID(), name);
+            defaultClasssAndDateAndID.setDefaultClass(new DefaultClass(true, token));
+            return defaultClasssAndDateAndID;
         } catch (Exception ex) {
-            DefaultClassAndId defaultClassAndId = new DefaultClassAndId();
-            defaultClassAndId.setDefaultClass(new DefaultClass(false, ex.getMessage()));
-            return defaultClassAndId;
+            DefaultClasssAndDateAndID defaultClasssAndDateAndID = new DefaultClasssAndDateAndID();
+            defaultClasssAndDateAndID.setDefaultClass(new DefaultClass(false, ex.getMessage()));
+            return defaultClasssAndDateAndID;
         }
     }
 

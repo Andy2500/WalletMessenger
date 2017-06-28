@@ -1,6 +1,5 @@
 package ru.ravens.models;
 
-import ru.ravens.models.InnerModel.Dialog;
 import ru.ravens.models.InnerModel.Transaction;
 import ru.ravens.service.DBManager;
 
@@ -28,7 +27,7 @@ public class DialogInfo implements Serializable
     //Создает новый диалог,
     // проверка на наличие пользователя по токену и по телефону в контроллере, там же и отправка соответствующих ошибок
     //Возвращает ID диалога
-    public static DefaultClassAndId createNewDialog(int creatorID, int otherUserID) throws Exception
+    public static DefaultClasssAndDateAndID createNewDialog(int creatorID, int otherUserID) throws Exception
     {
         String query = "SELECT * FROM Dialogs where ( ( UserID_1 = " + creatorID + " AND UserID_2 = " + otherUserID + " ) OR" +
                 " ( UserID_1 =" + otherUserID + "AND UserID_2 = " + creatorID + " ) )";
@@ -37,7 +36,7 @@ public class DialogInfo implements Serializable
         if(resultSet.next())
         {
             //Могу здесь ошибку создания либо делать вид, что все "ОК" и дать им старый диалог
-            return new DefaultClassAndId(resultSet.getInt("DialogID"));
+            return new DefaultClasssAndDateAndID(resultSet.getInt("DialogID"));
         }
         else
         {
@@ -54,7 +53,7 @@ public class DialogInfo implements Serializable
             //Балансы по нулям пока что
 
             DBManager.execCommand(command);
-            return new DefaultClassAndId(dialogID);
+            return new DefaultClasssAndDateAndID(dialogID);
         }
     }
 

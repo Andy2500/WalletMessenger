@@ -4,16 +4,22 @@ import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 
 @XmlRootElement
-public class DefaultClassAndId implements Serializable
+public class DefaultClasssAndDateAndID implements Serializable
 {
     private DefaultClass defaultClass = new DefaultClass();
     private int id;
 
-    public DefaultClassAndId(int newID)
+    public void setDate(String date) {
+        Date = date;
+    }
+
+    private String Date;
+
+    public DefaultClasssAndDateAndID(int newID)
     {
         this.id = newID;
     }
-    public DefaultClassAndId() {}
+    public DefaultClasssAndDateAndID() {}
 
     public DefaultClass getDefaultClass() {
         return defaultClass;
