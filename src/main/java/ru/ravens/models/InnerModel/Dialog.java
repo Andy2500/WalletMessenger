@@ -25,7 +25,7 @@ public class Dialog implements Serializable
         Dialog dialog = new Dialog();
 
         dialog.setDialogID(resultSet.getInt("DialogID"));
-        dialog.setDate(resultSet.getDate("Date"));
+        dialog.setDate(resultSet.getTimestamp("Date"));
         if(resultSet.getInt("UserID_1")==myID)
         {
             dialog.setBalance(resultSet.getFloat("Balance_1"));

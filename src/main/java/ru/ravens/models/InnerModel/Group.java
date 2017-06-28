@@ -22,7 +22,7 @@ public class Group implements Serializable
 
         group.setGroupID(resultSet.getInt("GroupID"));
         group.setName(resultSet.getString("Name"));
-        group.setDate(resultSet.getDate("Date"));
+        group.setDate(resultSet.getTimestamp("Date"));
         //нужно, чтобы отметить что я админ в той ии иной беседе
         group.setAdminID(resultSet.getInt("AdminID"));
         group.setSum(resultSet.getFloat("Sum"));

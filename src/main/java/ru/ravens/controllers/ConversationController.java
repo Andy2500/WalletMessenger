@@ -8,6 +8,10 @@ import ru.ravens.models.TransactionHist;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import java.security.Timestamp;
+import java.time.Instant;
+import java.time.ZoneOffset;
+import java.util.Date;
 
 @Path("/conv")
 public class ConversationController {
@@ -19,8 +23,24 @@ public class ConversationController {
     public Conversations getConversations(@FormParam("token") String token) {
         try {
             Conversations conv = Conversations.getConversationsByUserID(User.getUserByToken(token).getUserID());
-            conv.getDefaultClass().setOperationOutput(true);
-            conv.getDefaultClass().setToken(token);
+            conv.setDefaultClass(new DefaultClass(true, token));
+            return conv;
+        } catch (Exception ex) {
+            Conversations conv = new Conversations();
+            conv.setDefaultClass(new DefaultClass(false, ex.getMessage()));
+            return conv;
+        }
+    }
+
+    @POST
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Path("/gethist")
+    @Produces(MediaType.APPLICATION_JSON) // получить список бесед
+    public Conversations getConversationsHist(@FormParam("token") String token,
+                                              @FormParam("date") Long date) {
+        try {
+            Conversations conv = Conversations.getConversationsHistByUserIdAndDate(User.getUserByToken(token).getUserID(),date);
+            conv.setDefaultClass(new DefaultClass(true, token));
             return conv;
         } catch (Exception ex) {
             Conversations conv = new Conversations();

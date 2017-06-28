@@ -8,6 +8,8 @@ import ru.ravens.service.DBManager;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.sql.ResultSet;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @XmlRootElement
@@ -22,7 +24,7 @@ public class Conversations implements Serializable
         ArrayList<Dialog> dialogList = new ArrayList<>();
         ArrayList<Group> groupList;
 
-        int rows = 20;
+        int rows = 2;
         //получаем диалоги и парсим
         String query = "Select top " + rows + " * from Dialogs Where (UserID_1 = " + userID +" OR UserID_2 = " + userID +" ) Order by Date DESC";
         ResultSet resultSet = DBManager.getSelectResultSet(query);
@@ -34,28 +36,30 @@ public class Conversations implements Serializable
         //получаем группы
         groupList = getGroupList(rows,userID);
         //формируем и отправляем результат
-        return prepareResult(dialogList, groupList);
+        return prepareResult(dialogList, groupList,rows);
     }
 
-    public static Conversations getConversationsHistByUserIdAndDate(int userID, Date lastDate) throws Exception
+    public static Conversations getConversationsHistByUserIdAndDate(int userID, long lastDate) throws Exception
     {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+        String date = format.format(lastDate);
         ArrayList<Dialog> dialogList = new ArrayList<>();
         ArrayList<Group> groupList = new ArrayList<>();
 
-        int rows = 20;
+        int rows = 2;
         //получаем диалоги по дате раньше чем ласт и парсим
-        String query = "Select top " + rows + " * from Dialogs Where ((UserID_1 = " + userID +" OR UserID_2 = " + userID +" )  AND (Date < '"+ lastDate + "')) Order by Date DESC";
+        String query = "Select top " + rows + " * from Dialogs Where ((UserID_1 = " + userID +" OR UserID_2 = " + userID +" )  AND (Date < '"+ date + "')) Order by Date DESC";
         ResultSet resultSet = DBManager.getSelectResultSet(query);
         while (resultSet.next())
         {
             dialogList.add(Dialog.parseDialog(resultSet, userID));
         }
 
-        groupList = getGroupListBeforeDate(rows,userID,lastDate);
-        return prepareResult(dialogList, groupList);
+        groupList = getGroupListBeforeDate(rows,userID,date);
+        return prepareResult(dialogList, groupList,rows);
     }
 
-    private static Conversations prepareResult(ArrayList<Dialog> dialogList, ArrayList<Group> groupList) throws Exception
+    private static Conversations prepareResult(ArrayList<Dialog> dialogList, ArrayList<Group> groupList, int rows) throws Exception
     {
         //Сортируем если элементов более 1
         if (dialogList.size() > 1)
@@ -69,7 +73,7 @@ public class Conversations implements Serializable
 
         //Здесь мы собираем массивы к отправке
         //Идем до минимума из 20 и суммы групп и диалогов (вдруг их там в сумме всего 10 или вообще 0)
-        int dialogIter = 0, groupIter = 0, maxCount = Math.min(20, dialogList.size() + groupList.size());
+        int dialogIter = 0, groupIter = 0, maxCount = Math.min(rows, dialogList.size() + groupList.size());
         for(int i = 0; i < maxCount; i++)
         {
 
@@ -174,7 +178,7 @@ public class Conversations implements Serializable
         return groupList; //Если что вернет пустой лист с размером 0
     }
 
-    private static ArrayList<Group> getGroupListBeforeDate(int rows, int userID, Date date) throws Exception
+    private static ArrayList<Group> getGroupListBeforeDate(int rows, int userID, String date) throws Exception
     {
         ArrayList<Group> groupList = new ArrayList<>();
         //получаем группы и парсим
@@ -185,7 +189,7 @@ public class Conversations implements Serializable
         if(resultSet.next())
         {
             HashMap<Integer, Integer> mapGroupBalances = new HashMap<>();
-            query = "SELECT top " + rows + " * FROM Groups WHERE ( (Date < '" + date + "') AND (GroupID in (";
+            query = "SELECT top " + rows + " * FROM Groups WHERE (Date < '" + date + "') AND (GroupID in (";
             int groupID = 0;
             do {
                 groupID = resultSet.getInt("GroupID");

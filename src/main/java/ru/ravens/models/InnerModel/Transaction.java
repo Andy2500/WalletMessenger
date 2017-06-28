@@ -25,8 +25,6 @@ public class Transaction implements Serializable
     private int proof;
     private String text;
 
-
-
     public static Transaction parseTransaction(ResultSet resultSet) throws Exception
     {
         Transaction transaction = new Transaction();
@@ -34,7 +32,7 @@ public class Transaction implements Serializable
         transaction.setTransactionID(resultSet.getInt("TransactionID"));
         transaction.setUserID(resultSet.getInt("UserID"));
         transaction.setMoney(resultSet.getFloat("Money"));
-        transaction.setDate(resultSet.getDate("Date"));
+        transaction.setDate(resultSet.getTimestamp("Date"));
         transaction.setCash(resultSet.getInt("Cash"));
         transaction.setProof(resultSet.getInt("Proof"));
         transaction.setText(resultSet.getString("Text"));
