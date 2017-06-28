@@ -13,7 +13,7 @@ import javax.ws.rs.core.MediaType;
 @Path("/dialog")
 public class DialogController {
 
-    @GET
+    @POST
     @Path("/get")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON) // получить инфу про диалог
