@@ -17,6 +17,7 @@ public class Dialog implements Serializable
 
     private UserProfile userProfile;
     private Date date;
+    private transient int userID;
 
     //парсинг диалога
     public static Dialog parseDialog(ResultSet resultSet, int myID) throws Exception
@@ -28,14 +29,18 @@ public class Dialog implements Serializable
         if(resultSet.getInt("UserID_1")==myID)
         {
             dialog.setBalance(resultSet.getFloat("Balance_1"));
+            //Запишем userID собеседника
+            dialog.setUserID(resultSet.getInt("UserID_2"));
             //получаем собеседника с фоткой\именем и прочим
-            dialog.setUserProfile(UserProfile.getUserProfileByUserID(resultSet.getInt("UserID_2")));
+      //      dialog.setUserProfile(UserProfile.getUserProfileByUserID(resultSet.getInt("UserID_2")));
         }
         else if(resultSet.getInt("UserID_2")==myID)
         {
             dialog.setBalance(resultSet.getFloat("Balance_2"));
+            //Запишем userID собеседника
+            dialog.setUserID(resultSet.getInt("UserID_1"));
             //получаем собеседника с фоткой\именем и прочим
-            dialog.setUserProfile(UserProfile.getUserProfileByUserID(resultSet.getInt("UserID_1")));
+       //     dialog.setUserProfile(UserProfile.getUserProfileByUserID(resultSet.getInt("UserID_1")));
         }
         else
         {
@@ -43,7 +48,6 @@ public class Dialog implements Serializable
         }
         return dialog;
     }
-
 
     public Date getDate() {
         return date;
@@ -71,6 +75,13 @@ public class Dialog implements Serializable
 
     public float getBalance() {
         return balance;
+    }
+    public int getUserID() {
+        return userID;
+    }
+
+    public void setUserID(int userID) {
+        this.userID = userID;
     }
 
     public void setBalance(float balance) {

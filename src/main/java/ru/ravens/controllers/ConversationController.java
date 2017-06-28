@@ -18,7 +18,7 @@ public class ConversationController {
     @Produces(MediaType.APPLICATION_JSON) // получить список бесед
     public Conversations getConversations(@FormParam("token") String token) {
         try {
-            Conversations conv = Conversations.getConversationByUserID(User.getUserByToken(token).getUserID());
+            Conversations conv = Conversations.getConversationsByUserID(User.getUserByToken(token).getUserID());
             conv.getDefaultClass().setOperationOutput(true);
             conv.getDefaultClass().setToken(token);
             return conv;

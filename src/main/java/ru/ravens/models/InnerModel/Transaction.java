@@ -1,6 +1,6 @@
 package ru.ravens.models.InnerModel;
 
-import ru.ravens.models.DefaultClasssAndDateAndID;
+import ru.ravens.models.DefaultClassAndDateAndID;
 import ru.ravens.service.DBManager;
 import ru.ravens.service.DateWorker;
 
@@ -8,6 +8,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.sql.ResultSet;
 import java.util.*;
+
+import static java.sql.Timestamp.valueOf;
 
 @XmlRootElement
 public class Transaction implements Serializable
@@ -77,7 +79,7 @@ public class Transaction implements Serializable
 
 
     //Отправка транзакции в диалоге
-    public static DefaultClasssAndDateAndID SendTransactionDialog(int userID, int dialogID, int money, int cash, String text) throws Exception
+    public static DefaultClassAndDateAndID SendTransactionDialog(int userID, int dialogID, int money, int cash, String text) throws Exception
     {
         String query = "SELECT * FROM Dialogs where DialogID = " + dialogID;
 
@@ -129,9 +131,10 @@ public class Transaction implements Serializable
             DBManager.execCommand(command);
         } //Иначе! считаем, что информация неподтверждена!!
         // id  и дату вернули
-        DefaultClasssAndDateAndID defaultClasssAndDateAndID = new DefaultClasssAndDateAndID(transactionID);
-        defaultClasssAndDateAndID.setDate(date);
-        return defaultClasssAndDateAndID;
+        DefaultClassAndDateAndID defaultClassAndDateAndID = new DefaultClassAndDateAndID(transactionID);
+        //Перевод даты, может быть небезопасно
+        defaultClassAndDateAndID.setDate(valueOf(date));
+        return defaultClassAndDateAndID;
     }
 
 
@@ -203,7 +206,7 @@ public class Transaction implements Serializable
     }
 
 
-    public static DefaultClasssAndDateAndID SendTransactionGroup(int userID, int receiverID, int groupID, float money, int cash, String text) throws Exception
+    public static DefaultClassAndDateAndID SendTransactionGroup(int userID, int receiverID, int groupID, float money, int cash, String text) throws Exception
     {
         String query = "SELECT MAX(TransactionID) from Transactions";
         ResultSet resultSet =  DBManager.getSelectResultSet(query);
@@ -237,9 +240,9 @@ public class Transaction implements Serializable
         }
         //Иначе если это наличные, то ничего не делаем и ждем подтверждения от администратора группы !
         // id  и дату вернули
-        DefaultClasssAndDateAndID defaultClasssAndDateAndID = new DefaultClasssAndDateAndID(transactionID);
-        defaultClasssAndDateAndID.setDate(date);
-        return defaultClasssAndDateAndID;
+        DefaultClassAndDateAndID defaultClassAndDateAndID = new DefaultClassAndDateAndID(transactionID);
+        defaultClassAndDateAndID.setDate(valueOf(date));
+        return defaultClassAndDateAndID;
     }
 
     // добавить деньги в конфу

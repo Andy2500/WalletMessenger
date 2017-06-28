@@ -1,7 +1,7 @@
 package ru.ravens.controllers;
 
 import ru.ravens.models.DefaultClass;
-import ru.ravens.models.DefaultClasssAndDateAndID;
+import ru.ravens.models.DefaultClassAndDateAndID;
 import ru.ravens.models.DialogInfo;
 import ru.ravens.models.InnerModel.Transaction;
 import ru.ravens.models.InnerModel.User;
@@ -36,19 +36,19 @@ public class DialogController {
     @Path("/sendtr")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON) // отправить транзакцию в диалог
-    public DefaultClasssAndDateAndID sendTrans(@FormParam("token")String token,
-                                               @FormParam("dialogID") int dialogID,
-                                               @FormParam("money") int money,
-                                               @FormParam("cash") int cash,
-                                               @FormParam("text") String text) {
+    public DefaultClassAndDateAndID sendTrans(@FormParam("token")String token,
+                                              @FormParam("dialogID") int dialogID,
+                                              @FormParam("money") int money,
+                                              @FormParam("cash") int cash,
+                                              @FormParam("text") String text) {
         try{
-            DefaultClasssAndDateAndID defaultClasssAndDateAndID = Transaction.SendTransactionDialog(User.getUserByToken(token).getUserID(),
+            DefaultClassAndDateAndID defaultClassAndDateAndID = Transaction.SendTransactionDialog(User.getUserByToken(token).getUserID(),
                     dialogID, money, cash, text);
-            defaultClasssAndDateAndID.setDefaultClass(new DefaultClass(true, token));
-            return defaultClasssAndDateAndID;
+            defaultClassAndDateAndID.setDefaultClass(new DefaultClass(true, token));
+            return defaultClassAndDateAndID;
 
         } catch (Exception ex){
-            DefaultClasssAndDateAndID defClassAndID = new DefaultClasssAndDateAndID();
+            DefaultClassAndDateAndID defClassAndID = new DefaultClassAndDateAndID();
             defClassAndID.setDefaultClass(new DefaultClass(false, ex.getMessage()));
             return defClassAndID;
         }
@@ -96,15 +96,15 @@ public class DialogController {
     @Path("/create")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON) // создание диалога
-    public DefaultClasssAndDateAndID createDialog(@FormParam("token") String token,
-                                                  @FormParam("phone") String phone) {
+    public DefaultClassAndDateAndID createDialog(@FormParam("token") String token,
+                                                 @FormParam("phone") String phone) {
         try {
             User user = User.getUserByToken(token);
-            DefaultClasssAndDateAndID defClassAndID = DialogInfo.createNewDialog(user.getUserID(), User.getUserByPhone(phone).getUserID());
+            DefaultClassAndDateAndID defClassAndID = DialogInfo.createNewDialog(user.getUserID(), User.getUserByPhone(phone).getUserID());
             defClassAndID.setDefaultClass(new DefaultClass(true, token));
             return defClassAndID;
         } catch (Exception ex) {
-            DefaultClasssAndDateAndID defClassAndID = new DefaultClasssAndDateAndID();
+            DefaultClassAndDateAndID defClassAndID = new DefaultClassAndDateAndID();
             defClassAndID.setDefaultClass(new DefaultClass(false, ex.getMessage()));
             return defClassAndID;
         }

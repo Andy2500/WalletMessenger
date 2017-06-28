@@ -27,7 +27,7 @@ public class GroupInfo implements Serializable
     //После выполнения в контроллере можно добавить создателя в список userProfiles, а то тут его получать нет смысла
     //Так как он уже получен там в контроллере
     //ВОзвращает ID группы
-    public static DefaultClasssAndDateAndID createGroup(int creatorID, String name) throws Exception
+    public static DefaultClassAndDateAndID createGroup(int creatorID, String name) throws Exception
     {
         String query = "SELECT MAX(GroupID) FROM Groups";
         ResultSet resultSet = DBManager.getSelectResultSet(query);
@@ -51,7 +51,7 @@ public class GroupInfo implements Serializable
 
         DBManager.execCommand(command);
 
-        return new DefaultClasssAndDateAndID(groupID);
+        return new DefaultClassAndDateAndID(groupID);
     }
 
     //После выполнения в контроллере можно добавить юзера в список userProfiles, а то тут его получать нет смысла
