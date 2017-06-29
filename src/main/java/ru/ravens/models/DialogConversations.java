@@ -21,7 +21,7 @@ public class DialogConversations implements Serializable
     public static DialogConversations getDialogConversationsByUserID(int userID) throws Exception
     {
         ArrayList<Dialog> dialogList = new ArrayList<>();
-        int rows = 20;
+        int rows = 2;
         //получаем диалоги и парсим
         String query = "Select top " + rows + " * from Dialogs Where (UserID_1 = " + userID +" OR UserID_2 = " + userID +" ) Order by Date DESC";
         ResultSet resultSet = DBManager.getSelectResultSet(query);
@@ -29,19 +29,42 @@ public class DialogConversations implements Serializable
         {
             dialogList.add(Dialog.parseDialog(resultSet, userID));
         }
+        //формируем и отправляем результат
+        return FindUsersForDialogList(dialogList);
+    }
 
+    public static DialogConversations getDialogConversationsHistByUserIdAndDate(int userID, long lastDate) throws Exception
+    {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+        String date = format.format(lastDate);
+        ArrayList<Dialog> dialogList = new ArrayList<>();
+
+        int rows = 2;
+        //получаем диалоги по дате раньше чем ласт и парсим
+        String query = "Select top " + rows + " * from Dialogs Where ((UserID_1 = " + userID +" OR UserID_2 = " + userID +" )  AND (Date < '"+ date + "')) Order by Date DESC";
+        ResultSet resultSet = DBManager.getSelectResultSet(query);
+        while (resultSet.next())
+        {
+            dialogList.add(Dialog.parseDialog(resultSet, userID));
+        }
+        //формируем и отправляем результат
+        return FindUsersForDialogList(dialogList);
+    }
+
+    private static DialogConversations FindUsersForDialogList(ArrayList<Dialog> dialogList) throws Exception
+    {
         //Прикрепляем юзеров к диалогам
         //Если имеется хоть один диалог для отправки
         if(dialogList.size() > 0)
         {
             //Получим всех необходимые профили юзеров для диалогов
-            query = "SELECT * FROM Users where UserID in (";
+            String query = "SELECT * FROM Users where UserID in (";
             for(int i = 0; i < dialogList.size(); i++)
             {
                 query += dialogList.get(i).getUserID()+ ",";
             }
             query = query.substring(0,query.length()-1) + ")";
-            resultSet = DBManager.getSelectResultSet(query);
+            ResultSet resultSet = DBManager.getSelectResultSet(query);
 
             //Парсим юзера и получаем профиль и кладем в мап (userID, UserProfile)
             HashMap<Integer, UserProfile> userProfileHashMap =  new HashMap<>();
@@ -58,27 +81,6 @@ public class DialogConversations implements Serializable
             {
                 dialogList.get(i).setUserProfile(userProfileHashMap.get(dialogList.get(i).getUserID()));
             }
-        }
-
-        DialogConversations dialogConversations = new DialogConversations();
-        dialogConversations.setDialogs(dialogList);
-        //формируем и отправляем результат
-        return dialogConversations;
-    }
-
-    public static DialogConversations getDialogConversationsHistByUserIdAndDate(int userID, long lastDate) throws Exception
-    {
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
-        String date = format.format(lastDate);
-        ArrayList<Dialog> dialogList = new ArrayList<>();
-
-        int rows = 20;
-        //получаем диалоги по дате раньше чем ласт и парсим
-        String query = "Select top " + rows + " * from Dialogs Where ((UserID_1 = " + userID +" OR UserID_2 = " + userID +" )  AND (Date < '"+ date + "')) Order by Date DESC";
-        ResultSet resultSet = DBManager.getSelectResultSet(query);
-        while (resultSet.next())
-        {
-            dialogList.add(Dialog.parseDialog(resultSet, userID));
         }
 
         DialogConversations dialogConversations = new DialogConversations();

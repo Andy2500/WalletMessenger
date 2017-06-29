@@ -10,11 +10,11 @@ import javax.ws.rs.core.MediaType;
 @Path("/conv")
 public class ConversationController {
 
-    @POST
+    @GET
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    @Path("/getdialogs")
+    @Path("/getdialogs/{token}")
     @Produces(MediaType.APPLICATION_JSON) // получить список бесед
-    public DialogConversations getDialogConversations(@FormParam("token") String token) {
+    public DialogConversations getDialogConversations(@PathParam("token") String token) {
         try {
 
             DialogConversations dialogConv = DialogConversations.getDialogConversationsByUserID(User.getUserByToken(token).getUserID());
@@ -34,11 +34,11 @@ public class ConversationController {
         }
     }
 
-    @POST
+    @GET
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    @Path("/getgroups")
+    @Path("/getgroups/{token}")
     @Produces(MediaType.APPLICATION_JSON) // получить список бесед
-    public GroupConversations getGroupConversations(@FormParam("token") String token) {
+    public GroupConversations getGroupConversations(@PathParam("token") String token) {
         try {
 
             GroupConversations groupConv = GroupConversations.getConversationsByUserID(User.getUserByToken(token).getUserID());
@@ -59,12 +59,12 @@ public class ConversationController {
     }
 
 
-    @POST
+    @GET
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    @Path("/gethistdialogs")
+    @Path("/gethistdialogs/{token}/{date}")
     @Produces(MediaType.APPLICATION_JSON) // получить список бесед
-    public DialogConversations getDialogHist(@FormParam("token") String token,
-                                       @FormParam("date") Long date) {
+    public DialogConversations getDialogHist(@PathParam("token") String token,
+                                       @PathParam("date") Long date) {
         try {
             DialogConversations dialogConversations = DialogConversations.getDialogConversationsHistByUserIdAndDate(User.getUserByToken(token).getUserID(),date);
             dialogConversations.setDefaultClass(new DefaultClass(true, token));
@@ -76,12 +76,12 @@ public class ConversationController {
         }
     }
 
-    @POST
+    @GET
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    @Path("/gethistgroups")
+    @Path("/gethistgroups/{token}/{date}")
     @Produces(MediaType.APPLICATION_JSON) // получить список бесед
-    public GroupConversations getGroupHist(@FormParam("token") String token,
-                                                    @FormParam("date") Long date) {
+    public GroupConversations getGroupHist(@PathParam("token") String token,
+                                                    @PathParam("date") Long date) {
         try {
             GroupConversations groupConversations = GroupConversations.getConversationsHistByUserIdAndDate(User.getUserByToken(token).getUserID(),date);
             groupConversations.setDefaultClass(new DefaultClass(true, token));
@@ -98,7 +98,7 @@ public class ConversationController {
     @Path("/accepttr")
     @Produces(MediaType.APPLICATION_JSON) // подтвердить транзакцию
     public DefaultClassWrapper acceptTrans(@FormParam("token") String token,
-                                    @FormParam("transactionID") int transID) {
+                                           @FormParam("transactionID") int transID) {
         try {
             Transaction.AcceptTransaction(User.getUserByToken(token).getUserID(), transID);
             return new DefaultClassWrapper(new DefaultClass(true, token));
@@ -112,7 +112,7 @@ public class ConversationController {
     @Path("/declinetr")
     @Produces(MediaType.APPLICATION_JSON) // отклонить транзакцию
     public DefaultClassWrapper declineTrans(@FormParam("token") String token,
-                                     @FormParam("transactionID") int transID) {
+                                            @FormParam("transactionID") int transID) {
         try {
             Transaction.DeclineTransaction(User.getUserByToken(token).getUserID(), transID);
             return new DefaultClassWrapper(new DefaultClass(true, token));

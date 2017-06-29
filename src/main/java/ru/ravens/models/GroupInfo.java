@@ -77,7 +77,15 @@ public class GroupInfo implements Serializable
         //сумма 0
         DBManager.execCommand(command);
 
+        //Я конеш верю, что там пробелов не прислали...но я удалю все пробелы на всякий случай, ИНАЧЕ оно может не найти соответствующий номер!
+        users = users.replace(" ","");
+
+        //Теперь заменим запятые на запятые и кавычки слева и справа и +допишем ещё кавычкр
+        users = "'" + users.replace("," , "' , '") + "'";
+
+        //А теперь это можно отправлять в запрос (и без сплита справились, путем ужесточения требований к входным данным.
         query = "SELECT * FROM Users where Phone in ( " + users + ")";
+
         resultSet = DBManager.getSelectResultSet(query);
         //Проверяем нашли ли мы хоть кого-то из запроса
         if(resultSet.next())
