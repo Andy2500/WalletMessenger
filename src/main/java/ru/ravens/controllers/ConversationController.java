@@ -17,11 +17,11 @@ import java.util.Date;
 @Path("/conv")
 public class ConversationController {
 
-    @GET
+    @POST
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    @Path("/gets/{token}")
+    @Path("/gets")
     @Produces(MediaType.APPLICATION_JSON) // получить список бесед
-    public Conversations getConversations(@PathParam("token") String token) {
+    public Conversations getConversations(@FormParam("token") String token) {
         try {
             Conversations conv = Conversations.getConversationsByUserID(User.getUserByToken(token).getUserID());
             conv.setDefaultClass(new DefaultClass(true, token));
@@ -33,12 +33,12 @@ public class ConversationController {
         }
     }
 
-    @GET
+    @POST
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    @Path("/gethist/{token}/{date}")
+    @Path("/gethist")
     @Produces(MediaType.APPLICATION_JSON) // получить список бесед
-    public Conversations getConversationsHist(@PathParam("token") String token,
-                                              @PathParam("date") Long date) {
+    public Conversations getConversationsHist(@FormParam("token") String token,
+                                              @FormParam("date") Long date) {
         try {
             Conversations conv = Conversations.getConversationsHistByUserIdAndDate(User.getUserByToken(token).getUserID(),date);
             conv.setDefaultClass(new DefaultClass(true, token));
@@ -50,12 +50,12 @@ public class ConversationController {
         }
     }
 
-    @GET
+    @POST
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    @Path("/accepttr/{token}/{transactionID}")
+    @Path("/accepttr")
     @Produces(MediaType.APPLICATION_JSON) // подтвердить транзакцию
-    public DefaultClassWrapper acceptTrans(@PathParam("token") String token,
-                                    @PathParam("transactionID") int transID) {
+    public DefaultClassWrapper acceptTrans(@FormParam("token") String token,
+                                    @FormParam("transactionID") int transID) {
         try {
             Transaction.AcceptTransaction(User.getUserByToken(token).getUserID(), transID);
             return new DefaultClassWrapper(new DefaultClass(true, token));
@@ -64,12 +64,12 @@ public class ConversationController {
         }
     }
 
-    @GET
+    @POST
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    @Path("/declinetr/{token}/{transactionID}")
+    @Path("/declinetr")
     @Produces(MediaType.APPLICATION_JSON) // отклонить транзакцию
-    public DefaultClassWrapper declineTrans(@PathParam("token") String token,
-                                     @PathParam("transactionID") int transID) {
+    public DefaultClassWrapper declineTrans(@FormParam("token") String token,
+                                     @FormParam("transactionID") int transID) {
         try {
             Transaction.DeclineTransaction(User.getUserByToken(token).getUserID(), transID);
             return new DefaultClassWrapper(new DefaultClass(true, token));
