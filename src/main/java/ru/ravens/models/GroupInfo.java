@@ -3,11 +3,14 @@ package ru.ravens.models;
 import ru.ravens.models.InnerModel.Transaction;
 import ru.ravens.models.InnerModel.User;
 import ru.ravens.service.DBManager;
+import ru.ravens.service.DateWorker;
 
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.sql.ResultSet;
 import java.util.*;
+
+import static java.sql.Timestamp.valueOf;
 
 @XmlRootElement
 public class GroupInfo implements Serializable
@@ -37,9 +40,10 @@ public class GroupInfo implements Serializable
         }
         int groupID = resultSet.getInt(1) +1;
 
+        String date = DateWorker.getNowMomentInUTC();
         //запись группы
-        String command = "INSERT INTO Groups (GroupID, Name, Sum, AdminID) VALUES(" +
-                + groupID + ", N'" + name + "' , 0, " + creatorID +" )";
+        String command = "INSERT INTO Groups (GroupID, Name, Sum, AdminID, Date) VALUES(" +
+                + groupID + ", N'" + name + "' , 0, " + creatorID +", '" + date + "' )";
         //сумма 0
         DBManager.execCommand(command);
 
@@ -50,8 +54,9 @@ public class GroupInfo implements Serializable
         //Да, здесь берется MAX(GroupID) из таблицы Groups ! (а вставляется в таблицу GroupBalances
 
         DBManager.execCommand(command);
-
-        return new DefaultClassAndDateAndID(groupID);
+        DefaultClassAndDateAndID def = new DefaultClassAndDateAndID(groupID);
+        def.setDate(valueOf(date));
+        return def;
     }
 
     //После выполнения в контроллере можно добавить юзера в список userProfiles, а то тут его получать нет смысла

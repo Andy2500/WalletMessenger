@@ -54,7 +54,7 @@ public class DialogController {
     }
 
     @GET
-    @Path("/gettransactions/{token}/dialogID}/{transactionID}")
+    @Path("/gettransactions/{token}/{dialogID}/{transactionID}")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON) // получение истории транзакций, приходит самая ранняя что есть на устройстве
     public TransactionHist getLastTransactions(@PathParam("token") String token,

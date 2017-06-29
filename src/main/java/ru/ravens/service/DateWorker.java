@@ -22,14 +22,22 @@ public class DateWorker {
         }
     }
 
+
+    //Исправлено на другой формат даты, тоже string
+    static final String DATEFORMAT = "yyyy-MM-dd HH:mm:ss.SSS";
     public static String getNowMomentInUTC() {
-        GregorianCalendar calendar = new GregorianCalendar(TimeZone.getTimeZone("UTC"));
-        return calendar.get(Calendar.YEAR) + "."
-                + (calendar.get(Calendar.MONTH) + 1) + "."
-                + calendar.get(Calendar.DAY_OF_MONTH) + " "
-                + calendar.get(Calendar.HOUR_OF_DAY) + ":"
-                + calendar.get(Calendar.MINUTE) + ":"
-                + calendar.get(Calendar.SECOND) + ":"
-                + calendar.get(Calendar.MILLISECOND);
+        final SimpleDateFormat sdf = new SimpleDateFormat(DATEFORMAT);
+        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+        final String utcTime = sdf.format(new Date());
+        return utcTime;
+
+//        GregorianCalendar calendar = new GregorianCalendar(TimeZone.getTimeZone("UTC"));
+//        return calendar.get(Calendar.YEAR) + "."
+//                + (calendar.get(Calendar.MONTH) + 1) + "."
+//                + calendar.get(Calendar.DAY_OF_MONTH) + " "
+//                + calendar.get(Calendar.HOUR_OF_DAY) + ":"
+//                + calendar.get(Calendar.MINUTE) + ":"
+//                + calendar.get(Calendar.SECOND) + ":"
+//                + calendar.get(Calendar.MILLISECOND);
     }
 }

@@ -41,7 +41,6 @@ public class GroupController {
                                                            @PathParam("text") String text)
     {
         try{
-            //GroupInfo groupInfo = GroupInfo.getGroupInfoById(groupID);
             DefaultClassAndDateAndID defaultClassAndDateAndID = Transaction.SendTransactionGroup(User.getUserByToken(token).getUserID(),receiverID, groupID,
                     money, cash, text);
             defaultClassAndDateAndID.setDefaultClass(new DefaultClass(true,token));
@@ -81,7 +80,6 @@ public class GroupController {
                                               @PathParam("transactionID") int lastTransID) {
         try {
             User.getUserByToken(token);
-            //Саше надо дописать -> Саша дописал
             TransactionHist hist = TransactionHist.getNewTransactionsByGroupIDAndTransactionID(groupID,lastTransID);
             hist.setDefaultClass(new DefaultClass(true, token));
             return hist;
