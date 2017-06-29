@@ -108,13 +108,13 @@ public class GroupController {
         }
     }
 
-    @GET
-    @Path("/createwithusers/{token}/{name}/{phones}")
+    @POST
+    @Path("/createwithusers")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON) // создание группового диалога
-    public DefaultClassAndDateAndID createGroup(@PathParam("token") String token,
-                                                @PathParam("name") String name,
-                                                @PathParam("phones") String phones){
+    public DefaultClassAndDateAndID createGroup(@FormParam("token") String token,
+                                                @FormParam("name") String name,
+                                                @FormParam("phones") String phones){
         try {
             User user = User.getUserByToken(token);
             DefaultClassAndDateAndID defaultClassAndDateAndID = GroupInfo.createGroupWithUsers(user.getUserID(), name, phones);

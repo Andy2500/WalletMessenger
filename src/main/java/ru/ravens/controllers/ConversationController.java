@@ -10,11 +10,11 @@ import javax.ws.rs.core.MediaType;
 @Path("/conv")
 public class ConversationController {
 
-    @GET
+    @POST
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    @Path("/getdialogs/{token}")
+    @Path("/getdialogs")
     @Produces(MediaType.APPLICATION_JSON) // получить список бесед
-    public DialogConversations getDialogConversations(@PathParam("token") String token) {
+    public DialogConversations getDialogConversations(@FormParam("token") String token) {
         try {
 
             DialogConversations dialogConv = DialogConversations.getDialogConversationsByUserID(User.getUserByToken(token).getUserID());
@@ -34,11 +34,11 @@ public class ConversationController {
         }
     }
 
-    @GET
+    @POST
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    @Path("/getgroups/{token}")
+    @Path("/getgroups")
     @Produces(MediaType.APPLICATION_JSON) // получить список бесед
-    public GroupConversations getGroupConversations(@PathParam("token") String token) {
+    public GroupConversations getGroupConversations(@FormParam("token") String token) {
         try {
 
             GroupConversations groupConv = GroupConversations.getConversationsByUserID(User.getUserByToken(token).getUserID());
@@ -59,12 +59,12 @@ public class ConversationController {
     }
 
 
-    @GET
+    @POST
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    @Path("/gethistdialogs/{token}/{date}")
+    @Path("/gethistdialogs")
     @Produces(MediaType.APPLICATION_JSON) // получить список бесед
-    public DialogConversations getDialogHist(@PathParam("token") String token,
-                                       @PathParam("date") Long date) {
+    public DialogConversations getDialogHist(@FormParam("token") String token,
+                                       @FormParam("date") Long date) {
         try {
             DialogConversations dialogConversations = DialogConversations.getDialogConversationsHistByUserIdAndDate(User.getUserByToken(token).getUserID(),date);
             dialogConversations.setDefaultClass(new DefaultClass(true, token));
@@ -76,12 +76,12 @@ public class ConversationController {
         }
     }
 
-    @GET
+    @POST
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    @Path("/gethistgroups/{token}/{date}")
+    @Path("/gethistgroups")
     @Produces(MediaType.APPLICATION_JSON) // получить список бесед
-    public GroupConversations getGroupHist(@PathParam("token") String token,
-                                                    @PathParam("date") Long date) {
+    public GroupConversations getGroupHist(@FormParam("token") String token,
+                                                    @FormParam("date") Long date) {
         try {
             GroupConversations groupConversations = GroupConversations.getConversationsHistByUserIdAndDate(User.getUserByToken(token).getUserID(),date);
             groupConversations.setDefaultClass(new DefaultClass(true, token));
