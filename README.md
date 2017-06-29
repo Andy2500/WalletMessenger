@@ -98,19 +98,18 @@
 **Параметр:** token - токен пользователя <br>
 **Параметр:** phone - телефон пользователя <br>
 **Выходные данные:** userID + name + phone + image + DefaultClass
-
 **Пример JSON**: <br>
-`{ `<br>`
-"name":"Anton", `<br>`
-"image":null, `<br>`
-"balance":0.0, `<br>`
-"phone":"8-920", `<br>`
-"userID":2, `<br>`
-"defaultClass":{ `<br>`
-"operationOutput":true, `<br>`
-"token":null `<br>`
-} `<br>`
-} `
+{ <br>
+"name":"Anton", <br>
+"userID":2, <br>
+"defaultClass":{ <br>
+"token":"tokenAlex", <br>
+"operationOutput":true <br>
+}, <br>
+"image":null, <br>
+"phone":"8920", <br>
+"balance":0.0 <br>
+} <br>
 
 ### ConversationController("/conv"):
 
@@ -121,60 +120,108 @@
 **Выходные данные:** Dialog()[] + Group()[] + DefaultClass 
 //JSON устарел (нету в группах и диалогах поля date)
 **Пример JSON**: <br>
-`{ `<br>` 
-"groups":[ `<br>` 
-{ `<br>` 
-"name":"DreamTeam", `<br>` 
-"adminID":3, `<br>` 
-"myBalance":-100.0, `<br>` 
-"groupID":1, `<br>` 
-"sum":150.0 `<br>` 
-},  `<br>` 
-{  `<br>` 
-"name":"Old Owls Team",  `<br>` 
-"adminID":6,  `<br>` 
-"myBalance":300.0,  `<br>` 
-"groupID":3,  `<br>` 
-"sum":300.0  `<br>` 
-}  `<br>` 
-],  `<br>` 
-"dialogs":[  `<br>` 
-{  `<br>` 
-"userProfile":{  `<br>` 
-"name":"Anton",  `<br>` 
-"image":null, `<br>` 
-"balance":0.0, `<br>` 
-"phone":"8-920", `<br>` 
-"userID":2, `<br>` 
-"defaultClass":{ `<br>` 
-"operationOutput":null, `<br>` 
-"token":null  `<br>` 
-} `<br>` 
-}, `<br>` 
-"dialogID":1, `<br>` 
-"balance":100.0 `<br>` 
-}, `<br>` 
-{ `<br>` 
-"userProfile":{ `<br>` 
-"name":"Leonid", `<br>` 
-"image":null, `<br>` 
-"balance":0.0, `<br>` 
-"phone":"8-940", `<br>` 
-"userID":4, `<br>` 
-"defaultClass":{ `<br>` 
-"operationOutput":null, `<br>` 
-"token":null `<br>` 
-} `<br>` 
-}, `<br>` 
-"dialogID":2,  `<br>` 
-"balance":-200.0 `<br>` 
-} `<br>` 
-], `<br>` 
-"defaultClass":{ `<br>` 
-"operationOutput":true,  `<br>` 
-"token":"tokenAlex"  `<br>` 
-}  `<br>` 
-}  `<br>` 
+{ <br>
+"groups":[ <br>
+{ <br>
+"name":"Fintech Cup", <br>
+"date":1498551443614, <br>
+"groupID":2, <br>
+"adminID":3, <br>
+"myBalance":-50.0, <br>
+"sum":-50.0 <br>
+}, <br>
+{ <br>
+"name":"Old Owls Team", <br>
+"date":1498555043614, <br>
+"groupID":3, <br>
+"adminID":6, <br>
+"myBalance":300.0, <br>
+"sum":300.0 <br>
+},
+{
+"name":"DreamTeam", <br>
+"date":1498583370006, <br>
+"groupID":1, <br>
+"adminID":3, <br>
+"myBalance":584.0, <br>
+"sum":450.0 <br>
+} <br>
+], <br>
+"dialogs":[ <br>
+{ <br>
+"date":1498029443614, <br>
+"userID":6, <br>
+"dialogID":8, <br>
+"userProfile":{ <br>
+"name":"Arcen", <br>
+"userID":6, <br>
+"defaultClass":{ <br>
+"token":null, <br>
+"operationOutput":null <br>
+}, <br>
+"balance":0.0, <br>
+"phone":"7960", <br>
+"image":null <br>
+}, <br>
+"balance":2000.0 <br>
+}, <br>
+{ <br>
+"date":1498547843614, <br>
+"userID":2, <br>
+"dialogID":1, <br>
+"userProfile":{ <br>
+"name":"Anton", <br>
+"userID":2, <br>
+"defaultClass":{ <br>
+"token":null, <br>
+"operationOutput":null <br>
+}, <br>
+"balance":0.0, <br>
+"phone":"8920", <br>
+"image":null <br>
+}, <br>
+"balance":100.0 <br>
+}, <br>
+{ <br>
+"date":1498547903614, <br>
+"userID":4, <br>
+"dialogID":2, <br>
+"userProfile":{ <br>
+"name":"Leonid", <br>
+"userID":4, <br>
+"defaultClass":{ <br>
+"token":null, <br>
+"operationOutput":null <br>
+}, <br>
+"balance":0.0, <br>
+"phone":"7940", <br>
+"image":null <br>
+}, <br>
+"balance":-200.0 <br>
+}, <br>
+{ <br>
+"date":1498547963614, <br>
+"userID":5, <br>
+"dialogID":3, <br>
+"userProfile":{ <br>
+"name":"Vika", <br>
+"userID":5, <br>
+"defaultClass":{ <br>
+"token":null, <br>
+"operationOutput":null <br>
+}, <br>
+"balance":0.0, <br>
+"phone":"7950", <br>
+"image":null <br>
+}, <br>
+"balance":-300.0 <br>
+} <br>
+], <br>
+"defaultClass":{ <br>
+"token":"tokenAlex", <br>
+"operationOutput":true <br>
+} <br>
+}  <br>
 
 #### Метод для получения дополнительного списка бесед по дате
 **Путь:** /conv/gets/
