@@ -14,17 +14,17 @@
 **Выходные данные:** userID + name + phone + image + DefaultClass 
 
 **Пример JSON**: <br>
-{
-"name":"Alex2",
-"userID":8,
-"defaultClass":{
-"token":"0df23be331dc7fc1cd9372cb7edfb660",
-"operationOutput":true
-},
-"image":null,
-"phone":"8-002",
-"balance":0.0
-}
+{  <br>
+"name":"Alex2",  <br>
+"userID":8,  <br> 
+"defaultClass":{  <br>
+"token":"0df23be331dc7fc1cd9372cb7edfb660",  <br>
+"operationOutput":true  <br>
+},  <br>
+"image":null,  <br>
+"phone":"8-002",  <br>
+"balance":0.0  <br>
+}  <br>
 
 #### Метод для авторизации пользователя
 **Путь:** /user/log/
