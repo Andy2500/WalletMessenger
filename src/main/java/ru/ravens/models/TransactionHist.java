@@ -37,7 +37,6 @@ public class TransactionHist implements Serializable
         return getTransactionsHist(query);
     }
 
-
     //Возвращает новые транзакции (20) по ID диалога и самому позднему сообщению (самый большой TransactionID )
     public static TransactionHist getNewTransactionsByDialogIDAndTransactionID(int dialogID, int transactionID) throws Exception
     {

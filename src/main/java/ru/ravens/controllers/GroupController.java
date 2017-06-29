@@ -1,11 +1,8 @@
 package ru.ravens.controllers;
 
-import ru.ravens.models.DefaultClass;
-import ru.ravens.models.DefaultClassAndDateAndID;
-import ru.ravens.models.GroupInfo;
+import ru.ravens.models.*;
 import ru.ravens.models.InnerModel.Transaction;
 import ru.ravens.models.InnerModel.User;
-import ru.ravens.models.TransactionHist;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -117,15 +114,15 @@ public class GroupController {
     @Path("/add")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON) // добавить пользователя в диалог
-    public DefaultClass addToGroup(@FormParam("token") String token,
+    public DefaultClassWrapper addToGroup(@FormParam("token") String token,
                                         @FormParam("groupID") int groupID,
                                          @FormParam("phone") String phone) {
         try {
             User.getUserByToken(token);
             GroupInfo.addUserToGroupById(User.getUserByPhone(phone).getUserID(), groupID);
-            return new DefaultClass(true, token);
+            return new DefaultClassWrapper(new DefaultClass(true, token));
         } catch (Exception ex) {
-            return new DefaultClass(false, ex.getMessage());
+            return new DefaultClassWrapper(new DefaultClass(false, ex.getMessage()));
         }
     }
 
@@ -133,29 +130,29 @@ public class GroupController {
     @Path("/deluser")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON) // удалить пользователя из диалога
-    public DefaultClass deleteFromGroup(@FormParam("token") String token,
+    public DefaultClassWrapper deleteFromGroup(@FormParam("token") String token,
                                    @FormParam("groupID") int groupID,
                                    @FormParam("phone") String phone) {
         try {
             User.getUserByToken(token);
             GroupInfo.delUserFromGroupById(User.getUserByPhone(phone).getUserID(), groupID);
-            return new DefaultClass(true, token);
+            return new DefaultClassWrapper(new DefaultClass(true, token));
         } catch (Exception ex) {
-            return new DefaultClass(false, ex.getMessage());
+            return new DefaultClassWrapper(new DefaultClass(false, ex.getMessage()));
         }
     }
 
     @POST
     @Path("/quit")
     @Produces(MediaType.APPLICATION_JSON) // покинуть диалог
-    public DefaultClass leaveGroup(@FormParam("token") String token,
+    public DefaultClassWrapper leaveGroup(@FormParam("token") String token,
                                    @FormParam("groupID") int groupID) {
         try {
             User user = User.getUserByToken(token);
             GroupInfo.delUserFromGroupById(user.getUserID(), groupID);
-            return new DefaultClass(true, token);
+            return new DefaultClassWrapper(new DefaultClass(true, token));
         } catch (Exception ex) {
-            return new DefaultClass(false, ex.getMessage());
+            return new DefaultClassWrapper(new DefaultClass(false, ex.getMessage()));
         }
     }
 
@@ -163,14 +160,14 @@ public class GroupController {
     @Path("/leave")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON) // удаление групповой беседф
-    public DefaultClass deleteGroup(@FormParam("token") String token,
+    public DefaultClassWrapper deleteGroup(@FormParam("token") String token,
                                    @FormParam("groupID") int groupID) {
         try {
             User.getUserByToken(token); //(было закомменчено) надо пытаться получать юзера по токену, вдруг токен неверный послали, тогда эксепшен будет
             GroupInfo.deleteGroupById(groupID);
-            return new DefaultClass(true, token);
+            return new DefaultClassWrapper(new DefaultClass(true, token));
         } catch (Exception ex) {
-            return new DefaultClass(false, ex.getMessage());
+            return new DefaultClassWrapper(new DefaultClass(false, ex.getMessage()));
         }
     }
 

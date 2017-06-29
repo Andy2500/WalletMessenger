@@ -2,6 +2,7 @@ package ru.ravens.controllers;
 
 
 import ru.ravens.models.DefaultClass;
+import ru.ravens.models.DefaultClassWrapper;
 import ru.ravens.models.InnerModel.User;
 import ru.ravens.models.UserProfile;
 import ru.ravens.service.TokenBuilder;
@@ -48,10 +49,8 @@ public class UsersController {
                 throw new Exception("Incorrect password");
             }
             UserProfile userProfile = UserProfile.getUserProfileByUser(user);
-            userProfile.getDefaultClass().setOperationOutput(true);
-            userProfile.getDefaultClass().setToken(user.getToken());
+            userProfile.setDefaultClass(new DefaultClass(true,user.getToken()));
             return userProfile;
-
         } catch (Exception ex) {
             UserProfile userProfile = new UserProfile();
             userProfile.setDefaultClass(new DefaultClass(false, ex.getMessage()));
@@ -63,9 +62,9 @@ public class UsersController {
     @Path("/chpsd")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    public DefaultClass changePsd(@FormParam("token") String token,
-                                  @FormParam("lastpsd") String lastpsd,
-                                  @FormParam("newpsd") String newpsd) {
+    public DefaultClassWrapper changePsd(@FormParam("token") String token,
+                                         @FormParam("lastpsd") String lastpsd,
+                                         @FormParam("newpsd") String newpsd) {
         try {
             User user = User.getUserByToken(token);
 
@@ -75,10 +74,9 @@ public class UsersController {
                 throw new Exception("New password equals to last password");
 
             User.changePsd(user.getUserID(), newpsd);
-            return new DefaultClass(true,  null);
-
+            return new DefaultClassWrapper(new DefaultClass(true,  user.getToken()));
         } catch (Exception ex) {
-            return new DefaultClass(false, ex.getMessage());
+            return new DefaultClassWrapper(new DefaultClass(false, ex.getMessage()));
         }
     }
 
@@ -86,14 +84,14 @@ public class UsersController {
     @Path("/chphoto")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    public DefaultClass changePhoto(@FormParam("token") String token,
+    public DefaultClassWrapper changePhoto(@FormParam("token") String token,
                                     @FormParam("photo") String photo) {
         try {
             User user = User.getUserByToken(token);
-            User.changeImage(user.getUserID(),photo);
-            return new DefaultClass(true, token);
+            User.changeImage(user.getUserID(), photo);
+            return new DefaultClassWrapper(new DefaultClass(true,  token));
         } catch (Exception ex) {
-            return new DefaultClass(false, ex.getMessage());
+            return new DefaultClassWrapper(new DefaultClass(false, ex.getMessage()));
         }
     }
 
@@ -106,11 +104,10 @@ public class UsersController {
                                       @FormParam("phone") String phone) {
         try {
             //Это тот кто подал запрос (его надо получить для того, чтобы удостовериться, что он существует и токен подан верный)
-            User.getUserByToken(token);
+            User user = User.getUserByToken(token);
             //А этого вернем, так как его просили вернуть по номеру телефона
             UserProfile userProfile = UserProfile.getUserProfileByUser(User.getUserByPhone(phone));
-            userProfile.getDefaultClass().setOperationOutput(true);
-            userProfile.getDefaultClass().setToken(token);
+            userProfile.setDefaultClass(new DefaultClass(true, token));
             return userProfile;
         }
         catch (Exception ex) {
@@ -120,19 +117,18 @@ public class UsersController {
         }
     }
 
-
     @POST
     @Path("/chname")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    public DefaultClass changeName(@FormParam("token") String token,
+    public DefaultClassWrapper changeName(@FormParam("token") String token,
                                   @FormParam("name") String name) {
         try {
             User user =User.getUserByToken(token);
             User.changeName(user.getUserID(),name);
-            return new DefaultClass(true, token);
+            return new DefaultClassWrapper(new DefaultClass(true,  token));
         } catch (Exception ex) {
-            return new DefaultClass(false, ex.getMessage());
+            return new DefaultClassWrapper(new DefaultClass(false, ex.getMessage()));
         }
     }
 

@@ -2,6 +2,7 @@ package ru.ravens.controllers;
 
 import ru.ravens.models.Conversations;
 import ru.ravens.models.DefaultClass;
+import ru.ravens.models.DefaultClassWrapper;
 import ru.ravens.models.InnerModel.Transaction;
 import ru.ravens.models.InnerModel.User;
 import ru.ravens.models.TransactionHist;
@@ -49,19 +50,17 @@ public class ConversationController {
         }
     }
 
-
-
     @POST
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Path("/accepttr")
     @Produces(MediaType.APPLICATION_JSON) // подтвердить транзакцию
-    public DefaultClass acceptTrans(@FormParam("token") String token,
+    public DefaultClassWrapper acceptTrans(@FormParam("token") String token,
                                     @FormParam("transactionID") int transID) {
         try {
             Transaction.AcceptTransaction(User.getUserByToken(token).getUserID(), transID);
-            return new DefaultClass(true, token);
+            return new DefaultClassWrapper(new DefaultClass(true, token));
         } catch (Exception ex) {
-            return new DefaultClass(false, ex.getMessage());
+            return new DefaultClassWrapper(new DefaultClass(false, ex.getMessage()));
         }
     }
 
@@ -69,13 +68,13 @@ public class ConversationController {
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Path("/declinetr")
     @Produces(MediaType.APPLICATION_JSON) // отклонить транзакцию
-    public DefaultClass declineTrans(@FormParam("token") String token,
+    public DefaultClassWrapper declineTrans(@FormParam("token") String token,
                                      @FormParam("transactionID") int transID) {
         try {
             Transaction.DeclineTransaction(User.getUserByToken(token).getUserID(), transID);
-            return new DefaultClass(true, token);
+            return new DefaultClassWrapper(new DefaultClass(true, token));
         } catch (Exception ex) {
-            return new DefaultClass(false, ex.getMessage());
+            return new DefaultClassWrapper(new DefaultClass(false, ex.getMessage()));
         }
     }
 
