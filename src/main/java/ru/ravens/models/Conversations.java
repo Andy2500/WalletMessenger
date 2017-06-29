@@ -12,6 +12,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+//Так пусть это все будет на всякий случай, вдруг что-то изменится
 @XmlRootElement
 public class Conversations implements Serializable
 {

@@ -59,6 +59,61 @@ public class GroupInfo implements Serializable
         return def;
     }
 
+    //После выполнения в контроллере можно добавить создателя в список userProfiles, а то тут его получать нет смысла
+    //Так как он уже получен там в контроллере
+    //ВОзвращает ID группы
+    public static DefaultClassAndDateAndID createGroupWithUsers(int creatorID, String name, String users) throws Exception {
+        String query = "SELECT MAX(GroupID) FROM Groups";
+        ResultSet resultSet = DBManager.getSelectResultSet(query);
+        if (!resultSet.next()) {
+            throw new Exception("Ни одной группы не существует.");
+        }
+        int groupID = resultSet.getInt(1) + 1;
+
+        String date = DateWorker.getNowMomentInUTC();
+        //запись группы
+        String command = "INSERT INTO Groups (GroupID, Name, Sum, AdminID, Date) VALUES(" +
+                +groupID + ", N'" + name + "' , 0, " + creatorID + ", '" + date + "' )";
+        //сумма 0
+        DBManager.execCommand(command);
+
+        query = "SELECT * FROM Users where Phone in ( " + users + ")";
+        resultSet = DBManager.getSelectResultSet(query);
+        //Проверяем нашли ли мы хоть кого-то из запроса
+        if(resultSet.next())
+        {
+            //Да, я знаю что и без листа можно (сразу все по ходу делать, но ускорения будет 0 (по сравнению со временем выполнения запросов),
+            //а читаемость и понятность кода снизится =(, поэтому так
+            //добавим всех в группу
+            ArrayList<Integer> usersID = new ArrayList<>();
+            //считаем ID в лист
+            do{
+                usersID.add(resultSet.getInt("UserID"));
+            }while (resultSet.next());
+
+            //Формируем запрос на вставку
+            command = "INSERT INTO GroupBalances (GroupID, UserID, Balance) VALUES ";
+            for(int i = 0; i < usersID.size(); i++)
+            {
+                command  += "(" + groupID + "," + usersID.get(i) + ", 0 ),"; //и запятая в конце все норм
+            }
+            command += "(" + groupID + "," + creatorID + ", 0 )"; // + сам создатель без запятой уже в конце и запрос готов
+            DBManager.execCommand(command);
+        }
+        else
+        {
+            //запись баланса этого пользователя в этой группе
+            command = "INSERT INTO GroupBalances (GroupID, UserID, Balance) VALUES(" +
+                    + groupID + "," + creatorID + ", 0 )";
+            DBManager.execCommand(command);
+        }
+        //Да, здесь берется MAX(GroupID) из таблицы Groups ! (а вставляется в таблицу GroupBalances
+        DefaultClassAndDateAndID def = new DefaultClassAndDateAndID(groupID);
+        def.setDate(valueOf(date));
+        return def;
+    }
+
+
     //После выполнения в контроллере можно добавить юзера в список userProfiles, а то тут его получать нет смысла
     //Так как он уже получен там в контроллере
     public static void addUserToGroupById(int userID, int groupID) throws Exception
@@ -74,8 +129,6 @@ public class GroupInfo implements Serializable
         //А другие наоборот в "плюс" вышли, из-за перераспределения расходов
 
     }
-
-
 
 
     //ЗДЕСЬ ПОКА НЕ ТОЧНО ВСЕ, МОГУТ БЫТЬ ИЗМЕНЕНИЯ

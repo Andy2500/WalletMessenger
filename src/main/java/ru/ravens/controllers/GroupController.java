@@ -109,6 +109,26 @@ public class GroupController {
     }
 
     @POST
+    @Path("/createwithusers")
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Produces(MediaType.APPLICATION_JSON) // создание группового диалога
+    public DefaultClassAndDateAndID createGroup(@FormParam("token") String token,
+                                                @FormParam("name") String name,
+                                                @FormParam("phones") String phones){
+        try {
+            User user = User.getUserByToken(token);
+            DefaultClassAndDateAndID defaultClassAndDateAndID = GroupInfo.createGroupWithUsers(user.getUserID(), name, phones);
+            defaultClassAndDateAndID.setDefaultClass(new DefaultClass(true, token));
+            return defaultClassAndDateAndID;
+        } catch (Exception ex) {
+            DefaultClassAndDateAndID defaultClassAndDateAndID = new DefaultClassAndDateAndID();
+            defaultClassAndDateAndID.setDefaultClass(new DefaultClass(false, ex.getMessage()));
+            return defaultClassAndDateAndID;
+        }
+    }
+
+
+    @POST
     @Path("/add")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON) // добавить пользователя в диалог
