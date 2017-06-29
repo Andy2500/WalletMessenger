@@ -21,7 +21,7 @@ public class DialogConversations implements Serializable
     public static DialogConversations getDialogConversationsByUserID(int userID) throws Exception
     {
         ArrayList<Dialog> dialogList = new ArrayList<>();
-        int rows = 2;
+        int rows = 20;
         //получаем диалоги и парсим
         String query = "Select top " + rows + " * from Dialogs Where (UserID_1 = " + userID +" OR UserID_2 = " + userID +" ) Order by Date DESC";
         ResultSet resultSet = DBManager.getSelectResultSet(query);
@@ -39,7 +39,7 @@ public class DialogConversations implements Serializable
         String date = format.format(lastDate);
         ArrayList<Dialog> dialogList = new ArrayList<>();
 
-        int rows = 2;
+        int rows = 20;
         //получаем диалоги по дате раньше чем ласт и парсим
         String query = "Select top " + rows + " * from Dialogs Where ((UserID_1 = " + userID +" OR UserID_2 = " + userID +" )  AND (Date < '"+ date + "')) Order by Date DESC";
         ResultSet resultSet = DBManager.getSelectResultSet(query);

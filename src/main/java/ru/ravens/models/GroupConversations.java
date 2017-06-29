@@ -18,7 +18,7 @@ public class GroupConversations implements Serializable
 
     public static GroupConversations getConversationsByUserID(int userID) throws Exception
     {
-        int rows = 2;
+        int rows = 20;
         //получаем группы
         ArrayList<Group> groupList = getGroupList(rows, userID);
         //формируем и отправляем результат
@@ -31,7 +31,7 @@ public class GroupConversations implements Serializable
     {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
         String date = format.format(lastDate);
-        int rows = 2;
+        int rows = 20;
 
         ArrayList<Group> groupList  = getGroupListBeforeDate(rows,userID,date);
         //формируем и отправляем результат
