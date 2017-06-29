@@ -114,57 +114,114 @@
 
 ### ConversationController("/conv"):
 
-#### Метод для получения первноначального списка бесед (при входе)
-**Путь:** /conv/gets/
+#### Метод для получения первноначального списка диалогов (при входе)
+**Путь:** /conv/getdialogs/
 
 **Параметр:** token  - токен пользователя <br>
-**Выходные данные:** Dialog()[] + Group()[] + DefaultClass 
+**Выходные данные:** Dialog()[] + DefaultClass  // 20 штук, может иметь менее 20 или вовсе быть пустым (!)
+
+**Пример JSON**: <br>
+{ <br>
+"dialogs":[ <br>
+{ <br>
+"date":1498745540791, <br>
+"userID":3, <br>
+"dialogID":9, <br>
+"userProfile":{ <br>
+"name":"Andrey", <br>
+"userID":3, <br>
+"defaultClass":{ <br>
+"token":null, <br>
+"operationOutput":null <br>
+}, <br>
+"image":null, <br>
+"phone":"8930", <br>
+"balance":0.0 <br>
+}, <br>
+"balance":0.0 <br>
+}, <br>
+{ <br>
+"date":1498744832344, <br>
+"userID":5, <br>
+"dialogID":3, <br>
+"userProfile":{ <br>
+"name":"Vika", <br>
+"userID":5, <br>
+"defaultClass":{ <br>
+"token":null, <br>
+"operationOutput":null <br>
+}, <br>
+"image":null, <br>
+"phone":"7950", <br>
+"balance":0.0 <br>
+}, <br>
+"balance":300.0 <br>
+} <br>
+], <br>
+"defaultClass":{ <br>
+"token":"tokenAlex", <br>
+"operationOutput":true <br>
+} <br>
+} <br>
+
+#### Метод для получения первноначального списка групп (при входе)
+**Путь:** /conv/getgroups/
+
+**Параметр:** token  - токен пользователя <br>
+**Выходные данные:** Group()[] + DefaultClass  // 20 штук, может иметь менее 20 или вовсе быть пустым (!)
 
 **Пример JSON**: <br>
 { <br>
 "groups":[ <br>
 { <br>
-"name":"Fintech Cup", <br>
-"date":1498551443614, <br>
-"groupID":2, <br>
-"adminID":3, <br>
-"myBalance":-50.0, <br>
-"sum":-50.0 <br>
+"name":"Большая Confa ", <br>
+"date":1498757926606, <br>
+"groupID":15, <br>
+"sum":0.0, <br>
+"myBalance":0.0, <br>
+"adminID":1 <br>
 }, <br>
 { <br>
-"name":"Old Owls Team", <br>
-"date":1498555043614, <br>
-"groupID":3, <br>
-"adminID":6, <br>
-"myBalance":300.0, <br>
-"sum":300.0 <br>
-},
-{
-"name":"DreamTeam", <br>
-"date":1498583370006, <br>
-"groupID":1, <br>
-"adminID":3, <br>
-"myBalance":584.0, <br>
-"sum":450.0 <br>
+"name":"Большая Confa ", <br>
+"date":1498757505076, <br>
+"groupID":14, <br>
+"sum":0.0, <br>
+"myBalance":0.0, <br>
+"adminID":1 <br>
 } <br>
 ], <br>
+"defaultClass":{ <br>
+"token":"tokenAlex", <br>
+"operationOutput":true <br>
+} <br>
+} <br>
+
+#### Метод для получения дополнительного диалогов по дате
+**Путь:** /conv/gethistdialogs/
+
+**Параметр:** token  - токен пользователя <br>
+**Параметр:** date - дата последнего диалога, формат long  <br>
+**Выходные данные:** Dialog()[] + DefaultClass  // 20 штук, может иметь менее 20 или вовсе быть пустым (!)
+
+**Пример JSON**: <br>
+{ <br>
 "dialogs":[ <br>
 { <br>
-"date":1498029443614, <br>
-"userID":6, <br>
-"dialogID":8, <br>
+"date":1498547903614, <br>
+"userID":4, <br>
+"dialogID":2, <br>
 "userProfile":{ <br>
-"name":"Arcen", <br>
-"userID":6, <br>
+"name":"Leonid", <br>
+"userID":4, <br>
 "defaultClass":{ <br>
 "token":null, <br>
 "operationOutput":null <br>
 }, <br>
-"balance":0.0, <br>
-"phone":"7960", <br>
-"image":null <br>
+"image":null, <br>
+"phone":"7940", <br>
+"balance":0.0 <br>
 }, <br>
-"balance":2000.0 <br>
+"balance":-200.0 <br>
 }, <br>
 { <br>
 "date":1498547843614, <br>
@@ -177,59 +234,51 @@
 "token":null, <br>
 "operationOutput":null <br>
 }, <br>
-"balance":0.0, <br>
+"image":null, <br>
 "phone":"8920", <br>
-"image":null <br>
+"balance":0.0 <br>
 }, <br>
 "balance":100.0 <br>
-}, <br>
-{ <br>
-"date":1498547903614, <br>
-"userID":4, <br>
-"dialogID":2, <br>
-"userProfile":{ <br>
-"name":"Leonid", <br>
-"userID":4, <br>
-"defaultClass":{ <br>
-"token":null, <br>
-"operationOutput":null <br>
-}, <br>
-"balance":0.0, <br>
-"phone":"7940", <br>
-"image":null <br>
-}, <br>
-"balance":-200.0 <br>
-}, <br>
-{ <br>
-"date":1498547963614, <br>
-"userID":5, <br>
-"dialogID":3, <br>
-"userProfile":{ <br>
-"name":"Vika", <br>
-"userID":5, <br>
-"defaultClass":{ <br>
-"token":null, <br>
-"operationOutput":null <br>
-}, <br>
-"balance":0.0, <br>
-"phone":"7950", <br>
-"image":null <br>
-}, <br>
-"balance":-300.0 <br>
 } <br>
 ], <br>
 "defaultClass":{ <br>
 "token":"tokenAlex", <br>
 "operationOutput":true <br>
 } <br>
-}  <br>
+} <br>
 
 #### Метод для получения дополнительного списка бесед по дате
-**Путь:** /conv/gets/
+**Путь:** /conv/gethistgroups/
 
 **Параметр:** token  - токен пользователя <br>
-**Параметр:** date - дата последнего диалога или группы формат long  <br>
-**Выходные данные:** Dialog()[] + Group()[] + DefaultClass  //в сумме 20 например, распределения по диалогам и группам неизвестно
+**Параметр:** date - дата последней группы формат long  <br>
+**Выходные данные:** Group()[] + DefaultClass  // 20 штук, может иметь менее 20 или вовсе быть пустым (!)
+
+**Пример JSON**: <br>
+{ <br>
+"groups":[ <br>
+{ <br>
+"name":"Old Owls Team", <br>
+"date":1498555043614, <br>
+"groupID":3, <br>
+"sum":300.0, <br>
+"myBalance":300.0, <br>
+"adminID":6 <br>
+}, <br>
+{ <br>
+"name":"Fintech Cup", <br>
+"date":1498551443614, <br>
+"groupID":2, <br>
+"sum":-50.0, <br>
+"myBalance":-50.0, <br>
+"adminID":3 <br>
+} <br>
+], <br>
+"defaultClass":{ <br>
+"token":"tokenAlex", <br>
+"operationOutput":true <br>
+} <br>
+} <br>
 
 #### Метод для подтверждения транзакции
 **Путь:** /conv/accepttr/
@@ -360,7 +409,7 @@
 
 **Параметр:** token  - токен пользователя <br>
 **Параметр:** phone - телефон того, с кем хотим создать диалог <br>
-**Выходные данные:** DefaultClass
+**Выходные данные:** DefaultClass + Date //дата создания это
 
 **Пример JSON**: <br>
 {<br>
@@ -587,12 +636,33 @@
 ]<br>
 }<br>
 
-#### Метод для создания групповой беседы
+#### Метод для создания групповой беседы с одним участником(админ)
 **Путь:** /group/create/
 
 **Параметр:** token  - токен пользователя <br>
 **Параметр:** name - название групповой беседы <br>
-**Выходные данные:** GroupID + DefaultClass
+**Выходные данные:** GroupID + DefaultClass + Date //дата создания группы
+
+**Пример JSON**: <br>
+{<br>
+"id":6,<br>
+"date":1498746328667,<br>
+"defaultClass":{<br>
+"token":"tokenAlex",<br>
+"operationOutput":true<br>
+}<br>
+}<br>
+
+#### Метод для создания групповой беседы с группой участников
+**Путь:** /group/create/
+
+**Параметр:** token  - токен пользователя <br>
+**Параметр:** name - название групповой беседы <br>
+//Очень строгий формат строки! Никаких пробелов вообще! телефоны строго через запятую, в начале и в конце запятых нет:
+//Пример:   "8913,8150,4444,56774,12312124,0001" -  без кавычек соответственно.
+**Параметр:** phones -  строка с мобильными телефонами других пользователей в соответствующем формате
+
+**Выходные данные:** GroupID + DefaultClass + Date //дата создания группы
 
 **Пример JSON**: <br>
 {<br>
