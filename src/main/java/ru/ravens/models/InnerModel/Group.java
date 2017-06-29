@@ -29,8 +29,6 @@ public class Group implements Serializable
         return group;
     }
 
-
-
     public Date getDate() {
         return date;
     }
