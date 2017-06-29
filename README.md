@@ -517,15 +517,15 @@
 **Параметр:** text - комментарий к транзакции <br>
 **Выходные данные:** DefaultClass + TransactionID + Date
 
-//JSON устарел (+ поле date возвращается с датой транзакции)
 **Пример JSON**: <br>
-`{ `<br>`
-"id":30, `<br>`
-"defaultClass":{ `<br>`
-"operationOutput":true, `<br>`
-"token":"tokenAlex" `<br>`
-}
-} `
+{ <br>
+"id":40, <br>
+"date":1498746058540, <br>
+"defaultClass":{ <br>
+"token":"tokenAlex", <br>
+"operationOutput":true <br>
+} <br>
+} `  <br>
 
 #### Метод для загрузки истории транзакций групповой беседы
 **Путь:** /group/gettransactions/
@@ -536,23 +536,26 @@
 **Выходные данные:** Transaction[20] + DefaultClass
 
 **Пример JSON**: <br>
-`{ `<br>`
-"defaultClass":{`<br>`
-"operationOutput":true,`<br>`
-"token":"tokenAlex"`<br>`
-}, `<br>`
-"transactions":[`<br>`
-{`<br>`
-"userID":2,`<br>`
-"text":"text4",`<br>`
-"date":"2017-06-25",`<br>`
-"groupID":0,`<br>`
-"cash":0,`<br>`
-"dialogID":4,`<br>`
-"transactionID":4,`<br>`
-"proof":0,`<br>`
-"money":1000.0 `<br>`
-}]} `
+{<br>
+"defaultClass":{<br>
+"token":"tokenAlex",<br>
+"operationOutput":true<br>
+},<br>
+"transactions":[<br>
+{<br>
+"text":"groupText11",<br>
+"date":1498478903614,<br>
+"groupID":1,<br>
+"money":10.0,<br>
+"proof":1,<br>
+"cash":1,<br>
+"userID":1,<br>
+"receiverID":0,<br>
+"transactionID":10,<br>
+"dialogID":0<br>
+}<br>
+]<br>
+}<br>
 
 #### Метод для получения новых транзакций, когда пришло новое сообщение в группе
 **Путь:** /group/getnewtransactions/
@@ -563,23 +566,26 @@
 **Выходные данные:** Transaction[20] + DefaultClass
 
 **Пример JSON**: <br>
-`{ `<br>`
-"defaultClass":{`<br>`
-"operationOutput":true,`<br>`
-"token":"tokenAlex"`<br>`
-}, `<br>`
-"transactions":[`<br>`
-{`<br>`
-"userID":2,`<br>`
-"text":"text4",`<br>`
-"date":"2017-06-25",`<br>`
-"groupID":0,`<br>`
-"cash":0,`<br>`
-"dialogID":4,`<br>`
-"transactionID":4,`<br>`
-"proof":0,`<br>`
-"money":1000.0 `<br>`
-}]} `
+{<br>
+"defaultClass":{<br>
+"token":"tokenAlex",<br>
+"operationOutput":true<br>
+},<br>
+"transactions":[<br>
+{<br>
+"text":"groupText11",<br>
+"date":1498478903614,<br>
+"groupID":1,<br>
+"money":10.0,<br>
+"proof":1,<br>
+"cash":1,<br>
+"userID":1,<br>
+"receiverID":0,<br>
+"transactionID":10,<br>
+"dialogID":0<br>
+}<br>
+]<br>
+}<br>
 
 #### Метод для создания групповой беседы
 **Путь:** /group/create/
@@ -589,7 +595,14 @@
 **Выходные данные:** GroupID + DefaultClass
 
 **Пример JSON**: <br>
-{"id":31,"defaultClass":{"operationOutput":true,"token":"tokenAlex"}}
+{<br>
+"id":6,<br>
+"date":1498746328667,<br>
+"defaultClass":{<br>
+"token":"tokenAlex",<br>
+"operationOutput":true<br>
+}<br>
+}<br>
 
 #### Метод для добавления участника в групповую беседу
 **Путь:** /group/add/ 
