@@ -55,10 +55,12 @@
 **Выходные данные:** DefaultClass
 
 **Пример JSON**: <br>
-`{ `<br>`
-"operationOutput":true, `<br>`
-"token":"tokenAlex" `<br>`
-} `
+{ <br>
+"defaultClass":{ <br>
+"token":"tokenAlex", <br>
+"operationOutput":true <br>
+} <br>
+} <br>
 
 #### Метод для смены имени пользователя
 **Путь:** /user/chname/
@@ -83,10 +85,12 @@
 **Выходные данные:** DefaultClass
 
 **Пример JSON**: <br>
-`{ `<br>`
-"operationOutput":true, `<br>`
-"token":"tokenAlex" `<br>`
-} `
+{ <br>
+"defaultClass":{ <br>
+"token":"tokenAlex", <br>
+"operationOutput":true <br>
+} <br>
+} <br>
 
 #### Метод получения пользователя по номеру телефона
 **Путь:** /user/getubyphn/
@@ -187,10 +191,12 @@
 **Выходные данные:** DefaultClass
 
 **Пример JSON**: <br>
-`{ `<br>`
-"operationOutput":true, `<br>`
-"token":"tokenAlex" `<br>`
-} `
+{ <br>
+"defaultClass":{ <br>
+"token":"tokenAlex", <br>
+"operationOutput":true <br>
+} <br>
+} <br>
 
 
 #### Метод для отклонения транзакции
@@ -201,10 +207,12 @@
 **Выходные данные:** DefaultClass
 
 **Пример JSON**: <br>
-`{ `<br>`
-"operationOutput":true, `<br>`
-"token":"tokenAlex" `<br>`
-} `
+{ <br>
+"defaultClass":{ <br>
+"token":"tokenAlex", <br>
+"operationOutput":true <br>
+} <br>
+} <br>`
 
 ### DialogController("/dialog"):
 
@@ -289,10 +297,12 @@
 **Выходные данные:** DefaultClass
 
 **Пример JSON**: <br>
-`{ `<br>`
-"operationOutput":true, `<br>`
-"token":"tokenAlex" `<br>`
-} `
+{ <br>
+"defaultClass":{ <br>
+"token":"tokenAlex", <br>
+"operationOutput":true <br>
+} <br>
+} <br>
 
 #### Метод для получения новых транзакций
 **Путь:** /dialog/getnewtransactions/
@@ -468,10 +478,13 @@
 **Параметр:** phone - телефон того, кого хотим добавить <br>
 **Выходные данные:** DefaultClass
 **Пример JSON**: <br>
-`{ `<br>`
-"operationOutput":true, `<br>`
-"token":"tokenAlex" `<br>`
-} `
+{ <br>
+"defaultClass":{ <br>
+"token":"tokenAlex", <br>
+"operationOutput":true <br>
+} <br>
+} <br>
+
 #### Метод для удаления участника из групповой беседы
 **Путь:** /group/deluser/ 
 
@@ -481,10 +494,12 @@
 **Выходные данные:** DefaultClass
 
 **Пример JSON**: <br>
-`{ `<br>`
-"operationOutput":true, `<br>`
-"token":"tokenAlex" `<br>`
-} `
+{ <br>
+"defaultClass":{ <br>
+"token":"tokenAlex", <br>
+"operationOutput":true <br>
+} <br>
+} <br>
 
 #### Метод для выхода из групповой беседы для юзеров
 **Путь:** /group/quit/ 
@@ -494,10 +509,12 @@
 **Выходные данные:** DefaultClass
 
 **Пример JSON**: <br>
-`{ `<br>`
-"operationOutput":true, `<br>`
-"token":"tokenAlex" `<br>`
-} `
+{ <br>
+"defaultClass":{ <br>
+"token":"tokenAlex", <br>
+"operationOutput":true <br>
+} <br>
+} <br>
 
 //беседу удалить может только Админ
 #### Метод для удаления групповой беседы
@@ -508,9 +525,11 @@
 **Выходные данные:** DefaultClass
 
 **Пример JSON**: <br>
-`{ `<br>`
-"operationOutput":true, `<br>`
-"token":"tokenAlex" `<br>`
-} `
+{ <br>
+"defaultClass":{ <br>
+"token":"tokenAlex", <br>
+"operationOutput":true <br>
+} <br>
+} <br>
 
 
