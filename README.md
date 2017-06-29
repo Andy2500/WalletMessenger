@@ -14,17 +14,17 @@
 **Выходные данные:** userID + name + phone + image + DefaultClass 
 
 **Пример JSON**: <br>
-`{ `<br>`
-"name":"Alex", `<br>`
-"userID":1, `<br>`
-"defaultClass":{ `<br>`
-"operationOutput":true, `<br>`
-"token":"65ca9764def0f0a9b8b90f37362527a7" `<br>`
-}, `<br>`
-"phone":"8-910", `<br>`
-"image":null, `<br>`
-"balance":0 `<br>`
-}`
+{  <br>
+"name":"Alex2",  <br>
+"userID":8,  <br> 
+"defaultClass":{  <br>
+"token":"0df23be331dc7fc1cd9372cb7edfb660",  <br>
+"operationOutput":true  <br>
+},  <br>
+"image":null,  <br>
+"phone":"8-002",  <br>
+"balance":0.0  <br>
+}  <br>
 
 #### Метод для авторизации пользователя
 **Путь:** /user/log/
@@ -34,17 +34,17 @@
 **Выходные данные:** userID + name + phone + image + DefaultClass
 
 **Пример JSON**: <br>
-`{
-"name":null, `<br>` 
-"userID":0, `<br>`
-"defaultClass":{ `<br>`
-"operationOutput":false,
-"token":"Operation timed out (Read failed)" `<br>`
-}, `<br>`
-"phone":null, `<br>`
-"image":null, `<br>`
-"balance":0.0 `<br>`
-}`
+{  <br>
+"name":"Alex2",  <br>
+"userID":8,  <br> 
+"defaultClass":{  <br>
+"token":"0df23be331dc7fc1cd9372cb7edfb660",  <br>
+"operationOutput":true  <br>
+},  <br>
+"image":null,  <br>
+"phone":"8-002",  <br>
+"balance":0.0  <br>
+}  <br>
 
 #### Метод для смены пароля
 **Путь:** /user/chpsd/
@@ -55,10 +55,12 @@
 **Выходные данные:** DefaultClass
 
 **Пример JSON**: <br>
-`{ `<br>`
-"operationOutput":true, `<br>`
-"token":"tokenAlex" `<br>`
-} `
+{ <br>
+"defaultClass":{ <br>
+"token":"tokenAlex", <br>
+"operationOutput":true <br>
+} <br>
+} <br>
 
 #### Метод для смены имени пользователя
 **Путь:** /user/chname/
@@ -68,10 +70,12 @@
 **Выходные данные:** DefaultClass
 
 **Пример JSON**: <br>
-`{ `<br>`
-"operationOutput":true, `<br>`
-"token":"tokenAlex" `<br>`
-} `
+{ <br>
+"defaultClass":{ <br>
+"token":"tokenAlex", <br>
+"operationOutput":true <br>
+} <br>
+} <br>
 
 #### Метод для изменения фотографии пользователя
 **Путь:** /user/chphoto/
@@ -81,10 +85,12 @@
 **Выходные данные:** DefaultClass
 
 **Пример JSON**: <br>
-`{ `<br>`
-"operationOutput":true, `<br>`
-"token":"tokenAlex" `<br>`
-} `
+{ <br>
+"defaultClass":{ <br>
+"token":"tokenAlex", <br>
+"operationOutput":true <br>
+} <br>
+} <br>
 
 #### Метод получения пользователя по номеру телефона
 **Путь:** /user/getubyphn/
@@ -94,17 +100,17 @@
 **Выходные данные:** userID + name + phone + image + DefaultClass
 
 **Пример JSON**: <br>
-`{ `<br>`
-"name":"Anton", `<br>`
-"image":null, `<br>`
-"balance":0.0, `<br>`
-"phone":"8-920", `<br>`
-"userID":2, `<br>`
-"defaultClass":{ `<br>`
-"operationOutput":true, `<br>`
-"token":null `<br>`
-} `<br>`
-} `
+{ <br>
+"name":"Anton", <br>
+"userID":2, <br>
+"defaultClass":{ <br>
+"token":"tokenAlex", <br>
+"operationOutput":true <br>
+}, <br>
+"image":null, <br>
+"phone":"8920", <br>
+"balance":0.0 <br>
+} <br>
 
 ### ConversationController("/conv"):
 
@@ -113,68 +119,116 @@
 
 **Параметр:** token  - токен пользователя <br>
 **Выходные данные:** Dialog()[] + Group()[] + DefaultClass 
-//JSON устарел (нету в группах и диалогах поля date)
+
 **Пример JSON**: <br>
-`{ `<br>` 
-"groups":[ `<br>` 
-{ `<br>` 
-"name":"DreamTeam", `<br>` 
-"adminID":3, `<br>` 
-"myBalance":-100.0, `<br>` 
-"groupID":1, `<br>` 
-"sum":150.0 `<br>` 
-},  `<br>` 
-{  `<br>` 
-"name":"Old Owls Team",  `<br>` 
-"adminID":6,  `<br>` 
-"myBalance":300.0,  `<br>` 
-"groupID":3,  `<br>` 
-"sum":300.0  `<br>` 
-}  `<br>` 
-],  `<br>` 
-"dialogs":[  `<br>` 
-{  `<br>` 
-"userProfile":{  `<br>` 
-"name":"Anton",  `<br>` 
-"image":null, `<br>` 
-"balance":0.0, `<br>` 
-"phone":"8-920", `<br>` 
-"userID":2, `<br>` 
-"defaultClass":{ `<br>` 
-"operationOutput":null, `<br>` 
-"token":null  `<br>` 
-} `<br>` 
-}, `<br>` 
-"dialogID":1, `<br>` 
-"balance":100.0 `<br>` 
-}, `<br>` 
-{ `<br>` 
-"userProfile":{ `<br>` 
-"name":"Leonid", `<br>` 
-"image":null, `<br>` 
-"balance":0.0, `<br>` 
-"phone":"8-940", `<br>` 
-"userID":4, `<br>` 
-"defaultClass":{ `<br>` 
-"operationOutput":null, `<br>` 
-"token":null `<br>` 
-} `<br>` 
-}, `<br>` 
-"dialogID":2,  `<br>` 
-"balance":-200.0 `<br>` 
-} `<br>` 
-], `<br>` 
-"defaultClass":{ `<br>` 
-"operationOutput":true,  `<br>` 
-"token":"tokenAlex"  `<br>` 
-}  `<br>` 
-}  `<br>` 
+{ <br>
+"groups":[ <br>
+{ <br>
+"name":"Fintech Cup", <br>
+"date":1498551443614, <br>
+"groupID":2, <br>
+"adminID":3, <br>
+"myBalance":-50.0, <br>
+"sum":-50.0 <br>
+}, <br>
+{ <br>
+"name":"Old Owls Team", <br>
+"date":1498555043614, <br>
+"groupID":3, <br>
+"adminID":6, <br>
+"myBalance":300.0, <br>
+"sum":300.0 <br>
+},
+{
+"name":"DreamTeam", <br>
+"date":1498583370006, <br>
+"groupID":1, <br>
+"adminID":3, <br>
+"myBalance":584.0, <br>
+"sum":450.0 <br>
+} <br>
+], <br>
+"dialogs":[ <br>
+{ <br>
+"date":1498029443614, <br>
+"userID":6, <br>
+"dialogID":8, <br>
+"userProfile":{ <br>
+"name":"Arcen", <br>
+"userID":6, <br>
+"defaultClass":{ <br>
+"token":null, <br>
+"operationOutput":null <br>
+}, <br>
+"balance":0.0, <br>
+"phone":"7960", <br>
+"image":null <br>
+}, <br>
+"balance":2000.0 <br>
+}, <br>
+{ <br>
+"date":1498547843614, <br>
+"userID":2, <br>
+"dialogID":1, <br>
+"userProfile":{ <br>
+"name":"Anton", <br>
+"userID":2, <br>
+"defaultClass":{ <br>
+"token":null, <br>
+"operationOutput":null <br>
+}, <br>
+"balance":0.0, <br>
+"phone":"8920", <br>
+"image":null <br>
+}, <br>
+"balance":100.0 <br>
+}, <br>
+{ <br>
+"date":1498547903614, <br>
+"userID":4, <br>
+"dialogID":2, <br>
+"userProfile":{ <br>
+"name":"Leonid", <br>
+"userID":4, <br>
+"defaultClass":{ <br>
+"token":null, <br>
+"operationOutput":null <br>
+}, <br>
+"balance":0.0, <br>
+"phone":"7940", <br>
+"image":null <br>
+}, <br>
+"balance":-200.0 <br>
+}, <br>
+{ <br>
+"date":1498547963614, <br>
+"userID":5, <br>
+"dialogID":3, <br>
+"userProfile":{ <br>
+"name":"Vika", <br>
+"userID":5, <br>
+"defaultClass":{ <br>
+"token":null, <br>
+"operationOutput":null <br>
+}, <br>
+"balance":0.0, <br>
+"phone":"7950", <br>
+"image":null <br>
+}, <br>
+"balance":-300.0 <br>
+} <br>
+], <br>
+"defaultClass":{ <br>
+"token":"tokenAlex", <br>
+"operationOutput":true <br>
+} <br>
+}  <br>
 
 #### Метод для получения дополнительного списка бесед по дате
 **Путь:** /conv/gets/
 
 **Параметр:** token  - токен пользователя <br>
-**Параметр:** date - дата последнего диалога или группы <br>
+**Параметр:** date - дата последнего диалога или группы формат long  <br>
 **Выходные данные:** Dialog()[] + Group()[] + DefaultClass  //в сумме 20 например, распределения по диалогам и группам неизвестно
 
 #### Метод для подтверждения транзакции
@@ -185,10 +239,12 @@
 **Выходные данные:** DefaultClass
 
 **Пример JSON**: <br>
-`{ `<br>`
-"operationOutput":true, `<br>`
-"token":"tokenAlex" `<br>`
-} `
+{ <br>
+"defaultClass":{ <br>
+"token":"tokenAlex", <br>
+"operationOutput":true <br>
+} <br>
+} <br>
 
 
 #### Метод для отклонения транзакции
@@ -199,10 +255,12 @@
 **Выходные данные:** DefaultClass
 
 **Пример JSON**: <br>
-`{ `<br>`
-"operationOutput":true, `<br>`
-"token":"tokenAlex" `<br>`
-} `
+{ <br>
+"defaultClass":{ <br>
+"token":"tokenAlex", <br>
+"operationOutput":true <br>
+} <br>
+} <br>`
 
 ### DialogController("/dialog"):
 
@@ -214,23 +272,38 @@
 **Выходные данные:** Transaction[20] + DefaultClass
 
 **Пример JSON**: <br>
-`{ `<br>`
-"defaultClass":{ `<br>`
-"operationOutput":true, `<br>`
-"token":"tokenAlex" `<br>`
-}, `<br>`
-"transactions":[ `<br>`
-{ `<br>`
-"userID":4, `<br>`
-"text":"text6", `<br>`
-"date":"2017-06-25",`<br>`
-"groupID":0,`<br>`
-"cash":0,`<br>`
-"dialogID":5,`<br>`
-"transactionID":6,`<br>`
-"proof":0,`<br>`
-"money":50.0`<br>`
-}]} `
+{ <br>
+"defaultClass":{ <br>
+"token":"tokenAlex", <br>
+"operationOutput":true <br>
+}, <br>
+"transactions":[ <br>
+{ <br>
+"text":"text3", <br>
+"date":1498382243614, <br>
+"groupID":0, <br>
+"cash":0, <br>
+"proof":0, <br>
+"money":300.0, <br>
+"userID":5, <br>
+"dialogID":3, <br>
+"receiverID":0, <br>
+"transactionID":3 <br>
+}, <br>
+{ <br>
+"text":"trans29", <br>
+"date":1498565063614, <br>
+"groupID":0, <br>
+"cash":1, <br>
+"proof":0, <br>
+"money":500.0, <br>
+"userID":1, <br>
+"dialogID":3, <br>
+"receiverID":0, <br>
+"transactionID":29 <br>
+} <br>
+] <br>
+} <br>
 
 #### Метод для отправки транзакции
 **Путь:** /dialog/sendtr/
@@ -242,15 +315,15 @@
 **Параметр:** text - комментарий к транзакции <br>
 **Выходные данные:** DefaultClass + TransactionID + Date //дата совершения транзакции
 
-//JSON устарел, будет поле date ещё
 **Пример JSON**: <br>
-`{ `<br>`
-"id":30, `<br>`
-"defaultClass":{ `<br>`
-"operationOutput":true, `<br>`
-"token":"tokenAlex" `<br>`
-}
-} `
+{ <br>
+"id":39, <br>
+"date":1498744832344, <br>
+"defaultClass":{ <br>
+"token":"tokenAlex", <br>
+"operationOutput":true <br>
+} <br>
+} <br>
 
 #### Метод для загрузки истории транзакций диалога
 **Путь:** /dialog/gettransactions/
@@ -260,23 +333,26 @@
 **Параметр:** transactionID - ID последней транзакции<br>
 **Выходные данные:** Transaction[20] + DefaultClass
 **Пример JSON**: <br>
-`{ `<br>`
-"defaultClass":{`<br>`
-"operationOutput":true,`<br>`
-"token":"tokenAlex"`<br>`
-}, `<br>`
-"transactions":[`<br>`
-{`<br>`
-"userID":2,`<br>`
-"text":"text4",`<br>`
-"date":"2017-06-25",`<br>`
-"groupID":0,`<br>`
-"cash":0,`<br>`
-"dialogID":4,`<br>`
-"transactionID":4,`<br>`
-"proof":0,`<br>`
-"money":1000.0 `<br>`
-}]} `
+{
+"defaultClass":{
+"token":"tokenAlex",
+"operationOutput":true
+},
+"transactions":[
+{
+"text":"text4",
+"date":1498385843614,
+"groupID":0,
+"proof":0,
+"cash":0,
+"money":1000.0,
+"userID":2,
+"transactionID":4,
+"receiverID":0,
+"dialogID":4
+}
+]
+}
 
 
 #### Метод для создания диалога с пользователем
@@ -287,10 +363,14 @@
 **Выходные данные:** DefaultClass
 
 **Пример JSON**: <br>
-`{ `<br>`
-"operationOutput":true, `<br>`
-"token":"tokenAlex" `<br>`
-} `
+{<br>
+"id":9,<br>
+"date":1498745540791,<br>
+"defaultClass":{<br>
+"token":"tokenAlex",<br>
+"operationOutput":true<br>
+}<br>
+}<br>
 
 #### Метод для получения новых транзакций
 **Путь:** /dialog/getnewtransactions/
@@ -301,23 +381,26 @@
 **Выходные данные:** Transaction[20] + DefaultClass
 
 **Пример JSON**: <br>
-`{ `<br>`
-"defaultClass":{`<br>`
-"operationOutput":true,`<br>`
-"token":"tokenAlex"`<br>`
-}, `<br>`
-"transactions":[`<br>`
-{`<br>`
-"userID":2,`<br>`
-"text":"text4",`<br>`
-"date":"2017-06-25",`<br>`
-"groupID":0,`<br>`
-"cash":0,`<br>`
-"dialogID":4,`<br>`
-"transactionID":4,`<br>`
-"proof":0,`<br>`
-"money":1000.0 `<br>`
-}]} `
+{
+"defaultClass":{
+"token":"tokenAlex",
+"operationOutput":true
+},
+"transactions":[
+{
+"text":"text4",
+"date":1498385843614,
+"groupID":0,
+"proof":0,
+"cash":0,
+"money":1000.0,
+"userID":2,
+"transactionID":4,
+"receiverID":0,
+"dialogID":4
+}
+]
+}
 
 ### GroupController("/group"):
 
@@ -329,46 +412,96 @@
 **Выходные данные:** UserProfile[] + Transaction[20] + DefaultClass
 
 **Пример JSON**: <br>
-`{ `<br>`
-"defaultClass":{`<br>`
-"operationOutput":true,`<br>`
-"token":"tokenAlex"`<br>`
-}, `<br>`
-"transactions":[`<br>`
-{`<br>`
-"userID":2,`<br>`
-"text":"text4",`<br>`
-"date":"2017-06-25",`<br>`
-"groupID":0,`<br>`
-"cash":0,`<br>`
-"dialogID":4,`<br>`
-"transactionID":4,`<br>`
-"proof":0,`<br>`
-"money":1000.0 `<br>`
-}],  `<br>`
-"userProfiles": [ `<br>`
-                { `<br>`
-                "name":"Alex", `<br>`
-                "userID":1, `<br>`
-                "defaultClass":{ `<br>`
-                "operationOutput":null, `<br>`
-                "token":null `<br>`
-                }, `<br>`
-                "image":null, `<br>`
-                "phone":"8-910", `<br>`
-                "balance":-50.274 `<br>`
-                }, `<br>`
-                { `<br>`
-                "name":"Anton",`<br>`
-                "userID":2,`<br>`
-                "defaultClass":{`<br>`
-                "operationOutput":null, `<br>`
-                "token":null `<br>`
-                }, `<br>`
-                "image":null, `<br>`
-                "phone":"8-920", `<br>`
-                "balance":-100.326 `<br>`
-                }]} `
+{ <br>
+"defaultClass":{ <br>
+"token":"tokenAlex", <br>
+"operationOutput":true <br>
+}, <br>
+"userProfiles":[ <br>
+{ <br>
+"name":"NewName space", <br>
+"defaultClass":{ <br>
+"token":null, <br>
+"operationOutput":null <br>
+}, <br>
+"userID":1, <br>
+"balance":584.82, <br>
+"image":null, <br>
+"phone":"8910" <br>
+}, <br>
+{ <br>
+"name":"Anton", <br>
+"defaultClass":{ <br>
+"token":null, <br>
+"operationOutput":null <br>
+}, <br>
+"userID":2, <br>
+"balance":-509.97, <br>
+"image":null, <br>
+"phone":"8920" <br>
+}, <br>
+{ <br>
+"name":"Andrey", <br>
+"defaultClass":{ <br>
+"token":null, <br>
+"operationOutput":null <br>
+}, <br>
+"userID":3, <br>
+"balance":-24.91, <br>
+"image":null, <br>
+"phone":"8930" <br>
+}, <br>
+{ <br>
+"name":"Leonid", <br>
+"defaultClass":{ <br>
+"token":null, <br>
+"operationOutput":null <br>
+}, <br>
+"userID":4, <br>
+"balance":-49.940002, <br>
+"image":null, <br>
+"phone":"7940" <br>
+} <br>
+], <br>
+"transactions":[ <br>
+{ <br>
+"text":"groupText11", <br>
+"date":1498478903614, <br>
+"groupID":1, <br>
+"money":10.0, <br>
+"proof":1, <br>
+"cash":1, <br>
+"userID":1, <br>
+"receiverID":0, <br>
+"transactionID":10, <br>
+"dialogID":0 <br>
+}, <br>
+{ <br>
+"text":"groupText12", <br>
+"date":1498484063614, <br>
+"groupID":1, <br>
+"money":25.0, <br>
+"proof":0, <br>
+"cash":0, <br>
+"userID":2, <br>
+"receiverID":0, <br>
+"transactionID":11, <br>
+"dialogID":0 <br>
+}, <br>
+{ <br>
+"text":"groupText13", <br>
+"date":1498487363614, <br>
+"groupID":1, <br>
+"money":100.0, <br>
+"proof":0, <br>
+"cash":0, <br>
+"userID":3, <br>
+"receiverID":0, <br>
+"transactionID":12, <br>
+"dialogID":0 <br>
+} <br>
+] <br>
+} <br>
 
 
 #### Метод для отправки транзакции
@@ -384,15 +517,15 @@
 **Параметр:** text - комментарий к транзакции <br>
 **Выходные данные:** DefaultClass + TransactionID + Date
 
-//JSON устарел (+ поле date возвращается с датой транзакции)
 **Пример JSON**: <br>
-`{ `<br>`
-"id":30, `<br>`
-"defaultClass":{ `<br>`
-"operationOutput":true, `<br>`
-"token":"tokenAlex" `<br>`
-}
-} `
+{ <br>
+"id":40, <br>
+"date":1498746058540, <br>
+"defaultClass":{ <br>
+"token":"tokenAlex", <br>
+"operationOutput":true <br>
+} <br>
+} `  <br>
 
 #### Метод для загрузки истории транзакций групповой беседы
 **Путь:** /group/gettransactions/
@@ -403,23 +536,26 @@
 **Выходные данные:** Transaction[20] + DefaultClass
 
 **Пример JSON**: <br>
-`{ `<br>`
-"defaultClass":{`<br>`
-"operationOutput":true,`<br>`
-"token":"tokenAlex"`<br>`
-}, `<br>`
-"transactions":[`<br>`
-{`<br>`
-"userID":2,`<br>`
-"text":"text4",`<br>`
-"date":"2017-06-25",`<br>`
-"groupID":0,`<br>`
-"cash":0,`<br>`
-"dialogID":4,`<br>`
-"transactionID":4,`<br>`
-"proof":0,`<br>`
-"money":1000.0 `<br>`
-}]} `
+{<br>
+"defaultClass":{<br>
+"token":"tokenAlex",<br>
+"operationOutput":true<br>
+},<br>
+"transactions":[<br>
+{<br>
+"text":"groupText11",<br>
+"date":1498478903614,<br>
+"groupID":1,<br>
+"money":10.0,<br>
+"proof":1,<br>
+"cash":1,<br>
+"userID":1,<br>
+"receiverID":0,<br>
+"transactionID":10,<br>
+"dialogID":0<br>
+}<br>
+]<br>
+}<br>
 
 #### Метод для получения новых транзакций, когда пришло новое сообщение в группе
 **Путь:** /group/getnewtransactions/
@@ -430,23 +566,26 @@
 **Выходные данные:** Transaction[20] + DefaultClass
 
 **Пример JSON**: <br>
-`{ `<br>`
-"defaultClass":{`<br>`
-"operationOutput":true,`<br>`
-"token":"tokenAlex"`<br>`
-}, `<br>`
-"transactions":[`<br>`
-{`<br>`
-"userID":2,`<br>`
-"text":"text4",`<br>`
-"date":"2017-06-25",`<br>`
-"groupID":0,`<br>`
-"cash":0,`<br>`
-"dialogID":4,`<br>`
-"transactionID":4,`<br>`
-"proof":0,`<br>`
-"money":1000.0 `<br>`
-}]} `
+{<br>
+"defaultClass":{<br>
+"token":"tokenAlex",<br>
+"operationOutput":true<br>
+},<br>
+"transactions":[<br>
+{<br>
+"text":"groupText11",<br>
+"date":1498478903614,<br>
+"groupID":1,<br>
+"money":10.0,<br>
+"proof":1,<br>
+"cash":1,<br>
+"userID":1,<br>
+"receiverID":0,<br>
+"transactionID":10,<br>
+"dialogID":0<br>
+}<br>
+]<br>
+}<br>
 
 #### Метод для создания групповой беседы
 **Путь:** /group/create/
@@ -456,7 +595,14 @@
 **Выходные данные:** GroupID + DefaultClass
 
 **Пример JSON**: <br>
-{"id":31,"defaultClass":{"operationOutput":true,"token":"tokenAlex"}}
+{<br>
+"id":6,<br>
+"date":1498746328667,<br>
+"defaultClass":{<br>
+"token":"tokenAlex",<br>
+"operationOutput":true<br>
+}<br>
+}<br>
 
 #### Метод для добавления участника в групповую беседу
 **Путь:** /group/add/ 
@@ -466,10 +612,13 @@
 **Параметр:** phone - телефон того, кого хотим добавить <br>
 **Выходные данные:** DefaultClass
 **Пример JSON**: <br>
-`{ `<br>`
-"operationOutput":true, `<br>`
-"token":"tokenAlex" `<br>`
-} `
+{ <br>
+"defaultClass":{ <br>
+"token":"tokenAlex", <br>
+"operationOutput":true <br>
+} <br>
+} <br>
+
 #### Метод для удаления участника из групповой беседы
 **Путь:** /group/deluser/ 
 
@@ -479,10 +628,12 @@
 **Выходные данные:** DefaultClass
 
 **Пример JSON**: <br>
-`{ `<br>`
-"operationOutput":true, `<br>`
-"token":"tokenAlex" `<br>`
-} `
+{ <br>
+"defaultClass":{ <br>
+"token":"tokenAlex", <br>
+"operationOutput":true <br>
+} <br>
+} <br>
 
 #### Метод для выхода из групповой беседы для юзеров
 **Путь:** /group/quit/ 
@@ -492,10 +643,12 @@
 **Выходные данные:** DefaultClass
 
 **Пример JSON**: <br>
-`{ `<br>`
-"operationOutput":true, `<br>`
-"token":"tokenAlex" `<br>`
-} `
+{ <br>
+"defaultClass":{ <br>
+"token":"tokenAlex", <br>
+"operationOutput":true <br>
+} <br>
+} <br>
 
 //беседу удалить может только Админ
 #### Метод для удаления групповой беседы
@@ -506,9 +659,11 @@
 **Выходные данные:** DefaultClass
 
 **Пример JSON**: <br>
-`{ `<br>`
-"operationOutput":true, `<br>`
-"token":"tokenAlex" `<br>`
-} `
+{ <br>
+"defaultClass":{ <br>
+"token":"tokenAlex", <br>
+"operationOutput":true <br>
+} <br>
+} <br>
 
 
