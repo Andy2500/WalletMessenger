@@ -34,17 +34,17 @@
 **Выходные данные:** userID + name + phone + image + DefaultClass
 
 **Пример JSON**: <br>
-`{
-"name":null, `<br>` 
-"userID":0, `<br>`
-"defaultClass":{ `<br>`
-"operationOutput":false,
-"token":"Operation timed out (Read failed)" `<br>`
-}, `<br>`
-"phone":null, `<br>`
-"image":null, `<br>`
-"balance":0.0 `<br>`
-}`
+{  <br>
+"name":"Alex2",  <br>
+"userID":8,  <br> 
+"defaultClass":{  <br>
+"token":"0df23be331dc7fc1cd9372cb7edfb660",  <br>
+"operationOutput":true  <br>
+},  <br>
+"image":null,  <br>
+"phone":"8-002",  <br>
+"balance":0.0  <br>
+}  <br>
 
 #### Метод для смены пароля
 **Путь:** /user/chpsd/
@@ -68,10 +68,12 @@
 **Выходные данные:** DefaultClass
 
 **Пример JSON**: <br>
-`{ `<br>`
-"operationOutput":true, `<br>`
-"token":"tokenAlex" `<br>`
-} `
+{ <br>
+"defaultClass":{ <br>
+"token":"tokenAlex", <br>
+"operationOutput":true <br>
+} <br>
+} <br>
 
 #### Метод для изменения фотографии пользователя
 **Путь:** /user/chphoto/
