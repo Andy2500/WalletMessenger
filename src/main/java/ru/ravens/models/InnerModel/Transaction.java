@@ -30,18 +30,17 @@ public class Transaction implements Serializable
         Transaction transaction = new Transaction();
 
         transaction.setTransactionID(resultSet.getInt("TransactionID"));
+        transaction.setReceiverID(resultSet.getInt("ReceiverID"));
         transaction.setUserID(resultSet.getInt("UserID"));
+        transaction.setDialogID(resultSet.getInt("DialogID"));
+        transaction.setGroupID(resultSet.getInt("GroupID"));
         transaction.setMoney(resultSet.getFloat("Money"));
         transaction.setDate(resultSet.getTimestamp("Date"));
         transaction.setCash(resultSet.getInt("Cash"));
         transaction.setProof(resultSet.getInt("Proof"));
         transaction.setText(resultSet.getString("Text"));
-        transaction.setDialogID(resultSet.getInt("DialogID"));
-        transaction.setGroupID(resultSet.getInt("GroupID"));
-
         return transaction;
     }
-
 
     //методы для получения Истории транзакций (20) по ID группы или диалога при его открытии
     //в других местах использоваться недолжны!
@@ -49,7 +48,7 @@ public class Transaction implements Serializable
     {
         int rows = 20;
 
-        String query = "Select top " + rows + " * from Transactions Where DialogID = " + id + " Order by DialogID DESC";
+        String query = "Select top " + rows + " * from Transactions Where DialogID = " + id + " Order by TransactionID DESC";
         return getTransactionsHist(query);
     }
 
@@ -57,7 +56,7 @@ public class Transaction implements Serializable
     {
         int rows = 20;
 
-        String query = "Select top " + rows + " * from Transactions Where GroupID = " + id + " Order by GroupID DESC";
+        String query = "Select top " + rows + " * from Transactions Where GroupID = " + id + " Order by TransactionID DESC";
         return getTransactionsHist(query);
     }
 
@@ -75,7 +74,6 @@ public class Transaction implements Serializable
         return list;
     }
 
-
     //Отправка транзакции в диалоге
     public static DefaultClassAndDateAndID SendTransactionDialog(int userID, int dialogID, int money, int cash, String text) throws Exception
     {
@@ -87,14 +85,17 @@ public class Transaction implements Serializable
             throw new Exception("Диалог не найден.");
         }
 
+        int receiverID = 0;
         float balance;
         if(resultSet.getInt("UserID_1") == userID)
         {
             balance = resultSet.getFloat("Balance_1") + money;
+            receiverID = resultSet.getInt("UserID_2");
         }
         else if(resultSet.getInt("UserID_2") == userID)
         {
             balance = resultSet.getFloat("Balance_1") - money;
+            receiverID = resultSet.getInt("UserID_1");
         }
         else
         {
@@ -111,8 +112,8 @@ public class Transaction implements Serializable
 
         String date = DateWorker.getNowMomentInUTC();
         //добавим новую запись в транзакции
-        String command = "Insert into Transactions (TransactionID, UserID, DialogID, GroupID, Money, Date, Cash, Proof, Text) " +
-                "VALUES (" + transactionID + ", " + userID + ", " + dialogID + ", 0, " + money +
+        String command = "Insert into Transactions (TransactionID, UserID, ReceiverID, DialogID, GroupID, Money, Date, Cash, Proof, Text) " +
+                "VALUES (" + transactionID + ", " + userID + ", " + receiverID + "," + dialogID + ", 0, " + money +
                 ", '" + date + "', " + cash +", 0, N'" + text + "')";
         //пояснения: groupID = 0, так как это для диалога метод, proof = 0, так как даже если там кэш\не кэш то все равно идет "отправка" транзакции
         DBManager.execCommand(command);
@@ -120,7 +121,6 @@ public class Transaction implements Serializable
         //обновим дату последней транзакции в диалоге
         command = "UPDATE Dialogs set Date = '" + date + "' WHERE DialogID = "+dialogID;
         DBManager.execCommand(command);
-
 
         if(cash == 0)
         {
