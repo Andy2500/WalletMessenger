@@ -39,7 +39,9 @@ public class DialogInfo implements Serializable
         if(resultSet.next())
         {
             //Могу здесь ошибку создания либо делать вид, что все "ОК" и дать им старый диалог
-            return new DefaultClassAndDateAndID(resultSet.getInt("DialogID"));
+           DefaultClassAndDateAndID defaultClassAndDateAndID =  new DefaultClassAndDateAndID(resultSet.getInt("DialogID"));
+           defaultClassAndDateAndID.setDate(resultSet.getTimestamp("Date"));
+           return defaultClassAndDateAndID;
         }
         else
         {
