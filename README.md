@@ -381,27 +381,28 @@
 **Параметр:** dialog – ID диалога <br>
 **Параметр:** transactionID - ID последней транзакции<br>
 **Выходные данные:** Transaction[20] + DefaultClass
+
 **Пример JSON**: <br>
-{
-"defaultClass":{
-"token":"tokenAlex",
-"operationOutput":true
-},
-"transactions":[
-{
-"text":"text4",
-"date":1498385843614,
-"groupID":0,
-"proof":0,
-"cash":0,
-"money":1000.0,
-"userID":2,
-"transactionID":4,
-"receiverID":0,
-"dialogID":4
-}
-]
-}
+{ <br>
+"defaultClass":{ <br>
+"token":"tokenAlex", <br> 
+"operationOutput":true <br>
+}, <br>
+"transactions":[ <br>
+{ <br>
+"text":"text4", <br>
+"date":1498385843614, <br>
+"groupID":0, <br>
+"proof":0, <br>
+"cash":0, <br>
+"money":1000.0, <br>
+"userID":2, <br>
+"transactionID":4, <br>
+"receiverID":0, <br>
+"dialogID":4 <br>
+} <br>
+] <br>
+} <br>
 
 
 #### Метод для создания диалога с пользователем
@@ -430,26 +431,26 @@
 **Выходные данные:** Transaction[20] + DefaultClass
 
 **Пример JSON**: <br>
-{
-"defaultClass":{
-"token":"tokenAlex",
-"operationOutput":true
-},
-"transactions":[
-{
-"text":"text4",
-"date":1498385843614,
-"groupID":0,
-"proof":0,
-"cash":0,
-"money":1000.0,
-"userID":2,
-"transactionID":4,
-"receiverID":0,
-"dialogID":4
-}
-]
-}
+{ <br>
+"defaultClass":{ <br>
+"token":"tokenAlex", <br>
+"operationOutput":true <br>
+}, <br>
+"transactions":[ <br>
+{ <br>
+"text":"text4", <br>
+"date":1498385843614, <br>
+"groupID":0, <br>
+"proof":0, <br>
+"cash":0, <br>
+"money":1000.0, <br>
+"userID":2, <br>
+"transactionID":4, <br>
+"receiverID":0, <br>
+"dialogID":4 <br>
+} <br>
+] <br>
+} <br>
 
 ### GroupController("/group"):
 
@@ -556,15 +557,15 @@
 #### Метод для отправки транзакции
 **Путь:** /group/sendtransaction/ 
 
-//Если receiverID > 0, то идет перевод от одного к другому внутри группы и все
-//Если receiverID == 0, то мы это зачисляем в групповой баланс и разделяем сумму на всех и пересчитываем баланс всех участников
+//Если receiverID > 0, то идет перевод от одного к другому внутри группы и все <br>
+//Если receiverID == 0, то мы это зачисляем в групповой баланс и разделяем сумму на всех и пересчитываем баланс всех участников <br>
 **Параметр:** token - токен пользователя, который совершает транзакцию <br>
-**Параметр:** receiverID - ID пользователя, которому мы отправляем перевод внутри группы
+**Параметр:** receiverID - ID пользователя, которому мы отправляем перевод внутри группы <br>
 **Параметр:** groupID - диалог, в котором он отправил <br>
 **Параметр:** money - сумма денег, которую отправили <br>
 **Параметр:** cash - наличные это или нет <br>
 **Параметр:** text - комментарий к транзакции <br>
-**Выходные данные:** DefaultClass + TransactionID + Date
+**Выходные данные:** DefaultClass + TransactionID + Date <br>
 
 **Пример JSON**: <br>
 { <br>
@@ -658,11 +659,11 @@
 
 **Параметр:** token  - токен пользователя <br>
 **Параметр:** name - название групповой беседы <br>
-//Очень строгий формат строки! Никаких пробелов вообще! телефоны строго через запятую, в начале и в конце запятых нет:
-//Пример:   "8913,8150,4444,56774,12312124,0001" -  без кавычек соответственно.
-**Параметр:** phones -  строка с мобильными телефонами других пользователей в соответствующем формате
+//Очень строгий формат строки! Никаких пробелов вообще! телефоны строго через запятую, в начале и в конце запятых нет: <br>
+//Пример:   "8913,8150,4444,56774,12312124,0001" -  без кавычек соответственно. <br>
+**Параметр:** phones -  строка с мобильными телефонами других пользователей в соответствующем формате <br>
 
-**Выходные данные:** GroupID + DefaultClass + Date //дата создания группы
+**Выходные данные:** GroupID + DefaultClass + Date //дата создания группы <br>
 
 **Пример JSON**: <br>
 {<br>
