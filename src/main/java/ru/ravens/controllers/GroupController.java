@@ -37,7 +37,7 @@ public class GroupController {
     public DefaultClassAndDateAndID sendTransToGroupDialog(@FormParam("token")String token,
                                                            @FormParam("receiverID") int receiverID,
                                                            @FormParam("groupID") int groupID,
-                                                           @FormParam("money") int money,
+                                                           @FormParam("money") float money,
                                                            @FormParam("cash")  int cash,
                                                            @FormParam("text") String text)
     {

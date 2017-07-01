@@ -333,6 +333,21 @@ public class Transaction implements Serializable
     }
 
 
+    public int getTransactionID() {
+        return transactionID;
+    }
+
+    public void setTransactionID(int transactionID) {
+        this.transactionID = transactionID;
+    }
+
+    public int getUserID() {
+        return userID;
+    }
+
+    public void setUserID(int userID) {
+        this.userID = userID;
+    }
 
     public int getReceiverID() {
         return receiverID;
@@ -340,9 +355,6 @@ public class Transaction implements Serializable
 
     public void setReceiverID(int receiverID) {
         this.receiverID = receiverID;
-    }
-    public void setMoney(float money) {
-        this.money = money;
     }
 
     public int getGroupID() {
@@ -360,24 +372,13 @@ public class Transaction implements Serializable
     public void setDialogID(int dialogID) {
         this.dialogID = dialogID;
     }
-    public int getTransactionID() {
-        return transactionID;
-    }
-
-    public void setTransactionID(int transactionID) {
-        this.transactionID = transactionID;
-    }
-
-    public int getUserID() {
-        return userID;
-    }
-
-    public void setUserID(int userID) {
-        this.userID = userID;
-    }
 
     public float getMoney() {
         return money;
+    }
+
+    public void setMoney(float money) {
+        this.money = money;
     }
 
     public Date getDate() {
