@@ -37,7 +37,7 @@ public class DialogController {
     @Produces(MediaType.APPLICATION_JSON) // отправить транзакцию в диалог
     public DefaultClassAndDateAndID sendTrans(@FormParam("token")String token,
                                               @FormParam("dialogID") int dialogID,
-                                              @FormParam("money") int money,
+                                              @FormParam("money") float money,
                                               @FormParam("cash") int cash,
                                               @FormParam("text") String text) {
         try{

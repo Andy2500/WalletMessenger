@@ -75,7 +75,7 @@ public class Transaction implements Serializable
     }
 
     //Отправка транзакции в диалоге
-    public static DefaultClassAndDateAndID SendTransactionDialog(int userID, int dialogID, int money, int cash, String text) throws Exception
+    public static DefaultClassAndDateAndID SendTransactionDialog(int userID, int dialogID, float money, int cash, String text) throws Exception
     {
         String query = "SELECT * FROM Dialogs where DialogID = " + dialogID;
 
