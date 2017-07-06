@@ -304,6 +304,7 @@ public class Transaction implements Serializable
         }
     }
 
+
     //Вынесено в отдельный метод, так как понадобится при подтверждении транзакции админом группы
     private static void SendToUserInGroup(int groupID, int userID, int receiverID, float money) throws Exception
     {
