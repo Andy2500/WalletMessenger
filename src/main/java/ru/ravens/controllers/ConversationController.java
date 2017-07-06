@@ -121,4 +121,43 @@ public class ConversationController {
         }
     }
 
+
+    @POST
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Path("/getconv")
+    @Produces(MediaType.APPLICATION_JSON) // получить список бесед
+    public Conversations getConversations(@FormParam("token") String token) {
+        try {
+            Conversations conv = Conversations.getConversationsByUserID(User.getUserByToken(token).getUserID());
+            conv.setDefaultClass(new DefaultClass(true, token));
+            return conv;
+            //Пусть пока останется на всякий случай.
+        } catch (Exception ex) {
+            Conversations conv = new Conversations();
+            conv.setDefaultClass(new DefaultClass(false, ex.getMessage()));
+            return conv;
+        }
+    }
+
+
+    @POST
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Path("/getconvhist")
+    @Produces(MediaType.APPLICATION_JSON) // получить список бесед
+    public Conversations getConversationsHist(@FormParam("token") String token,
+                                             @FormParam("date") Long date) {
+        try {
+            Conversations conv = Conversations.getConversationsHistByUserIdAndDate(User.getUserByToken(token).getUserID(),date);
+            conv.setDefaultClass(new DefaultClass(true, token));
+            return conv;
+            //Пусть пока останется на всякий случай.
+        } catch (Exception ex) {
+            Conversations conv = new Conversations();
+            conv.setDefaultClass(new DefaultClass(false, ex.getMessage()));
+            return conv;
+        }
+    }
+
+
+
 }

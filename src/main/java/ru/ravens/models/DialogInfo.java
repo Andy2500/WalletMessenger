@@ -45,7 +45,6 @@ public class DialogInfo implements Serializable
         }
         else
         {
-
             String date = DateWorker.getNowMomentInUTC();
             String command = "INSERT INTO Dialogs (UserID_1, Balance_1, UserID_2, Balance_2, Date) VALUES("+
                     + creatorID + ", 0, " + otherUserID +" , 0 , '" + date + "' )";

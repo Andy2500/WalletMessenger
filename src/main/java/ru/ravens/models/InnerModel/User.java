@@ -20,7 +20,6 @@ public class User implements Serializable{
     private String token;
 
     private DefaultClass defaultClass = new DefaultClass();
-
     private float balance;
 
 

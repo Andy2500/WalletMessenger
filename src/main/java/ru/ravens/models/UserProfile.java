@@ -90,6 +90,4 @@ public class UserProfile implements Serializable
         this.balance = balance;
     }
 
-
-
 }

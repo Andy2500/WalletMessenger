@@ -20,12 +20,16 @@ public class Conversations implements Serializable
     private ArrayList<Group> groups;
     private DefaultClass defaultClass = new DefaultClass();
 
+
+
+
+
     public static Conversations getConversationsByUserID(int userID) throws Exception
     {
         ArrayList<Dialog> dialogList = new ArrayList<>();
         ArrayList<Group> groupList;
 
-        int rows = 2;
+        int rows = 20; //всего 20 вернем
         //получаем диалоги и парсим
         String query = "Select top " + rows + " * from Dialogs Where (UserID_1 = " + userID +" OR UserID_2 = " + userID +" ) Order by Date DESC";
         ResultSet resultSet = DBManager.getSelectResultSet(query);
@@ -45,9 +49,9 @@ public class Conversations implements Serializable
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
         String date = format.format(lastDate);
         ArrayList<Dialog> dialogList = new ArrayList<>();
-        ArrayList<Group> groupList = new ArrayList<>();
+        ArrayList<Group> groupList;
 
-        int rows = 2;
+        int rows = 20;
         //получаем диалоги по дате раньше чем ласт и парсим
         String query = "Select top " + rows + " * from Dialogs Where ((UserID_1 = " + userID +" OR UserID_2 = " + userID +" )  AND (Date < '"+ date + "')) Order by Date DESC";
         ResultSet resultSet = DBManager.getSelectResultSet(query);
@@ -77,7 +81,6 @@ public class Conversations implements Serializable
         int dialogIter = 0, groupIter = 0, maxCount = Math.min(rows, dialogList.size() + groupList.size());
         for(int i = 0; i < maxCount; i++)
         {
-
             //Доп проверка индекса, чтобы не вылететь с эксепшеном
             if(dialogIter ==dialogList.size())
             {
@@ -92,7 +95,8 @@ public class Conversations implements Serializable
                 dialogIter++;
             }
             //значит и то и это есть,поэтому сравним по дате последней транзакции
-            //Проверка: Если дата в диалогах случилась ПОСЛЕ даты в группе (позже!)
+            //Проверка: Если дата в диалогах случилась ПОСЛЕ даты в группе (обновлялась недавно!!!)
+            //Тут все правильно !
             else if (dialogList.get(dialogIter).getDate().after(groupList.get(groupIter).getDate()))
             {
                 //То мы берем диалог (он обновлялся не так давно как группа)
@@ -134,7 +138,7 @@ public class Conversations implements Serializable
             {
                 dialogListFinish.get(i).setUserProfile(userProfileHashMap.get(dialogListFinish.get(i).getUserID()));
             }
-        }
+    }
 
         Conversations conversations = new Conversations();
         //Если нет диалогов или групп, то лист будет пустой
@@ -264,3 +268,9 @@ public class Conversations implements Serializable
         this.groups = groups;
     }
 }
+
+
+
+
+//так короче это было в getConversations, но щас это не надо, поэтому пусть лежит, удалять не спешим
+
