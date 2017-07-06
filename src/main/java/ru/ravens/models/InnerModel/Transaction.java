@@ -87,6 +87,8 @@ public class Transaction implements Serializable
 
         int receiverID = 0;
         float balance;
+        //Если отправляет деньги первый, то баланс первого увеличивается
+        //Если второй, то баланс первого уменьшается
         if(resultSet.getInt("UserID_1") == userID)
         {
             balance = resultSet.getFloat("Balance_1") + money;
@@ -163,13 +165,16 @@ public class Transaction implements Serializable
 
             //вычисляем баланс
             float balance;
+
+            //Если подтверждает первый, то баланс первого уменьшается (он получил бабло)
+            //Если подтверждает второй, то баланс первого увеличивается
             if(resultSet.getInt("UserID_1") == userID)
             {
-                balance = resultSet.getFloat("Balance_1") +transaction.getMoney();
+                balance = resultSet.getFloat("Balance_1") - transaction.getMoney();
             }
             else
             {
-                balance = resultSet.getFloat("Balance_1")  - transaction.getMoney();
+                balance = resultSet.getFloat("Balance_1")  + transaction.getMoney();
             }
             //обновляем баланс в диалоге
             command = "UPDATE Dialogs set Balance_1 = " + balance + ", Balance_2 = " + (-1)*balance + " where DialogID = "+ transaction.getDialogID();
