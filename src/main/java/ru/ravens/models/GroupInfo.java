@@ -32,20 +32,22 @@ public class GroupInfo implements Serializable
     //ВОзвращает ID группы
     public static DefaultClassAndDateAndID createGroup(int creatorID, String name) throws Exception
     {
-        String query = "SELECT MAX(GroupID) FROM Groups";
+        String date = DateWorker.getNowMomentInUTC();
+        //запись группы
+        String command = "INSERT INTO Groups (Name, Sum, AdminID, Date) VALUES("
+                +" N'" + name + "' , 0, " + creatorID +", '" + date + "' )";
+        //сумма 0
+        DBManager.execCommand(command);
+
+
+        String query = "SELECT * FROM Groups where Date = '"+date+"'";
         ResultSet resultSet = DBManager.getSelectResultSet(query);
         if(!resultSet.next())
         {
             throw new Exception("Ни одной группы не существует.");
         }
-        int groupID = resultSet.getInt(1) +1;
+        int groupID = resultSet.getInt("GroupID");
 
-        String date = DateWorker.getNowMomentInUTC();
-        //запись группы
-        String command = "INSERT INTO Groups (GroupID, Name, Sum, AdminID, Date) VALUES(" +
-                + groupID + ", N'" + name + "' , 0, " + creatorID +", '" + date + "' )";
-        //сумма 0
-        DBManager.execCommand(command);
 
         //запись баланса этого пользователя в этой группе
         //Если сервер или база данных в один поток работает.. то и так сойдет, а иначе даже неясно как синхронизацию обеспечить...
@@ -63,19 +65,21 @@ public class GroupInfo implements Serializable
     //Так как он уже получен там в контроллере
     //ВОзвращает ID группы
     public static DefaultClassAndDateAndID createGroupWithUsers(int creatorID, String name, String users) throws Exception {
-        String query = "SELECT MAX(GroupID) FROM Groups";
-        ResultSet resultSet = DBManager.getSelectResultSet(query);
-        if (!resultSet.next()) {
-            throw new Exception("Ни одной группы не существует.");
-        }
-        int groupID = resultSet.getInt(1) + 1;
-
         String date = DateWorker.getNowMomentInUTC();
         //запись группы
-        String command = "INSERT INTO Groups (GroupID, Name, Sum, AdminID, Date) VALUES(" +
-                +groupID + ", N'" + name + "' , 0, " + creatorID + ", '" + date + "' )";
+        String command = "INSERT INTO Groups (Name, Sum, AdminID, Date) VALUES("
+                +" N'" + name + "' , 0, " + creatorID +", '" + date + "' )";
         //сумма 0
         DBManager.execCommand(command);
+
+
+        String query = "SELECT * FROM Groups where Date = '"+date+"'";
+        ResultSet resultSet = DBManager.getSelectResultSet(query);
+        if(!resultSet.next())
+        {
+            throw new Exception("Ни одной группы не существует.");
+        }
+        int groupID = resultSet.getInt("GroupID");
 
         //Я конеш верю, что там пробелов не прислали...но я удалю все пробелы на всякий случай, ИНАЧЕ оно может не найти соответствующий номер!
         users = users.replace(" ","");

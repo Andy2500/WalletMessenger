@@ -104,21 +104,25 @@ public class Transaction implements Serializable
             throw new Exception("Этот пользователь не относится к диалогу!");
         }
 
-        query = "SELECT MAX (TransactionID) from Transactions";
+
+        //новая версия(!)
+
+        String date = DateWorker.getNowMomentInUTC();
+        //добавим новую запись в транзакции
+        String command = "Insert into Transactions (UserID, ReceiverID, DialogID, GroupID, Money, Date, Cash, Proof, Text) " +
+                "VALUES (" + userID + ", " + receiverID + "," + dialogID + ", 0, " + money +
+                ", '" + date + "', " + cash +", 0, N'" + text + "')";
+        //пояснения: groupID = 0, так как это для диалога метод, proof = 0, так как даже если там кэш\не кэш то все равно идет "отправка" транзакции
+        DBManager.execCommand(command);
+
+
+        query = "SELECT * from Transactions WHERE Date = '" + date + "'";
         resultSet =  DBManager.getSelectResultSet(query);
         if(!resultSet.next())
         {
             throw new Exception("Транзакций нет.");
         }
-        int transactionID = resultSet.getInt(1) + 1;
-
-        String date = DateWorker.getNowMomentInUTC();
-        //добавим новую запись в транзакции
-        String command = "Insert into Transactions (TransactionID, UserID, ReceiverID, DialogID, GroupID, Money, Date, Cash, Proof, Text) " +
-                "VALUES (" + transactionID + ", " + userID + ", " + receiverID + "," + dialogID + ", 0, " + money +
-                ", '" + date + "', " + cash +", 0, N'" + text + "')";
-        //пояснения: groupID = 0, так как это для диалога метод, proof = 0, так как даже если там кэш\не кэш то все равно идет "отправка" транзакции
-        DBManager.execCommand(command);
+        int transactionID = resultSet.getInt("TransactionID") ;
 
         //обновим дату последней транзакции в диалоге
         command = "UPDATE Dialogs set Date = '" + date + "' WHERE DialogID = "+dialogID;
@@ -211,22 +215,22 @@ public class Transaction implements Serializable
 
     public static DefaultClassAndDateAndID SendTransactionGroup(int userID, int receiverID, int groupID, float money, int cash, String text) throws Exception
     {
-        String query = "SELECT MAX(TransactionID) from Transactions";
+        String date = DateWorker.getNowMomentInUTC();
+        //добавим новую запись в транзакции
+        String command = "Insert into Transactions (UserID, ReceiverID, DialogID, GroupID, Money, Date, Cash, Proof, Text)" +
+                "VALUES (" + userID + ", " + receiverID + ", 0, "  +groupID+ ", " + money+
+                ", '" + date + "', " + cash +", 0, N'" + text + "')";
+
+        //пояснения: dialogID = 0, так как это для групп! метод, proof = 0, так как даже если там кэш\не кэш то все равно идет "отправка" транзакции
+        DBManager.execCommand(command);
+
+        String query = "SELECT * from Transactions WHERE Date = '" + date + "'";
         ResultSet resultSet =  DBManager.getSelectResultSet(query);
         if(!resultSet.next())
         {
             throw new Exception("Транзакций нет.");
         }
-        int transactionID = resultSet.getInt(1) + 1;
-
-        String date = DateWorker.getNowMomentInUTC();
-        //добавим новую запись в транзакции
-        String command = "Insert into Transactions (TransactionID, UserID, ReceiverID, DialogID, GroupID, Money, Date, Cash, Proof, Text)" +
-                "VALUES (" + transactionID + ", " + userID + ", " + receiverID + ", 0, "  +groupID+ ", " + money+
-                ", '" + date + "', " + cash +", 0, N'" + text + "')";
-
-        //пояснения: dialogID = 0, так как это для групп! метод, proof = 0, так как даже если там кэш\не кэш то все равно идет "отправка" транзакции
-        DBManager.execCommand(command);
+        int transactionID = resultSet.getInt("TransactionID");
 
         //обновим дату последней транзакции в группе
         command = "UPDATE Groups set Date = '" + date + "' WHERE GroupID = " + groupID;

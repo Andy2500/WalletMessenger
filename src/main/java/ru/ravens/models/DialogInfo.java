@@ -45,18 +45,20 @@ public class DialogInfo implements Serializable
         }
         else
         {
-            query = "SELECT MAX(DialogID) FROM Dialogs";
+
+            String date = DateWorker.getNowMomentInUTC();
+            String command = "INSERT INTO Dialogs (UserID_1, Balance_1, UserID_2, Balance_2, Date) VALUES("+
+                    + creatorID + ", 0, " + otherUserID +" , 0 , '" + date + "' )";
+            //Балансы по нулям пока что
+            DBManager.execCommand(command);
+
+            query = "SELECT * FROM Dialogs WHERE Date = '"+date+"'";
             resultSet = DBManager.getSelectResultSet(query);
             if(!resultSet.next())
             {
                 throw new Exception("Диалог не найден.");
             }
-            int dialogID = resultSet.getInt(1) + 1;
-            String date = DateWorker.getNowMomentInUTC();
-            String command = "INSERT INTO Dialogs (DialogID, UserID_1, Balance_1, UserID_2, Balance_2, Date) VALUES("+
-                    + dialogID +", "+ creatorID + ", 0, " + otherUserID +" , 0 , '" + date + "' )";
-            //Балансы по нулям пока что
-            DBManager.execCommand(command);
+            int dialogID = resultSet.getInt("DialogID");
 
             DefaultClassAndDateAndID def = new DefaultClassAndDateAndID(dialogID);
             def.setDate(valueOf(date));

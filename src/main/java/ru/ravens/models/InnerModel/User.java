@@ -87,8 +87,8 @@ public class User implements Serializable{
         }
         else
         {
-            String command = "Insert into Users (UserID, Name, Phone, Hashpsd, Qiwi, Image, Token)" +
-                    "VALUES ((SELECT MAX (UserID) from Users) + 1, N'" + name + "', '" + phone +"', '"+ hashpsd +"', NULL, NULL,'" + token + "')";
+            String command = "Insert into Users (Name, Phone, Hashpsd, Qiwi, Image, Token)" +
+                    "VALUES (N'" + name + "', '" + phone +"', '"+ hashpsd +"', NULL, NULL,'" + token + "')";
             //пояснения: groupID = 0, так как это для диалога метод, proof = 0, так как даже если там кэш\не кэш то все равно идет "отправка" транзакции
             DBManager.execCommand(command);
             return UserProfile.getUserProfileByUser(User.getUserByPhone(phone));
